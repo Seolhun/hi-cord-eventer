@@ -1,5 +1,4 @@
-import Element from './element/Element';
-import BaseComponent from './component/BaseComponent';
+import { BaseComponent, BaseComponentModel, Element } from './lib';
 
 class BannerComponent extends BaseComponent {
   constructor({ banner, infinity }) {

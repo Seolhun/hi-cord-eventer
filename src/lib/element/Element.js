@@ -12,7 +12,7 @@ export default class Element {
     }
     const created_element = document.createElement(this.tag);
 
-    if(this.children && typeof this.attributes !== 'object') {
+    if(this.attributes && typeof this.attributes !== 'object') {
       throw new Error('The Element attributes have to be object type');
     }
     if (this.attributes) {
@@ -29,11 +29,18 @@ export default class Element {
         if(!this.children[child] instanceof Element) {
           throw new Error('The Element children have to be build by Element.js');
         }
-        created_element.appendChild(this.children[child].render())
+        created_element.appendChild(this.children[child].create())
       }
     }
 
-    if (this.on || typeof this.on.event !== 'string') {
+    if (this.on && typeof this.on.event !== 'string') {
+      throw new Error('The Element on.event have to be string type');
+    }
+    if (this.on && typeof this.on.function !== 'function') {
+      throw new Error('The Element on.function have to be function type');
+    }
+
+    if (this.on) {
       created_element.addEventListener(this.on.event, this.on.function)
     }
     return created_element

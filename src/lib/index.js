@@ -1,5 +1,5 @@
-// import Element from './element/Element';
-// import BaseComponent from './component/BaseComponent';
-// import FieldValue from './component/FieldValue';
+import Element from './element/Element';
+import BaseComponent from './component/BaseComponent';
+import BaseComponentModel from './component/BaseComponentModel';
 
-// export { BaseComponent, Element, FieldValue };
+export { Element, BaseComponent, BaseComponentModel };

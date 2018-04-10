@@ -1,4 +1,4 @@
-const Path = require('path');
+const PATH = require('path');
 const HtmlWebpackplugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -6,12 +6,19 @@ module.exports = {
     extensions: ['.js']
   },
   entry: {
-    app: './src/app.js'
+    app: './src/index.js',
   },
   output: {
-    path: Path.join(__dirname, '/dist'),
+    path: PATH.join(__dirname, './dist'),
     filename: '[name].js',
   },
+  plugins: [
+    new HtmlWebpackplugin({
+      template: 'index.html',
+      filename: 'index.html',
+      inject: true,
+    }),
+  ],
   module: {
     rules: [
       {
@@ -41,10 +48,4 @@ module.exports = {
       },
     ]
   },
-  plugins: [
-    new HtmlWebpackplugin({
-      template: 'index.html',
-      inject: true,
-    }),
-  ],
 };
