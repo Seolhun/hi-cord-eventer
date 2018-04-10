@@ -1,17 +1,20 @@
-const PATH = require('path');
+const Path = require('path');
 const HtmlWebpackplugin = require('html-webpack-plugin');
+const WebpackNodeExternals = require('webpack-node-externals');
 
 module.exports = {
   resolve: {
     extensions: ['.js']
   },
   entry: {
-    app: './src/index.js',
+    app: './src/app.js',
   },
   output: {
-    path: PATH.join(__dirname, './dist'),
+    path: Path.join(__dirname, './dist'),
     filename: '[name].js',
   },
+  target: 'node',
+  externals: [WebpackNodeExternals()],
   plugins: [
     new HtmlWebpackplugin({
       template: 'index.html',
