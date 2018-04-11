@@ -1,43 +1,6 @@
-import { BaseComponent, BaseComponentModel, Element } from './lib';
 
-class BannerComponent extends BaseComponent {
-  constructor({ banner, infinity }) {
-    super({ banner, infinity });
-  }
-
-  view() {
-    const todoInputForm = new Element({
-      tag: 'form',
-      children: {
-        formInput: new Element({
-          tag: 'input',
-          attributes: {
-            type: 'text',
-            name: 'todoInput',
-          },
-        }),
-        formSubmitBtn: new Element({
-          tag: 'button',
-          attributes: {
-            type: 'submit',
-            className: 'submitBtn',
-            textContent: 'add',
-          },
-          on: {
-            event: 'click',
-            function(event) {
-              event.preventDefault();
-              console.log('event is ran');
-            },
-          },
-        }),
-      },
-    });
-    app.appendChild(todoInputForm.create());
-  }
-}
-
+import { BannerComponent } from './lib';
 
 const app = document.getElementById('app');
-const Banner = new BannerComponent(new BaseComponentModel({ banner: { image: '', link: '' }, infinity: true }));
+const Banner = new BannerComponent({ banners: [{ link: '1.link', image: '1.com' }, { link: '2.link', image: '2.com' }], infinity: true });
 Banner.view();

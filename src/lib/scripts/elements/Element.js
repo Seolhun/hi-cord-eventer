@@ -6,7 +6,7 @@ export default class Element {
     this.on = on
   }
 
-  create() {
+  render() {
     if (!this.tag || typeof this.tag !== 'string') {
       throw new Error('Requirement tag param in Element.js');
     }
@@ -29,15 +29,17 @@ export default class Element {
         if(!this.children[child] instanceof Element) {
           throw new Error('The Element children have to be build by Element.js');
         }
-        created_element.appendChild(this.children[child].create())
+        created_element.appendChild(this.children[child].render())
       }
     }
 
     if (this.on && typeof this.on.event !== 'string') {
-      throw new Error('The Element on.event have to be string type');
-    }
-    if (this.on && typeof this.on.function !== 'function') {
-      throw new Error('The Element on.function have to be function type');
+      if (this.on.event && typeof this.on.event !== 'string') {
+        throw new Error('The Element on.event have to be string type');
+      }
+      if (this.on.function && typeof this.on.function !== 'function') {
+        throw new Error('The Element on.function have to be function type');
+      }
     }
 
     if (this.on) {

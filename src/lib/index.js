@@ -1,5 +1,4 @@
-import Element from './element/Element';
-import BaseComponent from './component/BaseComponent';
-import BaseComponentModel from './component/BaseComponentModel';
+import { BannerComponent, BaseComponent, BaseComponentModel } from './components';
+import { Element } from './scripts';
 
-export { Element, BaseComponent, BaseComponentModel };
+export { BannerComponent, BaseComponent, BaseComponentModel, Element }
