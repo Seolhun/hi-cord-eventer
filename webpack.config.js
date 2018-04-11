@@ -1,6 +1,5 @@
 const Path = require('path');
 const HtmlWebpackplugin = require('html-webpack-plugin');
-const WebpackNodeExternals = require('webpack-node-externals');
 
 module.exports = {
   resolve: {
@@ -13,8 +12,6 @@ module.exports = {
     path: Path.join(__dirname, './dist'),
     filename: '[name].js',
   },
-  target: 'node',
-  externals: [WebpackNodeExternals()],
   plugins: [
     new HtmlWebpackplugin({
       template: 'index.html',
