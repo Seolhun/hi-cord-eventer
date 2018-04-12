@@ -1,15 +1,15 @@
 # HERO Banner UI Module using VanillaJS
 - Author : Seolhun
-- StartedDAte : 2018.04.10
+- StartedDate : 2018.04.10
 
-## - Goal
-- Banner UI Module using VanillaJS.
-- Responsive UI by device.
+## Goal
+- Creating Banner UI easilly inserting data or api.
+- Responsive UI by devices.
 - Mock API server in Client.
 - MultiThread using Browswer and GPU
 
-## - Module Spec
-#### - Structure
+## Module Spec
+#### Structure
 - aside
   - div.hero-list
     - div.hero-item
@@ -27,4 +27,4 @@
 
 ## - Webpack
 - [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
-  - Build시 index.html을 같이 빌드해주는 라이브러리입니다. 여러가지 기능이 제공됩니다.
+  - Bundle with `index.html` using this.

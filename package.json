@@ -1,5 +1,5 @@
 {
-  "name": "lezine-frontend",
+  "name": "hero-banner-module",
   "version": "1.0.0",
   "description": "Lezine Hero UI Banner Module",
   "main": "app.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Seolhun/vanilia-example.git"
+    "url": "git+https://github.com/Seolhun/hero-banner-module.git"
   },
   "keywords": [
     "Lezine",
@@ -20,9 +20,9 @@
   "author": "Seolhun",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Seolhun/vanilia-example/issues"
+    "url": "https://github.com/Seolhun/hero-banner-module/issues"
   },
-  "homepage": "https://github.com/Seolhun/vanilia-example#readme",
+  "homepage": "https://github.com/Seolhun/hero-banner-module#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
