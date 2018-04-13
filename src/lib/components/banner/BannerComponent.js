@@ -3,26 +3,52 @@ import Element from '../../dom/Element';
 
 import styles from './BannerComponent.scss';
 
+class BannerComponentModel {
+  constructor({ banners, infinity = true, auto = true, time = 3000 }) {
+    this.banners = banners;
+    this.infinity = infinity;
+    this.auto = auto;
+    this.time = time;
+  }
+}
+
 export default class BannerComponent extends BaseComponent {
   constructor({ banners, infinity = true, auto = true, time = 3000 }) {
-    super({ items: banners });
-    this.infinity = infinity,
-    this.auto = auto,
-    this.time = time
+    super();
+    this.vm = new BannerComponentModel({ banners, infinity, auto, time });
+
+    this._current_slide = 1;
+    this._last_slide = this.vm.banners.length;
+
+    if (this.vm.auto) {
+      this.nextSlide();
+    }
   }
 
-  // - aside
-  //   - div.hero-list
-  //     - div.hero-item
-  //       - a.hero-item-link
-  //         - img.hero-item-image
-  //   - div.hero-nav
-  //     - div.hero-nav-btn
-  //   - div.hero-indicator
-  //     - i.hero-indicator-btn
+  goSlide(order) {
+    console.log(`go to slide #${order}`);
+  }
 
-  createBannerItems(items) {
-    if(!Array.isArray(items)) {
+  isLast() {
+    if (document.getElementsByClassName(styles['next-slide'])) {
+      return true;
+    }
+    return false;
+  }
+
+  nextSlide() {
+    if(this.isLast() && !this.vm.infinity) {
+      return;
+    }
+
+    setTimeout(() => {
+      console.log('next-slide');
+      this._nextSlide();
+    }, this.vm.time);
+  }
+
+  _createBannerItems(items) {
+    if (!Array.isArray(items)) {
       throw new Error('The Element children have to be Array type');
     }
     return this._createChidren(items);
@@ -33,7 +59,7 @@ export default class BannerComponent extends BaseComponent {
       return new Element({
         tag: 'div',
         attributes: {
-          className: 'hero-list-item'
+          className: styles['hero-item'],
         },
         children: [
           new Element({
@@ -66,23 +92,22 @@ export default class BannerComponent extends BaseComponent {
           attributes: {
             className: 'hero-list'
           },
-          children: this.createBannerItems(this._items),
+          children: this._createBannerItems(this.vm.banners),
         }),
         new Element({
           tag: 'div',
           attributes: {
-            className: 'hero-nav'
+            className: styles['hero-nav'],
           },
           children: [
             new Element({
               tag: 'button',
               attributes: {
-                textContent: 'Nav-Left',
-                className: 'hero-nav-btn',
+                className: [styles['hero-nav-btn'], styles['--prev']],
               },
               on: {
-                event: 'onclick',
-                function() {
+                event: 'click',
+                function: () => {
                   console.log('Nav-Left');
                 }
               },
@@ -90,12 +115,11 @@ export default class BannerComponent extends BaseComponent {
             new Element({
               tag: 'button',
               attributes: {
-                textContent: 'Nav-Right',
-                className: 'hero-nav-btn',
+                className: [styles['hero-nav-btn'], styles['--next']]
               },
               on: {
-                event: 'onclick',
-                function() {
+                event: 'click',
+                function: () => {
                   console.log('Nav-Right');
                 }
               },
@@ -105,14 +129,13 @@ export default class BannerComponent extends BaseComponent {
         new Element({
           tag: 'div',
           attributes: {
-            className: 'hero-list',
+            className: styles['hero-indicator'],
           },
           children: [
             new Element({
               tag: 'button',
               attributes: {
-                textContent: 'Indicator',
-                className: 'hero-nav-btn',
+                className: styles['hero-indicator-btn'],
               },
             }),
           ],
