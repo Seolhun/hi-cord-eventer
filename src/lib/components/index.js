@@ -1,6 +1,5 @@
 import BaseComponent from './BaseComponent';
-import BaseComponentModel from './BaseComponentModel';
-
 import BannerComponent from './banner/BannerComponent';
+import BannerItem from './banner/BannerItem';
 
-export { BannerComponent, BaseComponent, BaseComponentModel };
+export { BannerComponent, BaseComponent, BannerItem };
