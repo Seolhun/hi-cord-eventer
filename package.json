@@ -1,7 +1,7 @@
 {
   "name": "hero-banner-module",
   "version": "1.0.0",
-  "description": "Lezine Hero UI Banner Module",
+  "description": "Hero UI Banner Module",
   "main": "app.js",
   "scripts": {
     "test": "jest",
@@ -13,7 +13,6 @@
     "url": "git+https://github.com/Seolhun/hero-banner-module.git"
   },
   "keywords": [
-    "Lezine",
     "Vanilla",
     "Module"
   ],
