@@ -1,0 +1,10 @@
+:local .hero-item-link {
+    font-size: 30px;
+}
+
+:local .hero-item-image {
+    display: none;
+    &:active {
+        display: block;
+    }
+}

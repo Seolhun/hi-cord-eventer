@@ -1,9 +1,14 @@
 import BaseComponent from '../BaseComponent';
-import Element from '../../scripts/elements/Element';
+import Element from '../../dom/Element';
+
+import styles from './BannerComponent.scss';
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ banners, infinity }) {
-    super({ banners, infinity });
+  constructor({ banners, infinity = true, auto = true, time = 3000 }) {
+    super({ items: banners });
+    this.infinity = infinity,
+    this.auto = auto,
+    this.time = time
   }
 
   // - aside
@@ -16,103 +21,104 @@ export default class BannerComponent extends BaseComponent {
   //   - div.hero-indicator
   //     - i.hero-indicator-btn
 
-  /**
-   * @argument banners
-   */
-  _createBannerItems() {
-    return this._vm.banners.map((banner) => {
+  createBannerItems(items) {
+    if(!Array.isArray(items)) {
+      throw new Error('The Element children have to be Array type');
+    }
+    return this._createChidren(items);
+  }
+
+  _createChidren(items) {
+    return items.map((item) => {
       return new Element({
         tag: 'div',
         attributes: {
           className: 'hero-list-item'
         },
-        children: {
-          heroLink: new Element({
-            tag: 'a',
+        children: [
+          new Element({
+            tag: item.link.tagName ? item.link.tagName : 'a',
             attributes: {
-              href: banner.link,
-              className: 'hero-item-link'
+              href: item.link.value,
+              className: item.link.className ? item.link.className : styles['hero-item-link'],
             },
-            children: {
-              heroImage: new Element({
-                tag: 'img',
+            children: [
+              new Element({
+                tag: item.image.tagName ? item.image.tagName : 'img',
                 attributes: {
-                  src: banner.image,
-                  className: 'hero-item-image'
+                  src: item.image.value,
+                  className: item.image.className ? item.image.className : styles['hero-item-image'],
                 },
               }),
-            }
+            ],
           }),
-        },
+        ],
       });
     });
   }
 
   view() {
-    const todoInputForm = new Element({
+    const bannerList = new Element({
       tag: 'aside',
-      children: {
-        heroList: new Element({
+      children: [
+        new Element({
           tag: 'div',
           attributes: {
             className: 'hero-list'
           },
-          children: this._createBannerItems(),
+          children: this.createBannerItems(this._items),
         }),
-        heroNav: new Element({
+        new Element({
           tag: 'div',
           attributes: {
             className: 'hero-nav'
           },
-          children: {
-            heroNavItem: new Element({
+          children: [
+            new Element({
               tag: 'button',
               attributes: {
                 textContent: 'Nav-Left',
                 className: 'hero-nav-btn',
               },
+              on: {
+                event: 'onclick',
+                function() {
+                  console.log('Nav-Left');
+                }
+              },
             }),
-            heroNavItem: new Element({
+            new Element({
               tag: 'button',
               attributes: {
                 textContent: 'Nav-Right',
                 className: 'hero-nav-btn',
               },
+              on: {
+                event: 'onclick',
+                function() {
+                  console.log('Nav-Right');
+                }
+              },
             }),
-          },
+          ],
         }),
-        heroIndicator: new Element({
+        new Element({
           tag: 'div',
           attributes: {
             className: 'hero-list',
           },
-          children: {
-            heroIndicatorBtn: new Element({
+          children: [
+            new Element({
               tag: 'button',
               attributes: {
                 textContent: 'Indicator',
                 className: 'hero-nav-btn',
               },
             }),
-          },
+          ],
         }),
-        formSubmitBtn: new Element({
-          tag: 'button',
-          attributes: {
-            type: 'submit',
-            className: 'submitBtn',
-            textContent: 'add',
-          },
-          on: {
-            event: 'click',
-            function(event) {
-              event.preventDefault();
-              console.log('event is ran');
-            },
-          },
-        }),
-      },
+      ],
     });
-    app.appendChild(todoInputForm.render());
+    app.appendChild(bannerList.render());
   }
 }

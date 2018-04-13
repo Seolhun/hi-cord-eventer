@@ -1,6 +1,10 @@
 export default class BaseComponent {
-  constructor({ banners, infinity }) {
-    this._vm = { banners, infinity };
+  constructor({ items }) {
+    this._items = items ;
+  }
+
+  _createChidren() {
+    // Write a code for custom
   }
 
   view() {
