@@ -1,9 +1,5 @@
 export default class BaseComponent {
-  constructor({ items }) {
-    this._items = items ;
-  }
-
-  _createChidren() {
+  _createChidren(items) {
     // Write a code for custom
   }
 
