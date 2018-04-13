@@ -12,6 +12,9 @@ module.exports = {
     path: Path.join(__dirname, './dist'),
     filename: '[name].js',
   },
+  node: {
+    fs: "empty"
+  },
   plugins: [
     new HtmlWebpackplugin({
       template: 'index.html',
