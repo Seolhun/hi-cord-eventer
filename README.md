@@ -82,7 +82,7 @@ const Banner = new BannerComponent({
   - Automatically repeat slide
 - auto : boolean - default : true
   - Automatically changed slide
-- time : number - default : 3000
+- time : number - default : 5000
   - The time sustaining in one slide
 
 ## - Webpack
