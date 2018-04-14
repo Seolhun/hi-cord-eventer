@@ -13,7 +13,7 @@ class BannerComponentModel {
 }
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ banners, infinity = true, auto = true, time = 3000 }) {
+  constructor({ banners, infinity = true, auto = true, time = 5000 }) {
     super();
     this.vm = new BannerComponentModel({ banners, infinity, auto, time });
 
@@ -21,29 +21,69 @@ export default class BannerComponent extends BaseComponent {
     this._last_slide = this.vm.banners.length;
 
     if (this.vm.auto) {
-      this.nextSlide();
+      this._autoSliding();
     }
   }
 
-  goSlide(order) {
-    console.log(`go to slide #${order}`);
+  showSlide(slide_number) {
+    if (slide_number < 1) {
+      slide_number = 1;
+    } else if (slide_number > this._last_slide) {
+      slide_number = this._last_slide;
+    } else {
+      this._current_slide = slide_number;
+    }
+
+    let slide_items = document.getElementsByClassName(styles['hero-item']);
+    let slide_dots = document.getElementsByClassName(styles['hero-indicator-btn']);
+
+    for (let i = 0; i < this._last_slide; i++) {
+      if (this._current_slide - 1 === i) {
+        slide_items[i].classList.add(styles['on']);
+        slide_dots[i].classList.add(styles['on']);
+      } else {
+        slide_items[i].classList.remove(styles['on']);
+        slide_dots[i].classList.remove(styles['on']);
+        slide_items[i].classList.add(styles['off']);
+      }
+    }
   }
 
-  isLast() {
-    if (document.getElementsByClassName(styles['next-slide'])) {
+  prevSlide() {
+    if (this._isFirst()) {
+      return this.showSlide(this._last_slide);
+    }
+    this.showSlide(this._current_slide - 1);
+  }
+
+  nextSlide() {
+    if (this._isLast()) {
+      return this.showSlide(1);
+    }
+    this.showSlide(this._current_slide + 1);
+  }
+
+  _isFirst() {
+    if (this._current_slide <= 1) {
       return true;
     }
     return false;
   }
 
-  nextSlide() {
-    if(this.isLast() && !this.vm.infinity) {
+  _isLast() {
+    if (this._current_slide >= this._last_slide) {
+      return true;
+    }
+    return false;
+  }
+
+  _autoSliding() {
+    if (!this.vm.infinity && this._isLast()) {
       return;
     }
-
     setTimeout(() => {
-      console.log('next-slide');
-      this._nextSlide();
+      this.nextSlide();
+      this._autoSliding();
     }, this.vm.time);
   }
 
@@ -51,15 +91,12 @@ export default class BannerComponent extends BaseComponent {
     if (!Array.isArray(items)) {
       throw new Error('The Element children have to be Array type');
     }
-    return this._createChidren(items);
-  }
 
-  _createChidren(items) {
-    return items.map((item) => {
+    return items.map((item, index) => {
       return new Element({
         tag: 'div',
         attributes: {
-          className: styles['hero-item'],
+          className: [styles['hero-item'], index === 0 ? styles['on'] : styles['off'], 'fade'],
         },
         children: [
           new Element({
@@ -83,6 +120,24 @@ export default class BannerComponent extends BaseComponent {
     });
   }
 
+  _createBannerIndcators(items) {
+    if (!Array.isArray(items)) {
+      throw new Error('The Element children have to be Array type');
+    }
+    return items.map((item, index) => {
+      return new Element({
+        tag: 'i',
+        attributes: {
+          className: [styles['hero-indicator-btn'], index === 0 ? styles['on'] : ''],
+        },
+        on: {
+          event: 'click',
+          function: () => this.showSlide(index + 1),
+        },
+      });
+    });
+  }
+
   view() {
     const bannerList = new Element({
       tag: 'aside',
@@ -90,58 +145,53 @@ export default class BannerComponent extends BaseComponent {
         new Element({
           tag: 'div',
           attributes: {
-            className: 'hero-list'
-          },
-          children: this._createBannerItems(this.vm.banners),
-        }),
-        new Element({
-          tag: 'div',
-          attributes: {
-            className: styles['hero-nav'],
+            className: styles['hero-slide'],
           },
           children: [
+            ...this._createBannerItems(this.vm.banners),
             new Element({
-              tag: 'button',
+              tag: 'div',
               attributes: {
-                className: [styles['hero-nav-btn'], styles['--prev']],
+                className: styles['hero-nav'],
               },
-              on: {
-                event: 'click',
-                function: () => {
-                  console.log('Nav-Left');
-                }
-              },
+              children: [
+                new Element({
+                  tag: 'button',
+                  attributes: {
+                    className: styles['prev'],
+                  },
+                  on: {
+                    event: 'click',
+                    function: () => this.prevSlide()
+                  },
+                }),
+                new Element({
+                  tag: 'button',
+                  attributes: {
+                    className: styles['next']
+                  },
+                  on: {
+                    event: 'click',
+                    function: () => this.nextSlide()
+                  },
+                }),
+              ],
             }),
             new Element({
-              tag: 'button',
+              tag: 'div',
               attributes: {
-                className: [styles['hero-nav-btn'], styles['--next']]
+                className: styles['hero-indicator'],
               },
-              on: {
-                event: 'click',
-                function: () => {
-                  console.log('Nav-Right');
-                }
-              },
-            }),
-          ],
-        }),
-        new Element({
-          tag: 'div',
-          attributes: {
-            className: styles['hero-indicator'],
-          },
-          children: [
-            new Element({
-              tag: 'button',
-              attributes: {
-                className: styles['hero-indicator-btn'],
-              },
+              children: [
+                ...this._createBannerIndcators(this.vm.banners),
+              ],
             }),
           ],
         }),
       ],
     });
-    app.appendChild(bannerList.render());
+    window.onload = () => {
+      app.appendChild(bannerList.render());
+    }
   }
 }

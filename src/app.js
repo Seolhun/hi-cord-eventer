@@ -34,7 +34,6 @@ const Banner = new BannerComponent({
     new BannerItem({
       link: {
         value: '/ko/comic/dalbox',
-        className: 'custom-link', // you can customized classname
       },
       image: {
         value: 'https://cdn.lezhin.com/v2/inventory_items/4537033910124544/media/upperBanner',
@@ -43,7 +42,6 @@ const Banner = new BannerComponent({
     new BannerItem({
       link: {
         value: '/ko/comic/dalbox',
-        className: 'custom-link', // you can customized classname
       },
       image: {
         value: 'https://cdn.lezhin.com/v2/inventory_items/5439666241929216/media/upperBanner',
@@ -52,17 +50,14 @@ const Banner = new BannerComponent({
     new BannerItem({
       link: new ElementItem({
         value: '/ko/novel/leviathan',
-        className: 'hero-item-link', // default : 'hero-item-link'
       }),
       image: new ElementItem({
-        tagName: 'img',
         value: 'https://cdn.lezhin.com/v2/inventory_items/6120926790549504/media/upperBanner',
-        className: ['hero-item-image', 'item'], // default : 'hero-item-image'
       }),
     }),
   ],
-  infinity: true, // default : true
-  auto: true, // default : true
-  time: 5000, // default : 3000
+  infinity: false,
+  auto: true,
+  time: 3000,
 });
 Banner.view();
