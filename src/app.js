@@ -1,3 +1,5 @@
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 import { BannerComponent, BannerItem } from './lib';
 import { WindowControlUtils } from './lib/utils';
@@ -19,7 +21,7 @@ const pc_banners = [
     image: "https://cdn.lezhin.com/v2/inventory_items/6120926790549504/media/upperBanner",
     link: "https://www.lezhin.com/ko/novel/leviathan"
   }),
-]
+];
 
 const mobile_banners = [
   {
@@ -38,16 +40,42 @@ const mobile_banners = [
     image: "https://cdn.lezhin.com/v2/inventory_items/6120926790549504/media/upperBannerMobile",
     link: "https://www.lezhin.com/ko/novel/leviathan"
   }),
-]
+];
+
 
 let isMobile = WindowControlUtils.isMobile(window);
-let banners = isMobile ? mobile_banners : pc_banners;
+const mock = new MockAdapter(axios);
+function getBanners(device = isMobile ? 'mobile' : 'desktop', count = 4) {
+  mock.onGet('/banners', { params: { device, count } }).reply(200, {
+    banners: device === 'mobile' ? mobile_banners : pc_banners,
+  });
+  return axios.get('/banners', { params: { device, count } });
+}
+
+window.addEventListener('resize', (event) => {
+  if (isMobile !== WindowControlUtils.isMobile(window)) {
+    isMobile = WindowControlUtils.isMobile(window);
+    BannerView();
+  }
+});
 
 const app = document.getElementById('app');
-new BannerComponent({
-  banners,
-  infinity: true,
-  auto: true,
-  time: 3000,
-  target: app,
-}).view();
+const BannerView = () => {
+  getBanners().then((response) => {
+    if (app.childNodes[1]) {
+      app.removeChild(app.childNodes[1]);
+    }
+    const banners = response.data.banners;
+    new BannerComponent({
+      banners,
+      infinity: true,
+      autoSlide: true,
+      time: 3000,
+      target: app,
+    }).view();
+  });
+}
+BannerView();
+
+
+

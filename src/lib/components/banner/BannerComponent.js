@@ -6,34 +6,25 @@ import { WindowControlUtils } from '../../utils';
 import styles from './BannerComponent.scss';
 
 class BannerComponentModel {
-  constructor({ banners, infinity = true, auto = true, time = 3000 }) {
+  constructor({ banners, infinity = true, autoSlide = true, time = 3000 }) {
     this.banners = banners;
     this.infinity = infinity;
-    this.auto = auto;
+    this.autoSlide = autoSlide;
     this.time = time;
     this._isMobile = WindowControlUtils.isMobile(window);
   }
 }
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ target, banners, infinity = true, auto = true, time = 5000 }) {
+  constructor({ target, banners, infinity = true, autoSlide = true, time = 5000 }) {
     super(target);
-    this.vm = new BannerComponentModel({ banners, infinity, auto, time });
+    this.vm = new BannerComponentModel({ banners, infinity, autoSlide, time });
     this.current_slide = 1;
     this.last_slide = this.vm.banners.length;
-
-    if (this.vm.auto) {
+    this._timeoutInstance = null;
+    if (this.vm.autoSlide) {
       this._autoSliding();
     }
-
-    window.addEventListener('resize', (event) => {
-      // this.vm._isMobile = WindowControlUtils.isMobile(window);
-      if (this.vm._isMobile !== WindowControlUtils.isMobile(window)) {
-        this.vm._isMobile = WindowControlUtils.isMobile(window);
-        console.log('??');
-        this.view();
-      }
-    });
   }
 
   showSlide(slide_number) {
@@ -42,13 +33,19 @@ export default class BannerComponent extends BaseComponent {
     } else if (slide_number > this.last_slide) {
       slide_number = this.last_slide;
     } else {
+      // Manual is changed, Current Settimeout must be stopped.
       this._clearAutoSlidingTime();
+      if (this.vm.autoSlide) {
+        this._autoSliding();
+      }
       this.current_slide = slide_number;
     }
+    this._changedItemsEvent();
+  }
 
+  _changedItemsEvent() {
     let slide_items = document.getElementsByClassName(styles['hero-item']);
     let slide_dots = document.getElementsByClassName(styles['hero-indicator-btn']);
-
     for (let i = 0; i < this.last_slide; i++) {
       if (this.current_slide - 1 === i) {
         slide_items[i].classList.add(styles['on']);
@@ -94,15 +91,20 @@ export default class BannerComponent extends BaseComponent {
       return;
     }
 
-    this._autoSlidingInstance = setTimeout(() => {
-      this.nextSlide();
+    this._timeoutInstance = setTimeout(() => {
+      if (this._isLast()) {
+        this.current_slide = 1;
+      } else {
+        this.current_slide = this.current_slide + 1;
+      }
+      this._changedItemsEvent();
+      this._autoSliding();
     }, this.vm.time);
   }
 
   _clearAutoSlidingTime() {
-    if (this.vm.auto) {
-      clearTimeout(this._autoSlidingInstance);
-      this._autoSliding();
+    for (let i = 0; i < this._timeoutInstance; i++) {
+      clearTimeout(i);
     }
   }
 
@@ -169,12 +171,14 @@ export default class BannerComponent extends BaseComponent {
   }
 
   view() {
+    this._clearAutoSlidingTime();
     const bannerList = new Element({
       tag: 'aside',
       children: [
         new Element({
           tag: 'div',
           attributes: {
+            id: 'hero-slide',
             className: styles['hero-slide'],
           },
           children: [
@@ -220,9 +224,6 @@ export default class BannerComponent extends BaseComponent {
         }),
       ],
     });
-
-    window.onload = () => {
-      this._target.appendChild(bannerList.render());
-    }
+    this._target.appendChild(bannerList.render());
   }
 }
