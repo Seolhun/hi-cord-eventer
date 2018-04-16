@@ -85,6 +85,10 @@ const Banner = new BannerComponent({
 - time : number - default : 5000
   - The time sustaining in one slide
 
+
+## - Library
+- [Hammer.JS - A JavaScript library for detecting touch gestures](https://github.com/hammerjs/hammer.js)
+
 ## - Webpack
 - [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
   - Bundle with `index.html` using this.
