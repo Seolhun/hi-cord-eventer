@@ -21,51 +21,42 @@
 ##### - Details types
 1. You can use the `Elementitem.js` to define `Component Item`. If you use it, It make you build The Item Types easily.
 ```javascript
-export default class ElementItem {
-  constructor({ value, tagName, className }) {
-    this.value = value;
-    this.tagName = tagName;
-    this.className = className;
+class Element {
+  constructor({ tag, attributes, children, on, touch }) {
+    this.tag = tag;
+    this.attributes = attributes;
+    this.children = children;
+    this.on = new ElementCallback({ ...on });
+    this.touch = new ElementCallback({ ...touch });
   }
 }
 
-export default class BannerItem {
+class ElementCallback {
+  constructor({ eventName, callback, capture = false }) {
+    this.eventName = eventName;
+    this.callback = callback;
+    this.capture = capture;
+  }
+}
+
+
+class BannerItem {
   constructor({ image, link }) {
-    this.image = new ElementItem(image);
-    this.link = new ElementItem(link);
+    this.image = image;
+    this.link = link;
   }
 }
 
 // This is just example. 
 // You can use ElementItem or Not. But, must match properties with ElementItem.
-const Banner = new BannerComponent({
-  banners: [
-    new BannerItem({
-      image: new ElementItem({
-        tagName: 'img',
-        value: '1.png',
-        className: ['hero-item-image', 'item'],
-      }),
-      link: new ElementItem({
-        value: 'example.com/1.png',
-        className: 'hero-item-link',
-      }),
-    }),
-    new BannerItem({
-      image: {
-        value: '2.png',
-        className: 'hero-item-image',
-      },
-      link: {
-        value: 'example.com/2.png',
-        className: 'hero-item-link',
-      }
-    }),
-  ],
+const app = document.getElementById('app');
+new BannerComponent({
+  banners,
   infinity: true,
   auto: true,
-  time: 5000,
-});
+  time: 3000,
+  target: app,
+}).view();
 ```
 
 ## Feature
@@ -85,6 +76,11 @@ const Banner = new BannerComponent({
 - time : number - default : 5000
   - The time sustaining in one slide
 
+
+## - Library
+- [Hammer.JS - A JavaScript library for detecting touch gestures](https://github.com/hammerjs/hammer.js)
+
 ## - Webpack
 - [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
   - Bundle with `index.html` using this.
+- [uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) 

@@ -1,5 +1,7 @@
 import BaseComponent from '../BaseComponent';
-import Element from '../../dom/Element';
+import { Element, ElementCallback } from '../../dom';
+
+import { WindowControlUtils } from '../../utils';
 
 import styles from './BannerComponent.scss';
 
@@ -9,69 +11,79 @@ class BannerComponentModel {
     this.infinity = infinity;
     this.auto = auto;
     this.time = time;
+    this._isMobile = WindowControlUtils.isMobile(window);
   }
 }
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ banners, infinity = true, auto = true, time = 5000 }) {
-    super();
+  constructor({ target, banners, infinity = true, auto = true, time = 5000 }) {
+    super(target);
     this.vm = new BannerComponentModel({ banners, infinity, auto, time });
-
-    this._current_slide = 1;
-    this._last_slide = this.vm.banners.length;
+    this.current_slide = 1;
+    this.last_slide = this.vm.banners.length;
 
     if (this.vm.auto) {
       this._autoSliding();
     }
+
+    window.addEventListener('resize', (event) => {
+      // this.vm._isMobile = WindowControlUtils.isMobile(window);
+      if (this.vm._isMobile !== WindowControlUtils.isMobile(window)) {
+        this.vm._isMobile = WindowControlUtils.isMobile(window);
+        console.log('??');
+        this.view();
+      }
+    });
   }
 
   showSlide(slide_number) {
     if (slide_number < 1) {
       slide_number = 1;
-    } else if (slide_number > this._last_slide) {
-      slide_number = this._last_slide;
+    } else if (slide_number > this.last_slide) {
+      slide_number = this.last_slide;
     } else {
-      this._current_slide = slide_number;
+      this._clearAutoSlidingTime();
+      this.current_slide = slide_number;
     }
 
     let slide_items = document.getElementsByClassName(styles['hero-item']);
     let slide_dots = document.getElementsByClassName(styles['hero-indicator-btn']);
 
-    for (let i = 0; i < this._last_slide; i++) {
-      if (this._current_slide - 1 === i) {
+    for (let i = 0; i < this.last_slide; i++) {
+      if (this.current_slide - 1 === i) {
         slide_items[i].classList.add(styles['on']);
         slide_dots[i].classList.add(styles['on']);
       } else {
+        slide_items[i].classList.add(styles['off']);
         slide_items[i].classList.remove(styles['on']);
         slide_dots[i].classList.remove(styles['on']);
-        slide_items[i].classList.add(styles['off']);
       }
     }
   }
 
   prevSlide() {
     if (this._isFirst()) {
-      return this.showSlide(this._last_slide);
+      return this.showSlide(this.last_slide);
     }
-    this.showSlide(this._current_slide - 1);
+    this.showSlide(this.current_slide - 1);
   }
 
   nextSlide() {
     if (this._isLast()) {
       return this.showSlide(1);
     }
-    this.showSlide(this._current_slide + 1);
+    this.showSlide(this.current_slide + 1);
   }
 
   _isFirst() {
-    if (this._current_slide <= 1) {
+    if (this.current_slide <= 1) {
       return true;
     }
     return false;
   }
 
   _isLast() {
-    if (this._current_slide >= this._last_slide) {
+    if (this.current_slide >= this.last_slide) {
       return true;
     }
     return false;
@@ -81,10 +93,17 @@ export default class BannerComponent extends BaseComponent {
     if (!this.vm.infinity && this._isLast()) {
       return;
     }
-    setTimeout(() => {
+
+    this._autoSlidingInstance = setTimeout(() => {
       this.nextSlide();
-      this._autoSliding();
     }, this.vm.time);
+  }
+
+  _clearAutoSlidingTime() {
+    if (this.vm.auto) {
+      clearTimeout(this._autoSlidingInstance);
+      this._autoSliding();
+    }
   }
 
   _createBannerItems(items) {
@@ -100,18 +119,29 @@ export default class BannerComponent extends BaseComponent {
         },
         children: [
           new Element({
-            tag: item.link.tagName ? item.link.tagName : 'a',
+            tag: 'a',
             attributes: {
-              href: item.link.value,
-              className: item.link.className ? item.link.className : styles['hero-item-link'],
+              href: item.link,
+              className: styles['hero-item-link'],
             },
             children: [
               new Element({
-                tag: item.image.tagName ? item.image.tagName : 'img',
+                tag: 'img',
                 attributes: {
-                  src: item.image.value,
-                  className: item.image.className ? item.image.className : styles['hero-item-image'],
+                  src: item.image,
+                  className: styles['hero-item-image'],
                 },
+                touch: new ElementCallback({
+                  eventName: 'swipe',
+                  callback: (event) => {
+                    if (event.deltaX > 30) {
+                      this.nextSlide();
+                    }
+                    if (event.deltaX < -30) {
+                      this.prevSlide();
+                    }
+                  },
+                }),
               }),
             ],
           }),
@@ -131,8 +161,8 @@ export default class BannerComponent extends BaseComponent {
           className: [styles['hero-indicator-btn'], index === 0 ? styles['on'] : ''],
         },
         on: {
-          event: 'click',
-          function: () => this.showSlide(index + 1),
+          eventName: 'click',
+          callback: () => this.showSlide(index + 1),
         },
       });
     });
@@ -160,20 +190,20 @@ export default class BannerComponent extends BaseComponent {
                   attributes: {
                     className: styles['prev'],
                   },
-                  on: {
-                    event: 'click',
-                    function: () => this.prevSlide()
-                  },
+                  on: new ElementCallback({
+                    eventName: 'click',
+                    callback: () => this.prevSlide()
+                  }),
                 }),
                 new Element({
                   tag: 'button',
                   attributes: {
                     className: styles['next']
                   },
-                  on: {
-                    event: 'click',
-                    function: () => this.nextSlide()
-                  },
+                  on: new ElementCallback({
+                    eventName: 'click',
+                    callback: () => this.nextSlide(),
+                  }),
                 }),
               ],
             }),
@@ -190,8 +220,9 @@ export default class BannerComponent extends BaseComponent {
         }),
       ],
     });
+
     window.onload = () => {
-      app.appendChild(bannerList.render());
+      this._target.appendChild(bannerList.render());
     }
   }
 }

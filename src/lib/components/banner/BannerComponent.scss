@@ -3,12 +3,13 @@
 ===============*/
 
 $break-mobile: 768px;
+$max-width: 1200px;
 /*===============
       Style
 ===============*/
 
 :local .hero-slide {
-    max-width: 100%;
+    max-width: $max-width;
     position: relative;
     margin: auto;
     .hero-item {
@@ -88,7 +89,6 @@ $break-mobile: 768px;
 }
 
 /* Fading animation */
-
 .fade {
     -webkit-animation-name: fade;
     -webkit-animation-duration: 1.5s;
