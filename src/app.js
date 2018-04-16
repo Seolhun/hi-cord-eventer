@@ -1,6 +1,6 @@
 
 import { BannerComponent, BannerItem } from './lib';
-import { WindowUtils } from './lib/utils';
+import { WindowControlUtils } from './lib/utils';
 
 const pc_banners = [
   {
@@ -40,7 +40,7 @@ const mobile_banners = [
   }),
 ]
 
-let isMobile = WindowUtils.isMobile(window);
+let isMobile = WindowControlUtils.isMobile(window);
 let banners = isMobile ? mobile_banners : pc_banners;
 
 const app = document.getElementById('app');
@@ -49,5 +49,5 @@ new BannerComponent({
   infinity: true,
   auto: true,
   time: 3000,
-  element: app,
+  target: app,
 }).view();

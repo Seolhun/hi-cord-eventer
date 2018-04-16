@@ -1,25 +1,24 @@
 import BaseComponent from '../BaseComponent';
-import Element from '../../dom/Element';
+import { Element, ElementCallback } from '../../dom';
 
-import { WindowUtils } from '../../utils';
+import { WindowControlUtils } from '../../utils';
 
 import styles from './BannerComponent.scss';
 
 class BannerComponentModel {
-  constructor({ banners, infinity = true, auto = true, time = 3000, element }) {
+  constructor({ banners, infinity = true, auto = true, time = 3000 }) {
     this.banners = banners;
     this.infinity = infinity;
     this.auto = auto;
     this.time = time;
-    this.element = element;
-    this._isMobile = WindowUtils.isMobile(window);
+    this._isMobile = WindowControlUtils.isMobile(window);
   }
 }
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ banners, infinity = true, auto = true, time = 5000, element }) {
-    super();
-    this.vm = new BannerComponentModel({ banners, infinity, auto, time, element });
+  constructor({ target, banners, infinity = true, auto = true, time = 5000 }) {
+    super(target);
+    this.vm = new BannerComponentModel({ banners, infinity, auto, time });
     this.current_slide = 1;
     this.last_slide = this.vm.banners.length;
 
@@ -28,9 +27,9 @@ export default class BannerComponent extends BaseComponent {
     }
 
     window.addEventListener('resize', (event) => {
-      // this.vm._isMobile = WindowUtils.isMobile(window);
-      if (this.vm._isMobile !== WindowUtils.isMobile(window)) {
-        this.vm._isMobile = WindowUtils.isMobile(window);
+      // this.vm._isMobile = WindowControlUtils.isMobile(window);
+      if (this.vm._isMobile !== WindowControlUtils.isMobile(window)) {
+        this.vm._isMobile = WindowControlUtils.isMobile(window);
         console.log('??');
         this.view();
       }
@@ -125,18 +124,6 @@ export default class BannerComponent extends BaseComponent {
               href: item.link,
               className: styles['hero-item-link'],
             },
-            touch: {
-              event: 'swipe',
-              function: (event) => {
-                if (event.deltaX > 30) {
-                  this.nextSlide();
-                }
-
-                if (event.deltaX < -30) {
-                  this.prevSlide();
-                }
-              },
-            },
             children: [
               new Element({
                 tag: 'img',
@@ -144,6 +131,17 @@ export default class BannerComponent extends BaseComponent {
                   src: item.image,
                   className: styles['hero-item-image'],
                 },
+                touch: new ElementCallback({
+                  eventName: 'swipe',
+                  callback: (event) => {
+                    if (event.deltaX > 30) {
+                      this.nextSlide();
+                    }
+                    if (event.deltaX < -30) {
+                      this.prevSlide();
+                    }
+                  },
+                }),
               }),
             ],
           }),
@@ -163,8 +161,8 @@ export default class BannerComponent extends BaseComponent {
           className: [styles['hero-indicator-btn'], index === 0 ? styles['on'] : ''],
         },
         on: {
-          event: 'click',
-          function: () => this.showSlide(index + 1),
+          eventName: 'click',
+          callback: () => this.showSlide(index + 1),
         },
       });
     });
@@ -192,20 +190,20 @@ export default class BannerComponent extends BaseComponent {
                   attributes: {
                     className: styles['prev'],
                   },
-                  on: {
-                    event: 'click',
-                    function: () => this.prevSlide()
-                  },
+                  on: new ElementCallback({
+                    eventName: 'click',
+                    callback: () => this.prevSlide()
+                  }),
                 }),
                 new Element({
                   tag: 'button',
                   attributes: {
                     className: styles['next']
                   },
-                  on: {
-                    event: 'click',
-                    function: () => this.nextSlide()
-                  },
+                  on: new ElementCallback({
+                    eventName: 'click',
+                    callback: () => this.nextSlide(),
+                  }),
                 }),
               ],
             }),
@@ -224,7 +222,7 @@ export default class BannerComponent extends BaseComponent {
     });
 
     window.onload = () => {
-      this.vm.element.appendChild(bannerList.render());
+      this._target.appendChild(bannerList.render());
     }
   }
 }
