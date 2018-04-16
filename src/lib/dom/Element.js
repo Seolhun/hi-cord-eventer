@@ -1,15 +1,16 @@
 import classnames from 'classnames';
 
-import { TouchUtils } from '../utils';
+import { TouchBuilderUtils } from '../utils';
 
+import ElementCallback from './properties/ElementCallback';
 
 export default class Element {
   constructor({ tag, attributes, children, on, touch }) {
     this.tag = tag;
     this.attributes = attributes;
     this.children = children;
-    this.on = on;
-    this.touch = touch;
+    this.on = new ElementCallback({ ...on });
+    this.touch = new ElementCallback({ ...touch });
   }
 
   render() {
@@ -47,43 +48,46 @@ export default class Element {
     }
 
     // On(Event)
-    if (this.on && typeof this.on.event !== 'string') {
-      if (this.on.event && typeof this.on.event !== 'string') {
-        throw new Error('The Element on.event have to be string type');
+    if (this.on && typeof this.on.eventName !== 'string') {
+      if (this.on.eventName && typeof this.on.eventName !== 'string') {
+        throw new Error('The Element on.eventName have to be string type');
       }
-      if (this.on.function && typeof this.on.function !== 'function') {
-        throw new Error('The Element on.function have to be function type');
+      if (this.on.callback && typeof this.on.callback !== 'function') {
+        throw new Error('The Element on.callback have to be function type');
+      }
+      if (this.on.capture && typeof this.on.capture !== 'boolean') {
+        throw new Error('The Element on.capture have to be boolean type');
       }
     }
     if (this.on) {
-      created_element.addEventListener(this.on.event, this.on.function);
+      created_element.addEventListener(this.on.eventName, this.on.callback, this.on.capture);
     }
 
     // Touch(Event)
-    if (this.touch && typeof this.touch.event !== 'string') {
-      if (this.touch.event && typeof this.touch.event !== 'string') {
+    if (this.touch && typeof this.touch.eventName !== 'string') {
+      if (this.touch.eventName && typeof this.touch.eventName !== 'string') {
         throw new Error('The Element touch.event have to be string type');
       }
-      if (this.touch.function && typeof this.touch.function !== 'function') {
-        throw new Error('The Element touch.function have to be function type');
+      if (this.touch.callback && typeof this.touch.callback !== 'function') {
+        throw new Error('The Element touch.callback have to be function type');
       }
     }
     if (this.touch) {
-      const manager = TouchUtils.createdManager(created_element);
-      if (this.touch.event === 'tap') {
-        TouchUtils.createdTap(manager, 1, this.touch.function);
+      const manager = TouchBuilderUtils.createdManager(created_element);
+      if (this.touch.eventName === 'tap') {
+        TouchBuilderUtils.createdTap(manager, 1, this.touch.callback);
       }
 
-      if (this.touch.event === 'double_tap') {
-        TouchUtils.createdTap(manager, 2, this.touch.function);
+      if (this.touch.eventName === 'double_tap') {
+        TouchBuilderUtils.createdTap(manager, 2, this.touch.callback);
       }
 
-      if (this.touch.event === 'press') {
-        TouchUtils.createdPress(manager, this.touch.function);
+      if (this.touch.eventName === 'press') {
+        TouchBuilderUtils.createdPress(manager, this.touch.callback);
       }
 
-      if (this.touch.event === 'swipe') {
-        TouchUtils.createdHorizontalSwipe(manager, this.touch.function);
+      if (this.touch.eventName === 'swipe') {
+        TouchBuilderUtils.createdHorizontalSwipe(manager, this.touch.callback);
       }
     }
 
