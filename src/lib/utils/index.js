@@ -1,4 +1,4 @@
-import TouchUtils from './TouchUtils';
-import WindowUtils from './WindowUtils';
+import TouchBuilderUtils from './TouchBuilderUtils';
+import WindowControlUtils from './WindowControlUtils';
 
-export { TouchUtils, WindowUtils };
+export { TouchBuilderUtils, WindowControlUtils };
