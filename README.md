@@ -87,5 +87,3 @@ new BannerComponent({
 - [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
   - Bundle with `index.html` using this.
 - [uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)
-- []()
-
