@@ -1,6 +1,6 @@
 import Hammer, { Manager, Tap, Swipe, Press } from 'hammerjs';
 
-class TouchUtils {
+class TouchBuilderUtils {
   static createdManager(element) {
     return new Hammer.Manager(element);
   }
@@ -43,4 +43,4 @@ class TouchUtils {
   }
 }
 
-export default TouchUtils;
+export default TouchBuilderUtils;

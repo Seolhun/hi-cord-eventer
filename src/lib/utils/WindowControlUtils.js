@@ -1,4 +1,4 @@
-class WindowUtils {
+class WindowControlUtils {
   // Necessary `babel-preset-stage-0`
   static _diff_value = 16;
   static _mobile_size = 768;
@@ -14,4 +14,4 @@ class WindowUtils {
   }
 }
 
-export default WindowUtils;
+export default WindowControlUtils;
