@@ -1,9 +1,9 @@
-import BaseComponent from '../BaseComponent';
-import { Element, ElementCallback } from '../../dom';
+import BaseComponent from "../BaseComponent";
+import { Element, ElementCallback } from "../../dom";
 
-import { WindowControlUtils } from '../../utils';
+import { WindowControlUtils } from "../../utils";
 
-import styles from './BannerComponent.scss';
+import styles from "./BannerComponent.scss";
 
 class BannerComponentModel {
   constructor({ banners, infinity = true, autoSlide = true, time = 3000 }) {
@@ -16,7 +16,13 @@ class BannerComponentModel {
 }
 
 export default class BannerComponent extends BaseComponent {
-  constructor({ target, banners, infinity = true, autoSlide = true, time = 5000 }) {
+  constructor({
+    target,
+    banners,
+    infinity = true,
+    autoSlide = true,
+    time = 5000,
+  }) {
     super(target);
     this.vm = new BannerComponentModel({ banners, infinity, autoSlide, time });
     this.current_slide = 1;
@@ -44,16 +50,18 @@ export default class BannerComponent extends BaseComponent {
   }
 
   _changedItemsEvent() {
-    let slide_items = document.getElementsByClassName(styles['hero-item']);
-    let slide_dots = document.getElementsByClassName(styles['hero-indicator-btn']);
+    let slide_items = document.getElementsByClassName(styles["hero-item"]);
+    let slide_dots = document.getElementsByClassName(
+      styles["hero-indicator-btn"],
+    );
     for (let i = 0; i < this.last_slide; i++) {
       if (this.current_slide - 1 === i) {
-        slide_items[i].classList.add(styles['on']);
-        slide_dots[i].classList.add(styles['on']);
+        slide_items[i].classList.add(styles["on"]);
+        slide_dots[i].classList.add(styles["on"]);
       } else {
-        slide_items[i].classList.add(styles['off']);
-        slide_items[i].classList.remove(styles['on']);
-        slide_dots[i].classList.remove(styles['on']);
+        slide_items[i].classList.add(styles["off"]);
+        slide_items[i].classList.remove(styles["on"]);
+        slide_dots[i].classList.remove(styles["on"]);
       }
     }
   }
@@ -110,32 +118,36 @@ export default class BannerComponent extends BaseComponent {
 
   _createBannerItems(items) {
     if (!Array.isArray(items)) {
-      throw new Error('The Element children have to be Array type');
+      throw new Error("The Element children have to be Array type");
     }
 
     return items.map((item, index) => {
       return new Element({
-        tag: 'div',
+        tag: "div",
         attributes: {
-          className: [styles['hero-item'], index === 0 ? styles['on'] : styles['off'], 'fade'],
+          className: [
+            styles["hero-item"],
+            index === 0 ? styles["on"] : styles["off"],
+            "fade",
+          ],
         },
         children: [
           new Element({
-            tag: 'a',
+            tag: "a",
             attributes: {
               href: item.link,
-              className: styles['hero-item-link'],
+              className: styles["hero-item-link"],
             },
             children: [
               new Element({
-                tag: 'img',
+                tag: "img",
                 attributes: {
                   src: item.image,
-                  className: styles['hero-item-image'],
+                  className: styles["hero-item-image"],
                 },
                 touch: new ElementCallback({
-                  eventName: 'swipe',
-                  callback: (event) => {
+                  eventName: "swipe",
+                  callback: event => {
                     if (event.deltaX > 30) {
                       this.nextSlide();
                     }
@@ -154,16 +166,19 @@ export default class BannerComponent extends BaseComponent {
 
   _createBannerIndcators(items) {
     if (!Array.isArray(items)) {
-      throw new Error('The Element children have to be Array type');
+      throw new Error("The Element children have to be Array type");
     }
     return items.map((item, index) => {
       return new Element({
-        tag: 'i',
+        tag: "i",
         attributes: {
-          className: [styles['hero-indicator-btn'], index === 0 ? styles['on'] : ''],
+          className: [
+            styles["hero-indicator-btn"],
+            index === 0 ? styles["on"] : "",
+          ],
         },
         on: {
-          eventName: 'click',
+          eventName: "click",
           callback: () => this.showSlide(index + 1),
         },
       });
@@ -173,52 +188,50 @@ export default class BannerComponent extends BaseComponent {
   view() {
     this._clearAutoSlidingTime();
     const bannerList = new Element({
-      tag: 'aside',
+      tag: "aside",
       children: [
         new Element({
-          tag: 'div',
+          tag: "div",
           attributes: {
-            id: 'hero-slide',
-            className: styles['hero-slide'],
+            id: "hero-slide",
+            className: styles["hero-slide"],
           },
           children: [
             ...this._createBannerItems(this.vm.banners),
             new Element({
-              tag: 'div',
+              tag: "div",
               attributes: {
-                className: styles['hero-nav'],
+                className: styles["hero-nav"],
               },
               children: [
                 new Element({
-                  tag: 'button',
+                  tag: "button",
                   attributes: {
-                    className: styles['prev'],
+                    className: styles["prev"],
                   },
                   on: new ElementCallback({
-                    eventName: 'click',
-                    callback: () => this.prevSlide()
+                    eventName: "click",
+                    callback: () => this.prevSlide(),
                   }),
                 }),
                 new Element({
-                  tag: 'button',
+                  tag: "button",
                   attributes: {
-                    className: styles['next']
+                    className: styles["next"],
                   },
                   on: new ElementCallback({
-                    eventName: 'click',
+                    eventName: "click",
                     callback: () => this.nextSlide(),
                   }),
                 }),
               ],
             }),
             new Element({
-              tag: 'div',
+              tag: "div",
               attributes: {
-                className: styles['hero-indicator'],
+                className: styles["hero-indicator"],
               },
-              children: [
-                ...this._createBannerIndcators(this.vm.banners),
-              ],
+              children: [...this._createBannerIndcators(this.vm.banners)],
             }),
           ],
         }),

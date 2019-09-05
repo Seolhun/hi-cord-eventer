@@ -1,23 +1,23 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const Path = require('path');
-const HtmlWebpackplugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const Path = require("path");
+const HtmlWebpackplugin = require("html-webpack-plugin");
 
 module.exports = {
   resolve: {
-    extensions: ['.js']
+    extensions: [".js"],
   },
   entry: {
-    app: './src/app.js',
+    app: "./src/app.js",
   },
   output: {
-    path: Path.join(__dirname, './dist'),
-    filename: '[name].js',
+    path: Path.join(__dirname, "./dist"),
+    filename: "[name].js",
   },
   node: {
     fs: "empty",
-    net: 'empty',
-    tls: 'empty',
-    dns: 'empty'
+    net: "empty",
+    tls: "empty",
+    dns: "empty",
   },
   optimization: {
     minimizer: [
@@ -27,16 +27,16 @@ module.exports = {
         uglifyOptions: {
           compress: false,
           ecma: 6,
-          mangle: true
+          mangle: true,
         },
-        sourceMap: true
+        sourceMap: true,
       }),
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackplugin({
-      template: 'index.html',
-      filename: 'index.html',
+      template: "index.html",
+      filename: "index.html",
       inject: true,
     }),
   ],
@@ -47,26 +47,32 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-        }
-      }, {
-        test: /\.scss$/,
-        use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader',
-          options: {
-            sourceMap: true
-          }
-        }, {
-          loader: 'sass-loader',
-          options: {
-            sourceMap: true,
-          }
-        }]
-      }, {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        },
       },
-    ]
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 };

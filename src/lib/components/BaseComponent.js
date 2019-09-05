@@ -1,6 +1,6 @@
 export default class BaseComponent {
   constructor(target) {
-    this._target = target
+    this._target = target;
   }
 
   view() {

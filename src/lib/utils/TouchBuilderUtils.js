@@ -1,4 +1,4 @@
-import Hammer, { Manager, Tap, Swipe, Press } from 'hammerjs';
+import Hammer, { Manager, Tap, Swipe, Press } from "hammerjs";
 
 class TouchBuilderUtils {
   static createdManager(element) {
@@ -7,11 +7,11 @@ class TouchBuilderUtils {
 
   static createdTap(manager, taps, callbackFn) {
     const triple_tap = new Hammer.Tap({
-      event: 'tap',
+      event: "tap",
       taps,
     });
     manager.add(triple_tap);
-    manager.on('tap', callbackFn);
+    manager.on("tap", callbackFn);
   }
 
   static createdPress(manager, callbackFn) {
@@ -19,7 +19,7 @@ class TouchBuilderUtils {
       time: 1000,
     });
     manager.add(press);
-    manager.on('press', callbackFn);
+    manager.on("press", callbackFn);
   }
 
   static createdHorizontalSwipe(manager, callbackFn) {
@@ -29,7 +29,7 @@ class TouchBuilderUtils {
       velocity: 0.1,
     });
     manager.add(swipe);
-    manager.on('swipe', callbackFn);
+    manager.on("swipe", callbackFn);
   }
 
   static createdVerticalSwipe(manager, callbackFn) {
@@ -39,7 +39,7 @@ class TouchBuilderUtils {
       velocity: 0.1,
     });
     manager.add(swipe);
-    manager.on('swipe', callbackFn);
+    manager.on("swipe", callbackFn);
   }
 }
 

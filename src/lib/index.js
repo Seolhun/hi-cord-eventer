@@ -1,4 +1,4 @@
-import { BannerComponent, BannerItem } from './components';
-import { ElementItem } from './dom';
+import { BannerComponent, BannerItem } from "./components";
+import { ElementItem } from "./dom";
 
-export { BannerComponent, BannerItem, ElementItem }
+export { BannerComponent, BannerItem, ElementItem };
