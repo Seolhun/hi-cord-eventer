@@ -4,6 +4,7 @@ import autoprefixer from "autoprefixer";
 import babel from "rollup-plugin-babel";
 import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -16,12 +17,14 @@ export default {
   input: "src/index.js",
   output: [
     {
-      format: "cjs",
       file: pkg.main,
+      format: "cjs",
+      sourcemap: true,
     },
     {
-      format: "es",
       file: pkg.module,
+      format: "es",
+      sourcemap: true,
     },
   ],
   plugins: [
@@ -46,6 +49,7 @@ export default {
       //   { type: "js", file: "file2.js", pos: "before" },
       // ],
     }),
+    terser(),
     isDev
       ? serve({
           open: true,

@@ -1,5 +1,6 @@
 import serve from "rollup-plugin-serve";
 import babel from "rollup-plugin-babel";
+import { terser } from "rollup-plugin-terser";
 
 export default {
   input: "index.js",
@@ -14,5 +15,6 @@ export default {
       openPage: "/index.html",
       contentBase: ["."],
     }),
+    terser(),
   ],
 };
