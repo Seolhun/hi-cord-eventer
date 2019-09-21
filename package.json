@@ -24,7 +24,6 @@
     "scss",
     "local"
   ],
-  "main": "./src/index.ts",
   "scripts": {
     "build": "yarn clean && yarn bs && lerna exec yarn build",
     "clean": "lerna clean --yes",
@@ -33,9 +32,9 @@
     "release:patch": "lerna publish patch -y",
     "bs": "lerna bootstrap",
     "link": "lerna link",
-    "lint": "eslint --project -p tsconfig.json 'packages/**/src/**/*.{ts,tsx}'",
-    "lint:fix": "eslint --fix --project 'packages/**/src/**/*.{ts,tsx}'",
-    "prettier": "prettier --write 'packages/**/src/**/*.{ts,tsx,scss,md}'",
+    "lint": "eslint --project -p tsconfig.json 'packages/**/src/**/*.{js,jsx}'",
+    "lint:fix": "eslint --fix --quiet 'packages/**/src/**/*.{js,jsx}'",
+    "prettier": "prettier --write 'packages/**/src/**/*.{js,jsx,scss,md}'",
     "fix": "yarn prettier && yarn lint:fix"
   },
   "devDependencies": {
@@ -49,9 +48,11 @@
     "@babel/plugin-transform-literals": "^7.2.0",
     "@babel/plugin-transform-spread": "^7.2.2",
     "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "gh-pages": "2.1.0",
     "lerna": "^3.4.3",

@@ -1,2 +1,2 @@
-export * from "./BaseComponent";
-export * from "./banner/BannerComponent";
+export * from './BaseComponent';
+export * from './banner/BannerComponent';

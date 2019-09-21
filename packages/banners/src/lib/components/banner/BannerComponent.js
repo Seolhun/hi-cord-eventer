@@ -1,18 +1,8 @@
-import { BaseComponent } from "../BaseComponent";
-import { Element, ElementCallback } from "../../dom";
-import { WindowControlUtils } from "../../utils";
+import { BannerComponentModel } from './BannerComponentModel';
+import { BaseComponent } from '../BaseComponent';
+import { Element, ElementCallback } from '../../dom';
 
-import styles from "./BannerComponent.scss";
-
-export class BannerComponentModel {
-  constructor({ banners, infinity = true, autoSlide = true, time = 3000 }) {
-    this.banners = banners;
-    this.infinity = infinity;
-    this.autoSlide = autoSlide;
-    this.time = time;
-    this._isMobile = WindowControlUtils.isMobile(window);
-  }
-}
+import styles from './BannerComponent.scss';
 
 export class BannerComponent extends BaseComponent {
   constructor({
@@ -23,203 +13,203 @@ export class BannerComponent extends BaseComponent {
     time = 5000,
   }) {
     super(target);
-    this.vm = new BannerComponentModel({ banners, infinity, autoSlide, time });
+    this.vm = new BannerComponentModel({
+      banners, infinity, autoSlide, time,
+    });
     this.current_slide = 1;
     this.last_slide = this.vm.banners.length;
-    this._timeoutInstance = null;
+    this.timeoutInstance = null;
     if (this.vm.autoSlide) {
-      this._autoSliding();
+      this.autoSliding();
     }
+
   }
 
-  showSlide(slide_number) {
-    if (slide_number < 1) {
-      slide_number = 1;
-    } else if (slide_number > this.last_slide) {
-      slide_number = this.last_slide;
+  showSlide = (slideNumber) => {
+    let currentSlideNumber = slideNumber
+    if (currentSlideNumber < 1) {
+      currentSlideNumber = 1;
+    } else if (currentSlideNumber > this.last_slide) {
+      currentSlideNumber = this.last_slide;
     } else {
       // Manual is changed, Current Settimeout must be stopped.
-      this._clearAutoSlidingTime();
+      this.cleaAutoSlidingTime();
       if (this.vm.autoSlide) {
-        this._autoSliding();
+        this.autoSliding();
       }
-      this.current_slide = slide_number;
+      this.current_slide = slideNumber;
     }
-    this._changedItemsEvent();
+    this.changedItemsEvent();
   }
 
-  _changedItemsEvent() {
-    let slide_items = document.getElementsByClassName(styles["hero-item"]);
-    let slide_dots = document.getElementsByClassName(
-      styles["hero-indicator-btn"],
+  changedItemsEvent = () => {
+    const slideItems = document.getElementsByClassName(styles['hero-item']);
+    const slideDots = document.getElementsByClassName(
+      styles['hero-indicator-btn'],
     );
-    for (let i = 0; i < this.last_slide; i++) {
+    for (let i = 0; i < this.last_slide; i += 1) {
       if (this.current_slide - 1 === i) {
-        slide_items[i].classList.add(styles["on"]);
-        slide_dots[i].classList.add(styles["on"]);
+        slideItems[i].classList.add(styles.on);
+        slideDots[i].classList.add(styles.on);
       } else {
-        slide_items[i].classList.add(styles["off"]);
-        slide_items[i].classList.remove(styles["on"]);
-        slide_dots[i].classList.remove(styles["on"]);
+        slideItems[i].classList.add(styles.off);
+        slideItems[i].classList.remove(styles.on);
+        slideDots[i].classList.remove(styles.on);
       }
     }
   }
 
-  prevSlide() {
-    if (this._isFirst()) {
+  prevSlide = () => {
+    if (this.isFirst()) {
       return this.showSlide(this.last_slide);
     }
     this.showSlide(this.current_slide - 1);
   }
 
-  nextSlide() {
-    if (this._isLast()) {
+  nextSlide = () => {
+    if (this.isLast()) {
       return this.showSlide(1);
     }
     this.showSlide(this.current_slide + 1);
   }
 
-  _isFirst() {
+  isFirst = () => {
     if (this.current_slide <= 1) {
       return true;
     }
     return false;
   }
 
-  _isLast() {
+  isLast = () => {
     if (this.current_slide >= this.last_slide) {
       return true;
     }
     return false;
   }
 
-  _autoSliding() {
-    if (!this.vm.infinity && this._isLast()) {
+  autoSliding = () => {
+    if (!this.vm.infinity && this.isLast()) {
       return;
     }
 
-    this._timeoutInstance = setTimeout(() => {
-      if (this._isLast()) {
+    this.timeoutInstance = setTimeout(() => {
+      if (this.isLast()) {
         this.current_slide = 1;
       } else {
         this.current_slide = this.current_slide + 1;
       }
-      this._changedItemsEvent();
-      this._autoSliding();
+      this.changedItemsEvent();
+      this.autoSliding();
     }, this.vm.time);
   }
 
-  _clearAutoSlidingTime() {
-    for (let i = 0; i < this._timeoutInstance; i++) {
+  cleaAutoSlidingTime = () => {
+    for (let i = 0; i < this.timeoutInstance; i++) {
       clearTimeout(i);
     }
   }
 
-  _createBannerItems(items) {
+  createBannerItems = (items) => {
     if (!Array.isArray(items)) {
-      throw new Error("The Element children have to be Array type");
+      throw new Error('The Element children have to be Array type');
     }
 
-    return items.map((item, index) => {
-      return new Element({
-        tag: "div",
-        attributes: {
-          className: [
-            styles["hero-item"],
-            index === 0 ? styles["on"] : styles["off"],
-            "fade",
-          ],
-        },
-        children: [
-          new Element({
-            tag: "a",
-            attributes: {
-              href: item.link,
-              className: styles["hero-item-link"],
-            },
-            children: [
-              new Element({
-                tag: "img",
-                attributes: {
-                  src: item.image,
-                  className: styles["hero-item-image"],
-                },
-              }),
-            ],
-          }),
+    return items.map((item, index) => new Element({
+      tag: 'div',
+      attributes: {
+        className: [
+          styles['hero-item'],
+          index === 0 ? styles.on : styles.off,
+          'fade',
         ],
-      });
-    });
-  }
-
-  _createBannerIndcators(items) {
-    if (!Array.isArray(items)) {
-      throw new Error("The Element children have to be Array type");
-    }
-    return items.map((item, index) => {
-      return new Element({
-        tag: "i",
-        attributes: {
-          className: [
-            styles["hero-indicator-btn"],
-            index === 0 ? styles["on"] : "",
-          ],
-        },
-        on: {
-          eventName: "click",
-          callback: () => this.showSlide(index + 1),
-        },
-      });
-    });
-  }
-
-  view() {
-    this._clearAutoSlidingTime();
-    const bannerList = new Element({
-      tag: "aside",
+      },
       children: [
         new Element({
-          tag: "div",
+          tag: 'a',
           attributes: {
-            id: "hero-slide",
-            className: styles["hero-slide"],
+            href: item.link,
+            className: styles['hero-item-link'],
           },
           children: [
-            ...this._createBannerItems(this.vm.banners),
             new Element({
-              tag: "div",
+              tag: 'img',
               attributes: {
-                className: styles["hero-nav"],
+                src: item.image,
+                className: styles['hero-item-image'],
+              },
+            }),
+          ],
+        }),
+      ],
+    }));
+  }
+
+  createBannerIndcators = (items) => {
+    if (!Array.isArray(items)) {
+      throw new Error('The Element children have to be Array type');
+    }
+    return items.map((item, index) => new Element({
+      tag: 'i',
+      attributes: {
+        className: [
+          styles['hero-indicator-btn'],
+          index === 0 ? styles.on : '',
+        ],
+      },
+      on: {
+        eventName: 'click',
+        callback: () => this.showSlide(index + 1),
+      },
+    }));
+  }
+
+  view = () => {
+    this.cleaAutoSlidingTime();
+    const bannerList = new Element({
+      tag: 'aside',
+      children: [
+        new Element({
+          tag: 'div',
+          attributes: {
+            id: 'hero-slide',
+            className: styles['hero-slide'],
+          },
+          children: [
+            ...this.createBannerItems(this.vm.banners),
+            new Element({
+              tag: 'div',
+              attributes: {
+                className: styles['hero-nav'],
               },
               children: [
                 new Element({
-                  tag: "button",
+                  tag: 'button',
                   attributes: {
-                    className: styles["prev"],
+                    className: styles.prev,
                   },
                   on: new ElementCallback({
-                    eventName: "click",
+                    eventName: 'click',
                     callback: () => this.prevSlide(),
                   }),
                 }),
                 new Element({
-                  tag: "button",
+                  tag: 'button',
                   attributes: {
-                    className: styles["next"],
+                    className: styles.next,
                   },
                   on: new ElementCallback({
-                    eventName: "click",
+                    eventName: 'click',
                     callback: () => this.nextSlide(),
                   }),
                 }),
               ],
             }),
             new Element({
-              tag: "div",
+              tag: 'div',
               attributes: {
-                className: styles["hero-indicator"],
+                className: styles['hero-indicator'],
               },
-              children: [...this._createBannerIndcators(this.vm.banners)],
+              children: [...this.createBannerIndcators(this.vm.banners)],
             }),
           ],
         }),
