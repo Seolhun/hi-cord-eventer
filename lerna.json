@@ -12,8 +12,6 @@
         "develop"
       ],
       "ignoreChanges": [
-        "packages/docs",
-        "packages/examples",
         "**/__test__",
         "**/*.md"
       ]

@@ -22,11 +22,10 @@ export class BannerComponent extends BaseComponent {
     if (this.vm.autoSlide) {
       this.autoSliding();
     }
-
   }
 
-  showSlide = (slideNumber) => {
-    let currentSlideNumber = slideNumber
+  showSlide(slideNumber) {
+    let currentSlideNumber = slideNumber;
     if (currentSlideNumber < 1) {
       currentSlideNumber = 1;
     } else if (currentSlideNumber > this.last_slide) {
@@ -42,7 +41,7 @@ export class BannerComponent extends BaseComponent {
     this.changedItemsEvent();
   }
 
-  changedItemsEvent = () => {
+  changedItemsEvent() {
     const slideItems = document.getElementsByClassName(styles['hero-item']);
     const slideDots = document.getElementsByClassName(
       styles['hero-indicator-btn'],
@@ -59,35 +58,35 @@ export class BannerComponent extends BaseComponent {
     }
   }
 
-  prevSlide = () => {
+  prevSlide() {
     if (this.isFirst()) {
       return this.showSlide(this.last_slide);
     }
-    this.showSlide(this.current_slide - 1);
+    return this.showSlide(this.current_slide - 1);
   }
 
-  nextSlide = () => {
+  nextSlide() {
     if (this.isLast()) {
       return this.showSlide(1);
     }
-    this.showSlide(this.current_slide + 1);
+    return this.showSlide(this.current_slide + 1);
   }
 
-  isFirst = () => {
+  isFirst() {
     if (this.current_slide <= 1) {
       return true;
     }
     return false;
   }
 
-  isLast = () => {
+  isLast() {
     if (this.current_slide >= this.last_slide) {
       return true;
     }
     return false;
   }
 
-  autoSliding = () => {
+  autoSliding() {
     if (!this.vm.infinity && this.isLast()) {
       return;
     }
@@ -103,13 +102,14 @@ export class BannerComponent extends BaseComponent {
     }, this.vm.time);
   }
 
-  cleaAutoSlidingTime = () => {
-    for (let i = 0; i < this.timeoutInstance; i++) {
+  cleaAutoSlidingTime() {
+    for (let i = 0; i < this.timeoutInstance; i += 1) {
       clearTimeout(i);
     }
   }
 
-  createBannerItems = (items) => {
+  // eslint-disable-next-line class-methods-use-this
+  createBannerItems(items) {
     if (!Array.isArray(items)) {
       throw new Error('The Element children have to be Array type');
     }
@@ -144,7 +144,7 @@ export class BannerComponent extends BaseComponent {
     }));
   }
 
-  createBannerIndcators = (items) => {
+  createBannerIndcators(items) {
     if (!Array.isArray(items)) {
       throw new Error('The Element children have to be Array type');
     }
@@ -163,7 +163,7 @@ export class BannerComponent extends BaseComponent {
     }));
   }
 
-  view = () => {
+  view() {
     this.cleaAutoSlidingTime();
     const bannerList = new Element({
       tag: 'aside',
@@ -215,7 +215,7 @@ export class BannerComponent extends BaseComponent {
         }),
       ],
     });
-    this._target.appendChild(bannerList.render());
+    this.target.appendChild(bannerList.render());
   }
 }
 

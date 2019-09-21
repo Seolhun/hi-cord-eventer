@@ -1,5 +1,5 @@
 import 'core-js';
-import { BannerComponent } from '@seolhun/hi-cord-eventer';
+import { BannerComponent } from '@seolhun/hi-cord-eventer-banners';
 
 const PcBanners = [
   {
@@ -36,5 +36,5 @@ new BannerComponent({
   infinity: true,
   autoSlide: true,
   time: 3000,
-  target: app,
+  target: document.getElementById('app'),
 }).view();

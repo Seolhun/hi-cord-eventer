@@ -1,5 +1,5 @@
 {
-  "name": "@seolhun/hi-cord-eventer",
+  "name": "@seolhun/hi-cord-eventer-banners",
   "version": "1.0.0",
   "description": "hi-cord Banner Builder",
   "main": "dist/index.js",

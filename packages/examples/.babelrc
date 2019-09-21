@@ -1,9 +1,11 @@
 {
   "presets": ["@babel/preset-env"],
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-arrow-functions",
+    ["@babel/plugin-transform-arrow-functions", { "spec": true }],
+    "@babel/plugin-syntax-import-meta",
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    "@babel/plugin-proposal-json-strings",
     "@babel/plugin-transform-async-to-generator",
     "@babel/plugin-transform-classes",
     "@babel/plugin-transform-destructuring",
@@ -14,9 +16,11 @@
     "test": {
       "presets": ["@babel/preset-env"],
       "plugins": [
-        "@babel/plugin-proposal-class-properties",
         "@babel/plugin-syntax-dynamic-import",
-        "@babel/plugin-transform-arrow-functions",
+        ["@babel/plugin-transform-arrow-functions", { "spec": true }],
+        "@babel/plugin-syntax-import-meta",
+        ["@babel/plugin-proposal-class-properties", { "loose": false }],
+        "@babel/plugin-proposal-json-strings",
         "@babel/plugin-transform-async-to-generator",
         "@babel/plugin-transform-classes",
         "@babel/plugin-transform-destructuring",

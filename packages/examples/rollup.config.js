@@ -19,19 +19,17 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs',
+      format: 'es',
       sourcemap: true,
     },
     {
       file: pkg.module,
-      format: 'es',
+      format: 'cjs',
       sourcemap: true,
     },
   ],
   plugins: [
     resolve({
-      jsnext: true,
-      main: true,
       mainFields: ['main', 'module'],
       extensions: ['.js', '.jsx'],
     }),
@@ -57,7 +55,7 @@ export default {
     isProd
       ? null
       : serve({
-        open: true,
+        // open: true,
         contentBase: ['./dist'],
         openPage: '/index.html',
         host: 'localhost',

@@ -26,9 +26,10 @@
   },
   "homepage": "https://github.com/Seolhun/hi-cord-eventer#readme",
   "dependencies": {
-    "@seolhun/hi-cord-eventer": "^1.0.0",
+    "@seolhun/hi-cord-eventer-banners": "^1.0.0",
     "axios": "^0.19.0",
-    "axios-mock-adapter": "^1.17.0"
+    "axios-mock-adapter": "^1.17.0",
+    "core-js": "^3.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.6.1",
