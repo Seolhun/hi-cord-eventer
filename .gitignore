@@ -1,2 +1,36 @@
-node_modules/*
-dist
+# Logs
+logs
+*.log
+npm-debug.log*
+package-lock.json
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# After Build files
+dist/
+dist/**
+
+# Optional npm cache directory
+.npm
+yarn-error.*
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# Compile CSS files
+*.css
+*.css.map
+
+# Report
+coverage/
+
+# Rollup
+.rpt2_cache

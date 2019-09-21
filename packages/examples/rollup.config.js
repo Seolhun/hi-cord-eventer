@@ -4,37 +4,38 @@ import autoprefixer from "autoprefixer";
 import babel from "rollup-plugin-babel";
 import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";
+import commonjs from 'rollup-plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
 
-const isProd = process.env.NODE_ENV === "production";
-console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-console.error(`${process.env.NODE_ENV}`);
-console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
 import pkg from "./package.json";
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const externals = Object.keys(pkg.dependencies);
 
 export default {
   external: [...externals, "path", "fs", "resolve", "rollup-pluginutils"],
-  input: isProd ? "src/index.js" : "src/example.js",
+  input: "src/example.js",
   output: [
     {
       file: pkg.main,
       format: "cjs",
-      sourcemap: isProd,
+      sourcemap: true,
     },
     {
       file: pkg.module,
       format: "es",
-      sourcemap: isProd,
+      sourcemap: true,
     },
   ],
   plugins: [
     resolve({
+      jsnext: true,
+      main: true,
       mainFields: ["main", "module"],
       extensions: [".js", ".jsx"],
     }),
+    commonjs(),
     babel({
       exclude: /node_modules/,
     }),

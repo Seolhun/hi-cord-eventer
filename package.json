@@ -1,34 +1,42 @@
 {
-  "name": "hi-cord-eventer",
-  "version": "1.0.0",
-  "description": "hi-cord Banner Builder",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "scripts": {
-    "build": "NODE_ENV=production rollup -c",
-    "dev": "NODE_ENV=development rollup -c"
+  "private": true,
+  "license": "MIT",
+  "version": "0.0.1",
+  "name": "hi-cord-events",
+  "author": {
+    "name": "Seolhun",
+    "email": "shun10116@gmail.com",
+    "url": "https://github.com/Seolhun"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Seolhun/hi-cord-eventer.git"
+    "url": "git+https://github.com/Seolhun/hi-cord-events"
+  },
+  "homepage": "https://github.com/Seolhun/hi-cord-events#readme",
+  "bugs": {
+    "url": "https://github.com/Seolhun/hi-cord-events/issues"
   },
   "keywords": [
-    "vanilla",
-    "javascript",
-    "banner",
-    "module"
+    "react",
+    "component",
+    "typescript",
+    "ui",
+    "scss",
+    "local"
   ],
-  "author": "Seolhun",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Seolhun/hi-cord-eventer/issues"
-  },
-  "homepage": "https://github.com/Seolhun/hi-cord-eventer#readme",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "axios-mock-adapter": "^1.17.0",
-    "classnames": "^2.2.5",
-    "core-js": "^3.2.1"
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "yarn clean && yarn bs && lerna exec yarn build",
+    "clean": "lerna clean --yes",
+    "release": "lerna publish",
+    "prerelease": "lerna publish from-git",
+    "release:patch": "lerna publish patch -y",
+    "bs": "lerna bootstrap",
+    "link": "lerna link",
+    "lint": "eslint --project -p tsconfig.json 'packages/**/src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint --fix --project 'packages/**/src/**/*.{ts,tsx}'",
+    "prettier": "prettier --write 'packages/**/src/**/*.{ts,tsx,scss,md}'",
+    "fix": "yarn prettier && yarn lint:fix"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -41,22 +49,25 @@
     "@babel/plugin-transform-literals": "^7.2.0",
     "@babel/plugin-transform-spread": "^7.2.2",
     "@babel/preset-env": "^7.4.5",
-    "autoprefixer": "^9.6.1",
-    "css-loader": "^3.2.0",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "node-sass": "^4.12.0",
-    "rollup": "^1.21.4",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-bundle-html": "^0.2.1",
-    "rollup-plugin-bundle-imports": "^1.4.5",
-    "rollup-plugin-node-resolve": "^5.0.0",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-terser": "^5.1.2",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0"
+    "gh-pages": "2.1.0",
+    "lerna": "^3.4.3",
+    "prettier": "^1.14.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
   }
 }
