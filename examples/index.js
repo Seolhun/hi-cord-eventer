@@ -1,9 +1,9 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { BannerComponent } from "../src/lib";
+import { BannerComponent } from "../dist";
 
-const pc_banners = [
+const PcBanners = [
   {
     image:
       "https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBanner",
@@ -26,14 +26,14 @@ const pc_banners = [
       "https://cdn.lezhin.com/v2/inventory_items/5439666241929216/media/upperBanner",
     link: "https://www.lezhin.com/ko/comic/dalbox",
   },
-  new BannerItem({
+  {
     image:
       "https://cdn.lezhin.com/v2/inventory_items/6120926790549504/media/upperBanner",
     link: "https://www.lezhin.com/ko/novel/leviathan",
-  }),
+  },
 ];
 
-const mobile_banners = [
+const MobileBanners = [
   {
     image:
       "https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBannerMobile",
@@ -56,26 +56,23 @@ const mobile_banners = [
       "https://cdn.lezhin.com/v2/inventory_items/5439666241929216/media/upperBannerMobile",
     link: "https://www.lezhin.com/ko/comic/dalbox",
   },
-  new BannerItem({
+  {
     image:
       "https://cdn.lezhin.com/v2/inventory_items/6120926790549504/media/upperBannerMobile",
     link: "https://www.lezhin.com/ko/novel/leviathan",
-  }),
+  },
 ];
 
 const mock = new MockAdapter(axios);
-
 function getBanners(device = "desktop", count = 4) {
   mock.onGet("/banners", { params: { device, count } }).reply(200, {
-    banners: device === "mobile" ? mobile_banners : pc_banners,
+    banners: device === "mobile" ? MobileBanners : PcBanners,
   });
   return axios.get("/banners", { params: { device, count } });
 }
 
 const BannerView = async () => {
   const response = await getBanners();
-
-  console.error("@@", response);
   const banners = response.data.banners;
   new BannerComponent({
     banners,

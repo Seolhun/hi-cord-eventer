@@ -21,7 +21,6 @@
 
 - Element.js : To create Dom
   - ElementItem.js : To create Dom values
-    - BannerItem.js : Extending `EelementItem.js` to create Banner values
 
 ##### - Details types
 
@@ -42,13 +41,6 @@ class ElementCallback {
     this.eventName = eventName;
     this.callback = callback;
     this.capture = capture;
-  }
-}
-
-class BannerItem {
-  constructor({ image, link }) {
-    this.image = image;
-    this.link = link;
   }
 }
 
