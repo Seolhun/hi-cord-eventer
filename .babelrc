@@ -1,5 +1,5 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "presets": ["@babel/preset-env"],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-syntax-dynamic-import",
@@ -8,12 +8,11 @@
     "@babel/plugin-transform-classes",
     "@babel/plugin-transform-destructuring",
     "@babel/plugin-transform-literals",
-    "@babel/plugin-transform-react-constant-elements",
     "@babel/plugin-transform-spread"
   ],
   "env": {
     "test": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"],
+      "presets": ["@babel/preset-env"],
       "plugins": [
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-syntax-dynamic-import",
@@ -22,7 +21,6 @@
         "@babel/plugin-transform-classes",
         "@babel/plugin-transform-destructuring",
         "@babel/plugin-transform-literals",
-        "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-spread"
       ]
     }
