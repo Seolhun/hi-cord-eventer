@@ -1,10 +1,9 @@
 import classnames from "classnames";
 
 import { TouchBuilderUtils } from "../utils";
+import { ElementCallback } from "./ElementCallback";
 
-import ElementCallback from "./properties/ElementCallback";
-
-export default class Element {
+export class Element {
   constructor({ tag, attributes, children, on, touch }) {
     this.tag = tag;
     this.attributes = attributes;
@@ -100,3 +99,5 @@ export default class Element {
     return created_element;
   }
 }
+
+export default Element;

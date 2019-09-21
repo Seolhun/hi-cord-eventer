@@ -1,4 +1,4 @@
-export default class BaseComponent {
+export class BaseComponent {
   constructor(target) {
     this._target = target;
   }
@@ -7,3 +7,5 @@ export default class BaseComponent {
     // Write a code for custom
   }
 }
+
+export default BaseComponent;

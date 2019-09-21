@@ -1,4 +1,4 @@
-class WindowControlUtils {
+export class WindowControlUtils {
   // Necessary `babel-preset-stage-0`
   static _diff_value = 16;
   static _mobile_size = 768;
@@ -6,8 +6,8 @@ class WindowControlUtils {
 
   static isMobile(window) {
     let result = false;
-    const client_width = document.body.clientWidth + this._diff_value;
-    if (client_width <= this._mobile_size) {
+    const clientWidth = document.body.clientWidth + this._diff_value;
+    if (clientWidth <= this._mobile_size) {
       result = true;
     }
     return result;

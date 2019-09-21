@@ -1,4 +1,4 @@
-class ElementCallback {
+export class ElementCallback {
   constructor({ eventName, callback, capture = false }) {
     this.eventName = eventName;
     this.callback = callback;

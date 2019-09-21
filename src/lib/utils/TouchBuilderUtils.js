@@ -1,6 +1,6 @@
 import Hammer from "hammerjs";
 
-class TouchBuilderUtils {
+export class TouchBuilderUtils {
   static createdManager(element) {
     return new Hammer.Manager(element);
   }
