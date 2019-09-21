@@ -89,12 +89,5 @@ new BannerComponent({
 ## - Library
 
 - [Hammer.JS - A JavaScript library for detecting touch gestures](https://github.com/hammerjs/hammer.js)
-- [classnames - A simple javascript utility for conditionally joining classNames together](https://github.com/JedWatson/classnames)
 - [axios - To use XHR easily](https://github.com/axios/axios)
 - [axios-mock-adapter - To build Mock using axios](https://github.com/ctimmerm/axios-mock-adapter)
-
-## - Webpack
-
-- [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
-  - Bundle with `index.html` using this.
-- [uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)
