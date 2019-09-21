@@ -6,7 +6,10 @@ import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 
-const isDev = process.env.NODE_ENV === "development";
+const isProd = process.env.NODE_ENV === "production";
+console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+console.error(`${process.env.NODE_ENV}`);
+console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 import pkg from "./package.json";
 
@@ -14,17 +17,17 @@ const externals = Object.keys(pkg.dependencies);
 
 export default {
   external: [...externals, "path", "fs", "resolve", "rollup-pluginutils"],
-  input: "src/index.js",
+  input: isProd ? "src/index.js" : "src/example.js",
   output: [
     {
       file: pkg.main,
       format: "cjs",
-      sourcemap: true,
+      sourcemap: isProd,
     },
     {
       file: pkg.module,
       format: "es",
-      sourcemap: true,
+      sourcemap: isProd,
     },
   ],
   plugins: [
@@ -50,13 +53,13 @@ export default {
       // ],
     }),
     terser(),
-    isDev
-      ? serve({
+    isProd
+      ? null
+      : serve({
           open: true,
-          contentBase: ["dist"],
-          openPage: "index.html",
+          contentBase: ["./dist"],
+          openPage: "/index.html",
           host: "localhost",
-          port: 6000,
           // https: {
           //   key: fs.readFileSync("/path/to/server.key"),
           //   cert: fs.readFileSync("/path/to/server.crt"),
@@ -66,7 +69,6 @@ export default {
           //   "Access-Control-Allow-Origin": "*",
           //   foo: "bar",
           // },
-        })
-      : null,
+        }),
   ],
 };

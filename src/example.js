@@ -1,5 +1,5 @@
 import "core-js";
-import { BannerComponent } from "hi-cord-banner-module";
+import { BannerComponent } from "./lib";
 
 const PcBanners = [
   {

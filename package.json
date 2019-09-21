@@ -1,16 +1,16 @@
 {
-  "name": "hi-cord-banner-module",
+  "name": "hi-cord-eventer",
   "version": "1.0.0",
   "description": "hi-cord Banner Builder",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "scripts": {
     "build": "NODE_ENV=production rollup -c",
-    "dev": "NODE_ENV=development cd examples && rollup -c || cd .."
+    "dev": "NODE_ENV=development rollup -c"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Seolhun/hi-cord-banner-module.git"
+    "url": "git+https://github.com/Seolhun/hi-cord-eventer.git"
   },
   "keywords": [
     "vanilla",
@@ -21,9 +21,9 @@
   "author": "Seolhun",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Seolhun/hi-cord-banner-module/issues"
+    "url": "https://github.com/Seolhun/hi-cord-eventer/issues"
   },
-  "homepage": "https://github.com/Seolhun/hi-cord-banner-module#readme",
+  "homepage": "https://github.com/Seolhun/hi-cord-eventer#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "axios-mock-adapter": "^1.17.0",
@@ -51,6 +51,7 @@
     "rollup": "^1.21.4",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-bundle-html": "^0.2.1",
+    "rollup-plugin-bundle-imports": "^1.4.5",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-serve": "^1.0.1",
