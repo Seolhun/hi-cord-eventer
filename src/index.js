@@ -64,8 +64,9 @@ const mobile_banners = [
   }),
 ];
 
-let isMobile = WindowControlUtils.isMobile(window);
+const isMobile = WindowControlUtils.isMobile(window);
 const mock = new MockAdapter(axios);
+
 function getBanners(device = isMobile ? "mobile" : "desktop", count = 4) {
   mock.onGet("/banners", { params: { device, count } }).reply(200, {
     banners: device === "mobile" ? mobile_banners : pc_banners,
@@ -81,11 +82,11 @@ window.addEventListener("resize", event => {
 });
 
 const app = document.getElementById("app");
+console.error("@@", app);
+
 const BannerView = () => {
   getBanners().then(response => {
-    if (app.childNodes[1]) {
-      app.removeChild(app.childNodes[1]);
-    }
+    console.error("@@", response);
     const banners = response.data.banners;
     new BannerComponent({
       banners,
@@ -96,4 +97,5 @@ const BannerView = () => {
     }).view();
   });
 };
+
 BannerView();

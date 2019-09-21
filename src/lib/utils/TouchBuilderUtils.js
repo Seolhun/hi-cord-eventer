@@ -1,4 +1,4 @@
-import Hammer, { Manager, Tap, Swipe, Press } from "hammerjs";
+import Hammer from "hammerjs";
 
 class TouchBuilderUtils {
   static createdManager(element) {
