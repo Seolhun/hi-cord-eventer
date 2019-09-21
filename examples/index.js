@@ -1,3 +1,4 @@
+import "core-js";
 import { BannerComponent } from "hi-cord-banner-module";
 
 const PcBanners = [

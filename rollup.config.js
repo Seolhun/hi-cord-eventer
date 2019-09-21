@@ -2,11 +2,10 @@ import html from "rollup-plugin-bundle-html";
 import serve from "rollup-plugin-serve";
 import autoprefixer from "autoprefixer";
 import babel from "rollup-plugin-babel";
-import commonjs from "rollup-plugin-commonjs";
 import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";
 
-// const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development";
 
 import pkg from "./package.json";
 
@@ -33,9 +32,6 @@ export default {
     babel({
       exclude: /node_modules/,
     }),
-    commonjs({
-      include: /node_modules/,
-    }),
     postcss({
       extract: true,
       modules: true,
@@ -50,21 +46,23 @@ export default {
       //   { type: "js", file: "file2.js", pos: "before" },
       // ],
     }),
-    serve({
-      open: true,
-      contentBase: ["dist"],
-      openPage: "index.html",
-      host: "localhost",
-      port: 6000,
-      // https: {
-      //   key: fs.readFileSync("/path/to/server.key"),
-      //   cert: fs.readFileSync("/path/to/server.crt"),
-      //   ca: fs.readFileSync("/path/to/ca.pem"),
-      // },
-      // headers: {
-      //   "Access-Control-Allow-Origin": "*",
-      //   foo: "bar",
-      // },
-    }),
+    isDev
+      ? serve({
+          open: true,
+          contentBase: ["dist"],
+          openPage: "index.html",
+          host: "localhost",
+          port: 6000,
+          // https: {
+          //   key: fs.readFileSync("/path/to/server.key"),
+          //   cert: fs.readFileSync("/path/to/server.crt"),
+          //   ca: fs.readFileSync("/path/to/ca.pem"),
+          // },
+          // headers: {
+          //   "Access-Control-Allow-Origin": "*",
+          //   foo: "bar",
+          // },
+        })
+      : null,
   ],
 };
