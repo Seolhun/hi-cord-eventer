@@ -1,8 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { BannerComponent, BannerItem } from "./lib";
-import { WindowControlUtils } from "./lib/utils";
+import { BannerComponent } from "../src/lib";
 
 const pc_banners = [
   {
@@ -64,10 +63,9 @@ const mobile_banners = [
   }),
 ];
 
-const isMobile = WindowControlUtils.isMobile(window);
 const mock = new MockAdapter(axios);
 
-function getBanners(device = isMobile ? "mobile" : "desktop", count = 4) {
+function getBanners(device = "desktop", count = 4) {
   mock.onGet("/banners", { params: { device, count } }).reply(200, {
     banners: device === "mobile" ? mobile_banners : pc_banners,
   });

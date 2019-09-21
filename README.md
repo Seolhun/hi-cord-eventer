@@ -29,12 +29,11 @@
 
 ```javascript
 class Element {
-  constructor({ tag, attributes, children, on, touch }) {
+  constructor({ tag, attributes, children, on }) {
     this.tag = tag;
     this.attributes = attributes;
     this.children = children;
     this.on = new ElementCallback({ ...on });
-    this.touch = new ElementCallback({ ...touch });
   }
 }
 
@@ -88,6 +87,5 @@ new BannerComponent({
 
 ## - Library
 
-- [Hammer.JS - A JavaScript library for detecting touch gestures](https://github.com/hammerjs/hammer.js)
 - [axios - To use XHR easily](https://github.com/axios/axios)
 - [axios-mock-adapter - To build Mock using axios](https://github.com/ctimmerm/axios-mock-adapter)

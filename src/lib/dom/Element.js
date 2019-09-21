@@ -1,15 +1,13 @@
 import classnames from "classnames";
 
-import { TouchBuilderUtils } from "../utils";
 import { ElementCallback } from "./ElementCallback";
 
 export class Element {
-  constructor({ tag, attributes, children, on, touch }) {
+  constructor({ tag, attributes, children, on }) {
     this.tag = tag;
     this.attributes = attributes;
     this.children = children;
     this.on = new ElementCallback({ ...on });
-    this.touch = new ElementCallback({ ...touch });
   }
 
   render() {
@@ -67,35 +65,6 @@ export class Element {
         this.on.capture,
       );
     }
-
-    // Touch(Event)
-    if (this.touch && typeof this.touch.eventName !== "string") {
-      if (this.touch.eventName && typeof this.touch.eventName !== "string") {
-        throw new Error("The Element touch.event have to be string type");
-      }
-      if (this.touch.callback && typeof this.touch.callback !== "function") {
-        throw new Error("The Element touch.callback have to be function type");
-      }
-    }
-    if (this.touch) {
-      const manager = TouchBuilderUtils.createdManager(created_element);
-      if (this.touch.eventName === "tap") {
-        TouchBuilderUtils.createdTap(manager, 1, this.touch.callback);
-      }
-
-      if (this.touch.eventName === "double_tap") {
-        TouchBuilderUtils.createdTap(manager, 2, this.touch.callback);
-      }
-
-      if (this.touch.eventName === "press") {
-        TouchBuilderUtils.createdPress(manager, this.touch.callback);
-      }
-
-      if (this.touch.eventName === "swipe") {
-        TouchBuilderUtils.createdHorizontalSwipe(manager, this.touch.callback);
-      }
-    }
-
     return created_element;
   }
 }

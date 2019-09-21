@@ -14,7 +14,7 @@ export class BannerComponentModel {
   }
 }
 
-export default class BannerComponent extends BaseComponent {
+export class BannerComponent extends BaseComponent {
   constructor({
     target,
     banners,
@@ -144,17 +144,6 @@ export default class BannerComponent extends BaseComponent {
                   src: item.image,
                   className: styles["hero-item-image"],
                 },
-                touch: new ElementCallback({
-                  eventName: "swipe",
-                  callback: event => {
-                    if (event.deltaX > 30) {
-                      this.nextSlide();
-                    }
-                    if (event.deltaX < -30) {
-                      this.prevSlide();
-                    }
-                  },
-                }),
               }),
             ],
           }),
@@ -239,3 +228,5 @@ export default class BannerComponent extends BaseComponent {
     this._target.appendChild(bannerList.render());
   }
 }
+
+export default BannerComponent;
