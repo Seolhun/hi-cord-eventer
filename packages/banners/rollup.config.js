@@ -16,30 +16,31 @@ export default (async () => ({
   input: 'src/index.js',
   output: [
     {
-      format: 'iife',
+      format: 'cjs',
       file: pkg.main,
-      name: 'bundle',
       sourcemap: isProduction,
     },
     {
-      format: 'esm',
+      format: 'es',
       file: pkg.module,
       sourcemap: isProduction,
     },
   ],
   plugins: [
-    babel({
-      exclude: 'node_modules/**',
-    }),
     resolve({
       mainFields: ['main', 'module'],
       extensions: ['.js', '.jsx'],
     }),
-    commonjs(),
+    commonjs({
+      include: /node_modules/,
+    }),
+    babel({
+      exclude: /node_modules/,
+    }),
     postcss({
       extract: true,
-      modules: true,
       plugins: [autoprefixer],
+      modules: true,
     }),
     isProduction && terser(),
   ],
