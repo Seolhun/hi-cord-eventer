@@ -1,14 +1,14 @@
-# HERO Banner UI Module using VanillaJS
+# Hi-Cord Banner UI Module using VanillaJS
 
 - Author : Seolhun
 - StartedDate : 2018.04.10
 
 ## Goal
 
-- Creating Banner UI easilly inserting data or api.
-- Responsive UI by devices.
-- Mock API server in Client.
-- MultiThread using Browswer and GPU
+- [x] Creating Banner UI easilly inserting data or api.
+- [x] Responsive UI by devices.
+- [ ] Mock API server in Client.
+- [ ] MultiThread using Browswer and GPU
 
 ## Module Spec
 
