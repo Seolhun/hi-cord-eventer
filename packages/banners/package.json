@@ -1,9 +1,20 @@
 {
+  "license": "MIT",
   "name": "@seolhun/hi-cord-eventer-banners",
   "version": "1.0.0",
+  "author": {
+    "name": "Seolhun",
+    "email": "shun10116@gmail.com",
+    "url": "https://github.com/Seolhun"
+  },
   "description": "hi-cord Banner Builder",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production rollup -c"
@@ -18,8 +29,6 @@
     "banner",
     "module"
   ],
-  "author": "Seolhun",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Seolhun/hi-cord-eventer/issues"
   },
@@ -34,13 +43,6 @@
     "autoprefixer": "^9.6.1",
     "css-loader": "^3.2.0",
     "node-sass": "^4.12.0",
-    "rollup": "^1.21.4",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-bundle-imports": "^1.4.5",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.0.0",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-terser": "^5.1.2",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0"
   }

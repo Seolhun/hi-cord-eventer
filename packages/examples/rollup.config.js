@@ -1,42 +1,45 @@
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 import html from 'rollup-plugin-bundle-html';
 import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const externals = Object.keys(pkg.dependencies);
 
-export default {
+export default (async () => ({
   external: [...externals, 'path', 'fs', 'resolve', 'rollup-pluginutils'],
-  input: 'src/example.js',
+  input: 'src/index.js',
+  dest: 'dist/index.js',
   output: [
     {
+      format: 'iife',
       file: pkg.main,
-      format: 'es',
-      sourcemap: true,
+      name: 'bundle',
+      sourcemap: isProduction,
     },
     {
+      format: 'esm',
       file: pkg.module,
-      format: 'cjs',
-      sourcemap: true,
+      sourcemap: isProduction,
     },
   ],
   plugins: [
+    babel({
+      exclude: 'node_modules/**',
+    }),
     resolve({
       mainFields: ['main', 'module'],
       extensions: ['.js', '.jsx'],
     }),
     commonjs(),
-    babel({
-      exclude: /node_modules/,
-    }),
     postcss({
       extract: true,
       modules: true,
@@ -46,16 +49,11 @@ export default {
       template: 'static/index.html',
       dest: 'dist',
       filename: 'index.html',
-      // externals: [
-      //   { type: "js", file: "file1.js", pos: "before" },
-      //   { type: "js", file: "file2.js", pos: "before" },
-      // ],
     }),
-    terser(),
-    isProd
-      ? null
-      : serve({
-        // open: true,
+    isProduction && terser(),
+    !isProduction && (
+      serve({
+        open: true,
         contentBase: ['./dist'],
         openPage: '/index.html',
         host: 'localhost',
@@ -69,5 +67,7 @@ export default {
         //   foo: "bar",
         // },
       }),
+      livereload()
+    ),
   ],
-};
+}))();

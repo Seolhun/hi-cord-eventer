@@ -7,37 +7,40 @@ import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const externals = Object.keys(pkg.dependencies);
 
-export default {
+export default (async () => ({
   external: [...externals, 'path', 'fs', 'resolve', 'rollup-pluginutils'],
   input: 'src/index.js',
   output: [
     {
+      format: 'iife',
       file: pkg.main,
-      format: 'es',
-      sourcemap: true,
+      name: 'bundle',
+      sourcemap: isProduction,
     },
     {
+      format: 'esm',
       file: pkg.module,
-      format: 'cjs',
-      sourcemap: true,
+      sourcemap: isProduction,
     },
   ],
   plugins: [
+    babel({
+      exclude: 'node_modules/**',
+    }),
     resolve({
       mainFields: ['main', 'module'],
       extensions: ['.js', '.jsx'],
     }),
     commonjs(),
-    babel({
-      exclude: /node_modules/,
-    }),
     postcss({
       extract: true,
       modules: true,
       plugins: [autoprefixer],
     }),
-    terser(),
+    isProduction && terser(),
   ],
-};
+}))();
