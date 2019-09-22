@@ -56,13 +56,8 @@ new BannerComponent({
 }).view();
 ```
 
-## Feature
-
-1. You can custom Dom CSS to input className using ElementItem.js or Not.
-
-- I used [classnames](https://github.com/JedWatson/classnames) utility in `Element.js` for including many classnames easily.
-
-2. You can custom
+#### Examples
+- [http://hi-cord-banners.surge.sh]([hi-cord-banners.surge.sh](http://hi-cord-banners.surge.sh))
 
 #### Details Component
 
