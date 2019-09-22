@@ -6,8 +6,6 @@ const baseWebpackConfig = require('./webpack.base.conf');
 const utils = require('./utils');
 const config = require('../config');
 
-const IS_TESTING = process.env.NODE_ENV === 'testing';
-
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
   module: {
@@ -29,8 +27,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
     }),
     new HtmlWebpackPlugin({
-      filename: IS_TESTING ? 'index.html' : config.build.index,
-      template: 'index.html',
+      filename: 'index.html',
+      template: config.build.index,
       inject: true,
       minify: {
         removeComments: true,
@@ -50,12 +48,12 @@ if (config.build.productionGzip) {
       filename: '[path].gz[query]',
       algorithm: 'gzip',
       test: new RegExp(
-        `\\.(${config.build.productionGzipExtensions.join('|')})$`
+        `\\.(${config.build.productionGzipExtensions.join('|')})$`,
       ),
       cache: true,
       threshold: 8192,
       minRatio: 0.8,
-    })
+    }),
   );
 }
 
