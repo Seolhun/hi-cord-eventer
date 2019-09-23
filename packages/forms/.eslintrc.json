@@ -1,0 +1,11 @@
+{
+    "extends": "airbnb",
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "warn"
+      ],
+      "global-require": [
+        "warn"
+      ]
+    }
+}
