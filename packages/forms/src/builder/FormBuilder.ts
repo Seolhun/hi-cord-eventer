@@ -1,50 +1,44 @@
-import { ValidationResponse } from '@seolhun/localize-components-types';
+export interface ValidationResponse {
+  hasError: boolean;
+  message: string;
+}
 
-/* eslint-disable no-underscore-dangle */
-export const FORM_PROPERTIES = {
-  value: 'value',
-  hasError: 'hasError',
-  message: 'message',
-  isRequired: 'isRequired',
-  requiredMessage: 'requiredMessage',
-  // Events
-  onValidation: 'onValidation',
-  // Options
-  isOnCreatedValidation: 'isOnCreatedValidation',
-  isOnChangeValidation: 'isOnChangeValidation',
-  onGroupValidation: 'onGroupValidation',
-};
+export interface FormBuilderValues {
+  value: string | number | boolean;
+  hasError?: boolean;
+  message?: string;
+}
+
+export interface FormBuilderProperties extends FormBuilderValues {
+  type?: string;
+  isRequired?: boolean;
+  requiredMessage?: string;
+  htmlFor?: string;
+  isFocus?: boolean;
+  onValidation: (value: string | number | boolean) => ValidationResponse;
+}
+
+export interface FormBuilderOptions {
+  onGroupValidation?: (value: string) => ValidationResponse;
+  isOnCreatedValidation?: boolean;
+  isOnChangeValidation?: boolean;
+}
+
 
 export interface FormBuilderProps {
-  properties: Properties;
+  properties: FormBuilderProperties;
   handleOnValidation: (value?: any) => FormBuilder;
   setProperties: (Properties) => FormBuilder;
   setValue: (value) => FormBuilder;
-  getPropertyValueBy: (keyName: string) => any;
-  getProperties: () => Properties;
+  getPropertyValueBy: (keyName: keyof FormBuilderProperties) => any;
+  getProperties: () => FormBuilderProperties;
   getValues: () => void;
 }
 
-export interface Properties {
-  value: any;
-  hasError: boolean;
-  message: string;
-  isRequired: boolean;
-  requiredMessage: string;
-  // Events
-  onValidation: (value: string) => ValidationResponse;
-}
 
-export interface Options {
-  // Options
-  isOnCreatedValidation: boolean;
-  isOnChangeValidation: boolean;
-  onGroupValidation: (value: string) => ValidationResponse;
-}
-
-class FormBuilder implements FormBuilderProps {
-  properties: Properties;
-  options: Options;
+export class FormBuilder implements FormBuilderProps {
+  properties: FormBuilderProperties;
+  options: FormBuilderOptions;
 
   constructor(properties, options) {
     const formProperties = this._initForm(properties, options);
@@ -56,11 +50,14 @@ class FormBuilder implements FormBuilderProps {
   private _initForm = (
     {
       // Values
-      value,
+      value = '',
+      type = 'text',
       hasError = false,
       message = '',
       isRequired = false,
-      requiredMessage,
+      requiredMessage = '',
+      htmlFor = '',
+      isFocus = false,
       // Events
       onValidation = (value: string) => ({
         hasError: false,
@@ -68,9 +65,9 @@ class FormBuilder implements FormBuilderProps {
       }),
     },
     {
+      onGroupValidation,
       isOnCreatedValidation = false,
       isOnChangeValidation = false,
-      onGroupValidation,
     },
   ) => {
     let isValidObject = {
@@ -83,10 +80,13 @@ class FormBuilder implements FormBuilderProps {
 
     const properties = {
       value,
+      type,
       hasError: isValidObject.hasError,
       message: isValidObject.message,
       isRequired,
       requiredMessage,
+      htmlFor,
+      isFocus,
       onValidation,
     };
     const options = {
@@ -137,7 +137,14 @@ class FormBuilder implements FormBuilderProps {
   /**
    * Finished Methods
    */
-  getPropertyValueBy(propertyKey) {
+  getValidation(): ValidationResponse {
+    return {
+      hasError: this.properties.hasError,
+      message: this.properties.message,
+    }
+  }
+
+  getPropertyValueBy(propertyKey: keyof FormBuilderProperties) {
     return this.properties[propertyKey];
   }
 
@@ -145,7 +152,7 @@ class FormBuilder implements FormBuilderProps {
     return this.properties;
   }
 
-  getValues() {
+  getValues(): FormBuilderValues {
     const { value, hasError, message } = this.properties;
 
     return {
