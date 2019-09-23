@@ -57,7 +57,7 @@ new BannerComponent({
 ```
 
 #### Examples
-- [http://hi-cord-banners.surge.sh]([hi-cord-banners.surge.sh](http://hi-cord-banners.surge.sh))
+- <a href='http://hi-cord-banners.surge.sh' target='_blank' rel='noopener noreferrer'>http://hi-cord-banners.surge.sh</a>
 
 #### Details Component
 
