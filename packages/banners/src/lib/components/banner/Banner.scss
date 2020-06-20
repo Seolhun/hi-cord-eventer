@@ -8,15 +8,16 @@ $max-width: 1200px;
       Style
 ===============*/
 
-:local .hero-slide {
+.__SH__slide {
   max-width: $max-width;
   position: relative;
   margin: auto;
-  .hero-item {
+
+  .item {
     width: 100%;
     height: 100%;
-    .hero-item-link {
-      .hero-item-image {
+    .link {
+      .image {
         width: 100%;
         height: 100%;
       }
@@ -28,22 +29,19 @@ $max-width: 1200px;
       display: none;
     }
   }
-  .hero-nav {
+
+  .navigation {
+    position: absolute;
     top: 45%;
     left: 0;
     right: 0;
-    position: absolute;
-    .prev,
-    .next {
-      background: url(//cdn.lezhin.com/files/assets/page/image/hero-arrow.png)
-        no-repeat;
-      background-size: cover;
-      border: 0;
-      box-sizing: border-box;
-      cursor: pointer;
-      padding: 25px;
+    .prev, .next {
       position: absolute;
+      border: 0;
+      padding: 25px;
+      cursor: pointer;
       z-index: 10;
+
       @media screen and (max-width: $break-mobile) {
         display: none;
         height: 100%;
@@ -58,7 +56,8 @@ $max-width: 1200px;
       background-position: 0px -50px;
     }
   }
-  .hero-indicator {
+
+  .indicator {
     bottom: 0;
     left: 0;
     right: 0;
@@ -69,7 +68,8 @@ $max-width: 1200px;
     @media screen and (max-width: $break-mobile) {
       margin: 10px 0;
     }
-    .hero-indicator-btn {
+
+    .indicator-button {
       cursor: pointer;
       display: inline-block;
       width: 15px;
@@ -82,6 +82,7 @@ $max-width: 1200px;
         width: 10px;
         height: 10px;
       }
+
       &.on {
         opacity: 1;
       }
@@ -91,19 +92,8 @@ $max-width: 1200px;
 
 /* Fading animation */
 .fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
   animation-name: fade;
   animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 @keyframes fade {
