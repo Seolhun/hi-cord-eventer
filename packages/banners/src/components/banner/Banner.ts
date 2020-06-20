@@ -67,7 +67,7 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
   timeouts: NodeJS.Timeout | any;
 
   constructor(
-    target: HTMLElement,
+    target: HTMLElement | null,
     { banners, infinity = true, autoSlide = true, delayTime = 5000 }: BannerProps<T>
   ) {
     super({ target });
@@ -257,9 +257,10 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
         }),
       ],
     });
+    console.log(banner.element);
     this.element = banner.element;
   }
 }
 
-export { Banner };
+export { Banner, BannerProps, BannerItemProps };
 export default Banner;

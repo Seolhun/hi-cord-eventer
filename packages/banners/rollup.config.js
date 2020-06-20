@@ -1,46 +1,46 @@
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
+import typescript from 'rollup-plugin-typescript2';
 import autoprefixer from 'autoprefixer';
 import postcssFlexboxfixer from 'postcss-flexboxfixer';
-import { terser } from 'rollup-plugin-terser';
+// import { terser } from 'rollup-plugin-terser';
 
 import pkg from '../../package.json';
 
 let externals = [];
-if (pkg.dependencies) {
-  externals = Object.keys(pkg.dependencies);
+if (pkg.peerDependencies) {
+  externals = Object.keys(pkg.peerDependencies);
 }
 
 export default {
   input: './src/index.ts',
   output: [
-    {
-      format: 'cjs',
-      file: 'dist/index.js',
-    },
+    // {
+    //   format: 'cjs',
+    //   file: 'dist/index.js',
+    // },
     {
       format: 'es',
       file: 'dist/index.esm.js',
     },
-    {
-      format: 'cjs',
-      file: 'dist/index.min.js',
-      plugins: [terser()],
-    },
-    {
-      format: 'es',
-      file: 'dist/index.esm.min.js',
-      plugins: [terser()],
-    },
+    // {
+    //   format: 'cjs',
+    //   file: 'dist/index.min.js',
+    //   plugins: [terser()],
+    // },
+    // {
+    //   format: 'es',
+    //   file: 'dist/index.esm.min.js',
+    //   plugins: [terser()],
+    // },
   ],
   external: [...externals],
   plugins: [
     resolve({
       mainFields: ['module', 'main'],
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     }),
     commonjs({
       include: /node_modules/,
@@ -56,6 +56,6 @@ export default {
       extract: true,
       plugins: [autoprefixer, postcssFlexboxfixer],
       modules: true,
-    })
+    }),
   ],
 };

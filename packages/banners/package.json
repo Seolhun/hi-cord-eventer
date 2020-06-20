@@ -17,6 +17,9 @@
     "build": "rollup -c",
     "test": "echo 'There are no test'"
   },
+  "peerDependencies": {
+    "classnames": "^2.2.6"
+  },
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com/seolhun/hi-cord-events.git",

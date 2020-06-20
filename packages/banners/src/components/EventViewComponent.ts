@@ -1,11 +1,11 @@
 interface EventViewComponentProps {
-  target: HTMLElement;
+  target: HTMLElement | null;
 
   element?: HTMLElement;
 }
 
 abstract class EventViewComponent implements EventViewComponentProps {
-  target: HTMLElement;
+  target: HTMLElement | null;
 
   element?: HTMLElement;
 

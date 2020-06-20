@@ -29,7 +29,6 @@
     // Customized
     "declaration": true,
     "outDir": "dist",
-    "declarationDir": "dist"
   },
   "exclude": [".vscode", "node_modules/**", "__test__/**"]
 }
