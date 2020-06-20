@@ -1,0 +1,27 @@
+sudo: required
+
+language: node_js
+
+node_js:
+  - "10"
+
+install:
+  - npm ci
+
+cache:
+  npm: true
+  directories:
+    - "node_modules"
+
+script:
+  - npm run bs
+  - npm run lint
+  - npm run test
+  - npm run build
+
+notifications:
+  email:
+    - shun10116@gmail.com
+  slack:
+    rooms:
+      - hi-cordworkspace:EC6Q4SIRTddzUEE0rMDXrSl6#dev-travis
