@@ -1,5 +1,6 @@
 {
   "name": "@seolhun/event-banner",
+  "license": "MIT",
   "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -8,10 +9,6 @@
     "package.json",
     "README.md"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com/@seolhun"
-  },
   "scripts": {
     "prettier": "prettier --write './src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
@@ -24,6 +21,5 @@
     "type": "git",
     "url": "ssh://git@github.com/seolhun/hi-cord-events.git",
     "directory": "packages/event-banner"
-  },
-  "license": "MIT"
+  }
 }

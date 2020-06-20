@@ -1,17 +1,13 @@
 {
-  "version": "0.0.1",
   "packages": [
     "packages/*"
   ],
-  "command": {
+  "version": "0.0.1",
+  "common": {
     "publish": {
       "allowBranch": [
         "master",
         "develop"
-      ],
-      "ignoreChanges": [
-        "**/__test__",
-        "**/*.md"
       ]
     }
   }

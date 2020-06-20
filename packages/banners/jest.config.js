@@ -3,7 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.test.json',
+      tsConfig: 'tsconfig.json',
       isolatedModules: true,
       diagnostics: {
         pathRegex: /\.(spec|test)\.ts?(x)$/,
