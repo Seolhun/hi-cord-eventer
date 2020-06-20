@@ -53,9 +53,9 @@ export default {
       exclude: /node_modules/,
     }),
     postcss({
-      extract: true,
+      extract: false,
+      modules: false,
       plugins: [autoprefixer, postcssFlexboxfixer],
-      modules: true,
     }),
   ],
 };

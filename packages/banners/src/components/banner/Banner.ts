@@ -79,6 +79,7 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
     this.currentPage = 1;
     this.lastPage = banners.length;
     this.timeouts = null;
+    this.render();
   }
 
   showSlide(currentSlide: number) {
@@ -257,7 +258,6 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
         }),
       ],
     });
-    console.log(banner.element);
     this.element = banner.element;
   }
 }

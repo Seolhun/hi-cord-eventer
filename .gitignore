@@ -24,10 +24,6 @@ yarn-error.*
 # dotenv environment variables file
 .env
 
-# Compile CSS files
-*.css
-*.css.map
-
 # Report
 coverage/
 

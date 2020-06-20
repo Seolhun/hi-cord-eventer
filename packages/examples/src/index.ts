@@ -1,7 +1,5 @@
 import { Banner } from '@seolhun/event-banner';
 
-import '@seolhun/hi-cord-eventer-banners/dist/index.css';
-
 const banners = [
   {
     src: 'https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBanner',
