@@ -1,4 +1,4 @@
-import { BannerComponent } from '@seolhun/hi-cord-eventer-banners';
+import { BannerComponent } from '@seolhun/eventer-banners';
 
 import '@seolhun/hi-cord-eventer-banners/dist/index.css';
 

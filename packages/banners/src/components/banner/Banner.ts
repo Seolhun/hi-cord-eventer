@@ -5,7 +5,13 @@ import { Element } from '../../dom';
 
 import './Banner.scss';
 
-interface BannerProps<T = any> {
+interface BannerItemProps {
+  src: string;
+
+  href: string;
+}
+
+interface BannerProps<T extends BannerItemProps> {
   banners: T[];
 
   /**
@@ -24,7 +30,7 @@ interface BannerProps<T = any> {
   delayTime?: number;
 }
 
-class Banner<T> extends EventViewComponent implements BannerProps<T> {
+class Banner<T extends BannerItemProps> extends EventViewComponent implements BannerProps<T> {
   banners: T[];
 
   /**
@@ -61,7 +67,7 @@ class Banner<T> extends EventViewComponent implements BannerProps<T> {
   timeouts: NodeJS.Timeout | any;
 
   constructor(
-    target: string,
+    target: HTMLElement,
     { banners, infinity = true, autoSlide = true, delayTime = 5000 }: BannerProps<T>
   ) {
     super({ target });
@@ -157,60 +163,58 @@ class Banner<T> extends EventViewComponent implements BannerProps<T> {
     }
   }
 
-  createBannerItems(items: T[]) {
-    if (!Array.isArray(items)) {
+  createBannerItems() {
+    if (!Array.isArray(this.banners)) {
       throw new Error('The Element children have to be Array type');
     }
 
-    return items.map((item, index) => new Element({
-      tag: 'div',
-      attributes: {
-        className: classnames(['item', index === 0 ? 'on' : 'off', 'fade']),
-      },
-      childrens: [
-        new Element<'a'>({
-          tag: 'a',
-          attributes: {
-            href: item.link,
-            className: 'link',
-          },
-          childrens: [
-            new Element<'img'>({
-              tag: 'img',
-              attributes: {
-                src: item,
-                className: 'image',
-              },
-            }),
-          ],
-        }),
-      ],
-    }));
+    return this.banners.map((banner, index) => {
+      return new Element<'div'>({
+        tag: 'div',
+        attributes: {
+          className: classnames(['item', index === 0 ? 'on' : 'off', 'fade']),
+        },
+        childrens: [
+          new Element<'a'>({
+            tag: 'a',
+            attributes: {
+              href: banner.href,
+              className: 'link',
+            },
+            childrens: [
+              new Element<'img'>({
+                tag: 'img',
+                attributes: {
+                  src: banner.src,
+                  className: 'image',
+                },
+              }),
+            ],
+          }),
+        ],
+      })
+    });
   }
 
-  createBannerIndcators(items) {
-    if (!Array.isArray(items)) {
+  createBannerIndcators() {
+    if (!Array.isArray(this.banners)) {
       throw new Error('The Element children have to be Array type');
     }
-    return items.map(
-      (item, index) =>
-        new Element<HTMLDivElement>({
-          tag: 'i',
-          attributes: {},
-          // attributes: {
-          //   className: ['indicator-button', index === 0 ? 'on' : ''],
-          // },
-          event: {
-            onClick: () => this.showSlide(index + 1),
-          },
-        })
+    return this.banners.map((_, index) =>
+      new Element<'i'>({
+        tag: 'i',
+        attributes: {
+          className: classnames(['indicator-button', index === 0 ? 'on' : '']),
+          onclick: () => this.showSlide(index + 1),
+        },
+      })
     );
   }
 
   render() {
     this.cleaAutoSlidingTime();
-    const bannerList = new Element({
-      tag: 'aside',
+    const banner = new Element({
+      tag: 'div',
       childrens: [
         new Element<'div'>({
           tag: 'div',
@@ -219,7 +223,7 @@ class Banner<T> extends EventViewComponent implements BannerProps<T> {
             className: '__SH__slide',
           },
           childrens: [
-            ...this.createBannerItems(this.banners),
+            ...this.createBannerItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
@@ -247,13 +251,13 @@ class Banner<T> extends EventViewComponent implements BannerProps<T> {
               attributes: {
                 className: 'indicator',
               },
-              childrens: [...this.createBannerIndcators(this.vm.banners)],
+              childrens: [...this.createBannerIndcators()],
             }),
           ],
         }),
       ],
     });
-    this.target.appendChild(bannerList.render());
+    this.element = banner.element;
   }
 }
 
