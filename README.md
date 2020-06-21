@@ -29,7 +29,7 @@
 import { Slide } from '@seolhun/events';
 
 new Slide(document.getElementById('slide'), {
-  slides,
+  items,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,
@@ -40,7 +40,7 @@ new Slide(document.getElementById('slide'), {
 import { Slide } from '@seolhun/events';
 
 SHEvent('slide')(document.getElementById('slide'), {
-  slides,
+  items,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,
