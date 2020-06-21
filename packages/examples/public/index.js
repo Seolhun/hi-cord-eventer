@@ -238,7 +238,6 @@
         }
 
         this.changedItemsEvent();
-        this.autoSliding();
       }, this.delayTime);
     }
 

@@ -18,6 +18,7 @@
     "watch": "rollup -c -w",
     "start": "serve public -p 8080",
     "dev": "npm-run-all --parallel watch start",
+    "deploy": "surge public hi-cord-eventer.surge.sh",
     "test": "echo 'There are no test'"
   },
   "repository": {

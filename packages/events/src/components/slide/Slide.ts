@@ -148,7 +148,6 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
         this.currentPage = this.currentPage + 1;
       }
       this.changedItemsEvent();
-      this.autoSliding();
     }, this.delayTime);
   }
 
