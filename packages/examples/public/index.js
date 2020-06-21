@@ -141,7 +141,7 @@
     }
   }
 
-  var css_248z = "/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__slide {\n  max-width: 1200px;\n  position: relative;\n  margin: auto; }\n  .__SH__slide .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__slide .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__slide .item.on {\n      display: block !important; }\n    .__SH__slide .item.off {\n      display: none; }\n  .__SH__slide .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0; }\n    .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__slide .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__slide .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__slide .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__slide .indicator {\n        margin: 10px 0; } }\n    .__SH__slide .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__slide .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
+  var css_248z = "/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__slide {\n  max-width: 1200px;\n  position: relative;\n  margin: auto; }\n  .__SH__slide:hover .navigation {\n    opacity: 1; }\n  .__SH__slide .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__slide .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__slide .item.on {\n      display: block !important; }\n    .__SH__slide .item.off {\n      display: none; }\n  .__SH__slide .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0;\n    opacity: 0; }\n    .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__slide .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__slide .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__slide .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__slide .indicator {\n        margin: 10px 0; } }\n    .__SH__slide .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__slide .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
   styleInject(css_248z);
 
   class Slide extends EventComponent {
@@ -159,38 +159,23 @@
       this.autoSlide = autoSlide;
       this.delayTime = delayTime; // DEFAULT_OPTION
 
-      this.currentPage = 1;
-      this.lastPage = slides.length;
+      this.currentPage = 0;
+      this.lastPage = slides.length - 1;
       this.timeouts = null;
 
       if (this.autoSlide) {
-        this.autoSliding();
+        this.initAutoSlide();
       }
 
       this.render();
-    }
-
-    showSlide(currentSlide) {
-      if (this.isLast()) {
-        this.currentPage = 0;
-        return;
-      }
-
-      if (this.isFirst()) {
-        this.currentPage = this.lastPage;
-        return;
-      }
-
-      this.currentPage = currentSlide;
-      this.changedItemsEvent();
     }
 
     changedItemsEvent() {
       const slideItems = document.getElementsByClassName('item');
       const slideDots = document.getElementsByClassName('indicator-button');
 
-      for (let i = 0; i < this.lastPage; i += 1) {
-        if (this.currentPage - 1 === i) {
+      for (let i = 0; i <= this.lastPage; i += 1) {
+        if (this.currentPage === i) {
           slideItems[i].classList.add('on');
           slideDots[i].classList.add('on');
         } else {
@@ -201,51 +186,55 @@
       }
     }
 
-    prevSlide() {
-      if (this.isFirst()) {
-        return this.showSlide(this.lastPage);
+    initAutoSlide() {
+      if (!this.infinity && !this.isLast()) {
+        return;
       }
 
-      return this.showSlide(this.currentPage - 1);
+      this.timeouts = setInterval(() => {
+        this.nextSlide();
+      }, this.delayTime);
+      return this;
     }
 
-    nextSlide() {
-      if (this.isLast()) {
-        return this.showSlide(1);
-      }
-
-      return this.showSlide(this.currentPage + 1);
-    }
-
-    isFirst() {
-      return this.currentPage <= 1;
+    clearAutoSlideTimeouts() {
+      clearInterval(this.timeouts);
+      return this;
     }
 
     isLast() {
       return this.currentPage >= this.lastPage;
     }
 
-    autoSliding() {
-      if (!this.infinity && this.isLast()) {
-        return;
+    showSlide(nextSlide) {
+      if (nextSlide < 0) {
+        this.currentPage = this.lastPage;
+      } else if (nextSlide > this.lastPage) {
+        this.currentPage = 0;
+      } else {
+        this.currentPage = nextSlide;
       }
 
-      this.timeouts = setInterval(() => {
-        if (this.isLast()) {
-          this.currentPage = 1;
-        } else {
-          this.currentPage = this.currentPage + 1;
-        }
-
-        this.changedItemsEvent();
-      }, this.delayTime);
+      console.log(this.currentPage);
+      this.changedItemsEvent();
     }
 
-    cleaAutoSlidingTime() {
-      clearInterval(this.timeouts);
+    prevSlide() {
+      this.showSlide(this.currentPage - 1);
+      this.clearAutoSlideTimeouts().initAutoSlide();
     }
 
-    createSlideItems() {
+    nextSlide() {
+      this.showSlide(this.currentPage + 1);
+      this.clearAutoSlideTimeouts().initAutoSlide();
+    }
+
+    onClickIndicator(index) {
+      this.showSlide(index);
+      this.clearAutoSlideTimeouts().initAutoSlide();
+    }
+
+    renderSlideItems() {
       if (!Array.isArray(this.slides)) {
         throw new Error('The Element children have to be Array type');
       }
@@ -274,16 +263,12 @@
       });
     }
 
-    createSlideIndcators() {
-      if (!Array.isArray(this.slides)) {
-        throw new Error('The Element children have to be Array type');
-      }
-
+    renderSlideIndicators() {
       return this.slides.map((_, index) => new Element({
         tag: 'i',
         attributes: {
           className: classnames(['indicator-button', index === 0 ? 'on' : '']),
-          onclick: () => this.showSlide(index + 1)
+          onclick: () => this.onClickIndicator(index)
         }
       }));
     }
@@ -297,7 +282,7 @@
             id: '__SH__slide',
             className: '__SH__slide'
           },
-          childrens: [...this.createSlideItems(), new Element({
+          childrens: [...this.renderSlideItems(), new Element({
             tag: 'div',
             attributes: {
               className: 'navigation'
@@ -320,7 +305,7 @@
             attributes: {
               className: 'indicator'
             },
-            childrens: [...this.createSlideIndcators()]
+            childrens: [...this.renderSlideIndicators()]
           })]
         })]
       });

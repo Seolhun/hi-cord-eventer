@@ -17,7 +17,7 @@ export class Element<K extends keyof HTMLElementTagNameMap> {
   render(
     tag: K,
     attributes?: Partial<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>,
-    childrens?: Element<keyof HTMLElementTagNameMap | any>[],
+    childrens?: Element<keyof HTMLElementTagNameMap | any>[]
   ) {
     this.element = document.createElement(tag);
     if (attributes) {

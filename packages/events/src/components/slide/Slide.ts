@@ -76,34 +76,21 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
     this.autoSlide = autoSlide;
     this.delayTime = delayTime;
     // DEFAULT_OPTION
-    this.currentPage = 1;
-    this.lastPage = slides.length;
+    this.currentPage = 0;
+    this.lastPage = slides.length - 1;
     this.timeouts = null;
 
     if (this.autoSlide) {
-      this.autoSliding();
+      this.initAutoSlide();
     }
     this.render();
-  }
-
-  showSlide(currentSlide: number) {
-    if (this.isLast()) {
-      this.currentPage = 0;
-      return;
-    }
-    if (this.isFirst()) {
-      this.currentPage = this.lastPage;
-      return;
-    }
-    this.currentPage = currentSlide;
-    this.changedItemsEvent();
   }
 
   changedItemsEvent() {
     const slideItems = document.getElementsByClassName('item');
     const slideDots = document.getElementsByClassName('indicator-button');
-    for (let i = 0; i < this.lastPage; i += 1) {
-      if (this.currentPage - 1 === i) {
+    for (let i = 0; i <= this.lastPage; i += 1) {
+      if (this.currentPage === i) {
         slideItems[i].classList.add('on');
         slideDots[i].classList.add('on');
       } else {
@@ -114,48 +101,54 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
     }
   }
 
-  prevSlide() {
-    if (this.isFirst()) {
-      return this.showSlide(this.lastPage);
+  initAutoSlide() {
+    if (!this.infinity && !this.isLast()) {
+      return;
     }
-    return this.showSlide(this.currentPage - 1);
+
+    this.timeouts = setInterval(() => {
+      this.nextSlide();
+    }, this.delayTime);
+    return this;
   }
 
-  nextSlide() {
-    if (this.isLast()) {
-      return this.showSlide(1);
-    }
-    return this.showSlide(this.currentPage + 1);
-  }
-
-  isFirst() {
-    return this.currentPage <= 1;
+  clearAutoSlideTimeouts() {
+    clearInterval(this.timeouts);
+    return this;
   }
 
   isLast() {
     return this.currentPage >= this.lastPage;
   }
 
-  autoSliding() {
-    if (!this.infinity && this.isLast()) {
-      return;
+  showSlide(nextSlide: number) {
+    if (nextSlide < 0) {
+      this.currentPage = this.lastPage;
+    } else if (nextSlide > this.lastPage) {
+      this.currentPage = 0;
+    } else {
+      this.currentPage = nextSlide;
     }
-
-    this.timeouts = setInterval(() => {
-      if (this.isLast()) {
-        this.currentPage = 1;
-      } else {
-        this.currentPage = this.currentPage + 1;
-      }
-      this.changedItemsEvent();
-    }, this.delayTime);
+    console.log(this.currentPage);
+    this.changedItemsEvent();
   }
 
-  cleaAutoSlidingTime() {
-    clearInterval(this.timeouts);
+  prevSlide() {
+    this.showSlide(this.currentPage - 1);
+    this.clearAutoSlideTimeouts().initAutoSlide();
   }
 
-  createSlideItems() {
+  nextSlide() {
+    this.showSlide(this.currentPage + 1);
+    this.clearAutoSlideTimeouts().initAutoSlide();
+  }
+
+  onClickIndicator(index: number) {
+    this.showSlide(index);
+    this.clearAutoSlideTimeouts().initAutoSlide();
+  }
+
+  renderSlideItems() {
     if (!Array.isArray(this.slides)) {
       throw new Error('The Element children have to be Array type');
     }
@@ -184,22 +177,20 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
             ],
           }),
         ],
-      })
+      });
     });
   }
 
-  createSlideIndcators() {
-    if (!Array.isArray(this.slides)) {
-      throw new Error('The Element children have to be Array type');
-    }
-    return this.slides.map((_, index) =>
-      new Element<'i'>({
-        tag: 'i',
-        attributes: {
-          className: classnames(['indicator-button', index === 0 ? 'on' : '']),
-          onclick: () => this.showSlide(index + 1),
-        },
-      })
+  renderSlideIndicators() {
+    return this.slides.map(
+      (_, index) =>
+        new Element<'i'>({
+          tag: 'i',
+          attributes: {
+            className: classnames(['indicator-button', index === 0 ? 'on' : '']),
+            onclick: () => this.onClickIndicator(index),
+          },
+        })
     );
   }
 
@@ -214,7 +205,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
             className: '__SH__slide',
           },
           childrens: [
-            ...this.createSlideItems(),
+            ...this.renderSlideItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
@@ -242,7 +233,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
               attributes: {
                 className: 'indicator',
               },
-              childrens: [...this.createSlideIndcators()],
+              childrens: [...this.renderSlideIndicators()],
             }),
           ],
         }),

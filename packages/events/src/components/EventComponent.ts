@@ -1,4 +1,4 @@
-import { SHEventProps } from "../SHEvent";
+import { SHEventProps } from '../SHEvent';
 
 interface EventComponentProps {
   target: SHEventProps['target'];
@@ -27,8 +27,5 @@ abstract class EventComponent implements EventComponentProps {
   }
 }
 
-export {
-  EventComponentProps,
-  EventComponent
-};
+export { EventComponentProps, EventComponent };
 export default EventComponent;
