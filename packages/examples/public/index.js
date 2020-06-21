@@ -85,20 +85,24 @@
 
   class Element {
     constructor(props) {
+      this.element = this.render(props);
+    }
+
+    render(props) {
       const {
         tag,
         attributes,
+        style,
         childrens
       } = props;
-      this.element = this.render(tag, attributes, childrens);
-    }
-
-    render(tag, attributes, childrens) {
       this.element = document.createElement(tag);
 
       if (attributes) {
-        Object.assign(this.element, { ...attributes
-        });
+        Object.assign(this.element, attributes);
+      }
+
+      if (style) {
+        Object.assign(this.element.style, style);
       }
 
       if (Array.isArray(childrens)) {
@@ -141,10 +145,141 @@
     }
   }
 
-  var css_248z = "/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__ListScroll {\n  max-width: 1200px;\n  position: relative;\n  margin: auto; }\n  .__SH__ListScroll:hover .navigation {\n    opacity: 1; }\n  .__SH__ListScroll .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__ListScroll .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__ListScroll .item.on {\n      display: block !important; }\n    .__SH__ListScroll .item.off {\n      display: none; }\n  .__SH__ListScroll .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0;\n    opacity: 0; }\n    .__SH__ListScroll .navigation .prev, .__SH__ListScroll .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__ListScroll .navigation .prev, .__SH__ListScroll .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__ListScroll .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__ListScroll .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__ListScroll .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__ListScroll .indicator {\n        margin: 10px 0; } }\n    .__SH__ListScroll .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__ListScroll .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__ListScroll .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
+  var css_248z = "/*===============\n      Variable\n===============*/\n/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__ListScroll {\n  position: relative; }\n  .__SH__ListScroll .__SH__ListScroll__Container {\n    display: flex;\n    overflow: scroll; }\n    .__SH__ListScroll .__SH__ListScroll__Container .item .item__link {\n      display: block; }\n    .__SH__ListScroll .__SH__ListScroll__Container .item .item__image {\n      width: calc(100vw - 20px); }\n    .__SH__ListScroll .__SH__ListScroll__Container .indicator {\n      bottom: 0;\n      left: 0;\n      right: 0;\n      margin: 15px 0;\n      position: absolute;\n      text-align: center;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__ListScroll .__SH__ListScroll__Container .indicator {\n          margin: 10px 0; } }\n      .__SH__ListScroll .__SH__ListScroll__Container .indicator .indicator-button {\n        cursor: pointer;\n        display: inline-block;\n        width: 15px;\n        height: 15px;\n        margin: 0px 3px;\n        border-radius: 100%;\n        background: #fff;\n        opacity: 0.4; }\n        @media screen and (max-width: 768px) {\n          .__SH__ListScroll .__SH__ListScroll__Container .indicator .indicator-button {\n            width: 10px;\n            height: 10px; } }\n        .__SH__ListScroll .__SH__ListScroll__Container .indicator .indicator-button.on {\n          opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
   styleInject(css_248z);
 
-  var css_248z$1 = "/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__Slide {\n  max-width: 1200px;\n  position: relative;\n  margin: auto; }\n  .__SH__Slide:hover .navigation {\n    opacity: 1; }\n  .__SH__Slide .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__Slide .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__Slide .item.on {\n      display: block !important; }\n    .__SH__Slide .item.off {\n      display: none; }\n  .__SH__Slide .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0;\n    opacity: 0; }\n    .__SH__Slide .navigation .prev, .__SH__Slide .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__Slide .navigation .prev, .__SH__Slide .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__Slide .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__Slide .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__Slide .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__Slide .indicator {\n        margin: 10px 0; } }\n    .__SH__Slide .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__Slide .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__Slide .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
+  class ListScroll extends EventComponent {
+    constructor(target, {
+      items,
+      infinity = true,
+      autoListScroll = true,
+      delayTime = 5000
+    }) {
+      super({
+        target
+      });
+      this.items = items;
+      this.infinity = infinity;
+      this.autoListScroll = autoListScroll;
+      this.delayTime = delayTime; // DEFAULT_OPTION
+
+      this.currentPage = 0;
+      this.lastPage = items.length - 1;
+      this.timeouts = null;
+
+      if (this.autoListScroll) {
+        this.initAutoListScroll();
+      }
+
+      this.render();
+    }
+
+    initAutoListScroll() {
+      if (!this.infinity && !this.isLast()) {
+        return;
+      }
+
+      this.timeouts = setInterval(() => {
+        this.nextListScroll();
+      }, this.delayTime);
+      return this;
+    }
+
+    clearAutoListScrollTimeouts() {
+      clearInterval(this.timeouts);
+      return this;
+    }
+
+    isLast() {
+      return this.currentPage >= this.lastPage;
+    }
+
+    showListScroll(nextListScroll) {
+      if (nextListScroll < 0) {
+        this.currentPage = this.lastPage;
+      } else if (nextListScroll > this.lastPage) {
+        this.currentPage = 0;
+      } else {
+        this.currentPage = nextListScroll;
+      }
+
+      console.log(this.currentPage);
+    }
+
+    prevListScroll() {
+      this.showListScroll(this.currentPage - 1);
+      this.clearAutoListScrollTimeouts().initAutoListScroll();
+    }
+
+    nextListScroll() {
+      this.showListScroll(this.currentPage + 1);
+      this.clearAutoListScrollTimeouts().initAutoListScroll();
+    }
+
+    onClickIndicator(index) {
+      this.showListScroll(index);
+      this.clearAutoListScrollTimeouts().initAutoListScroll();
+    }
+
+    renderListScrollItems() {
+      return this.items.map(items => {
+        return new Element({
+          tag: 'div',
+          attributes: {
+            className: 'item'
+          },
+          childrens: [new Element({
+            tag: 'a',
+            attributes: {
+              href: items.href,
+              className: 'item__link'
+            },
+            childrens: [new Element({
+              tag: 'img',
+              attributes: {
+                src: items.src,
+                className: 'item__image'
+              }
+            })]
+          })]
+        });
+      });
+    }
+
+    renderListScrollIndicators() {
+      return this.items.map((_, index) => new Element({
+        tag: 'i',
+        attributes: {
+          className: classnames(['indicator-button', index === 0 ? 'on' : '']),
+          onclick: () => this.onClickIndicator(index)
+        }
+      }));
+    }
+
+    render() {
+      const items = new Element({
+        tag: 'div',
+        childrens: [new Element({
+          tag: 'div',
+          attributes: {
+            id: '__SH__ListScroll',
+            className: '__SH__ListScroll'
+          },
+          childrens: [new Element({
+            tag: 'div',
+            attributes: {
+              className: '__SH__ListScroll__Container'
+            },
+            childrens: [...this.renderListScrollItems()]
+          })]
+        })]
+      });
+      this.element = items.element;
+    }
+
+  }
+
+  var css_248z$1 = "/*===============\n      Variable\n===============*/\n/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__Slide {\n  position: relative;\n  margin: auto; }\n  .__SH__Slide:hover .navigation {\n    opacity: 1; }\n  .__SH__Slide .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__Slide .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__Slide .item.on {\n      display: block !important; }\n    .__SH__Slide .item.off {\n      display: none; }\n  .__SH__Slide .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0;\n    opacity: 0; }\n    .__SH__Slide .navigation .prev, .__SH__Slide .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__Slide .navigation .prev, .__SH__Slide .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__Slide .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__Slide .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__Slide .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__Slide .indicator {\n        margin: 10px 0; } }\n    .__SH__Slide .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__Slide .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__Slide .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
   styleInject(css_248z$1);
 
   class Slide extends EventComponent {
@@ -324,6 +459,11 @@
           return new Slide(target, props);
         }
 
+      case 'list':
+        {
+          return new ListScroll(target, props);
+        }
+
       default:
         {
           return new Slide(target, props);
@@ -353,7 +493,13 @@
           href: 'https://www.lezhin.com/ko/novel/leviathan',
       },
   ];
-  SHEvent('slide')(document.getElementById('slide'), {
+  // SHEvent('slide')(document.getElementById('app'), {
+  //   items,
+  //   infinity: true,
+  //   autoSlide: true,
+  //   delayTime: 3000,
+  // }).view();
+  SHEvent('list')(document.getElementById('app'), {
       items,
       infinity: true,
       autoSlide: true,

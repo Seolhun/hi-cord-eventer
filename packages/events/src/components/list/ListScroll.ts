@@ -86,21 +86,6 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
     this.render();
   }
 
-  changedItemsEvent() {
-    const slideItems = document.getElementsByClassName('item');
-    const slideDots = document.getElementsByClassName('indicator-button');
-    for (let i = 0; i <= this.lastPage; i += 1) {
-      if (this.currentPage === i) {
-        slideItems[i].classList.add('on');
-        slideDots[i].classList.add('on');
-      } else {
-        slideItems[i].classList.add('off');
-        slideItems[i].classList.remove('on');
-        slideDots[i].classList.remove('on');
-      }
-    }
-  }
-
   initAutoListScroll() {
     if (!this.infinity && !this.isLast()) {
       return;
@@ -130,7 +115,6 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
       this.currentPage = nextListScroll;
     }
     console.log(this.currentPage);
-    this.changedItemsEvent();
   }
 
   prevListScroll() {
@@ -149,29 +133,25 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
   }
 
   renderListScrollItems() {
-    if (!Array.isArray(this.items)) {
-      throw new Error('The Element children have to be Array type');
-    }
-
-    return this.items.map((items, index) => {
+    return this.items.map((items) => {
       return new Element<'div'>({
         tag: 'div',
         attributes: {
-          className: classnames(['item', index === 0 ? 'on' : 'off', 'fade']),
+          className: 'item',
         },
         childrens: [
           new Element<'a'>({
             tag: 'a',
             attributes: {
               href: items.href,
-              className: 'link',
+              className: 'item__link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
                   src: items.src,
-                  className: 'image',
+                  className: 'item__image',
                 },
               }),
             ],
@@ -201,39 +181,18 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
         new Element<'div'>({
           tag: 'div',
           attributes: {
-            id: '__SH__slide',
-            className: '__SH__slide',
+            id: '__SH__ListScroll',
+            className: '__SH__ListScroll',
           },
           childrens: [
-            ...this.renderListScrollItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
-                className: 'navigation',
+                className: '__SH__ListScroll__Container',
               },
               childrens: [
-                new Element<'button'>({
-                  tag: 'button',
-                  attributes: {
-                    className: 'prev',
-                    onclick: () => this.prevListScroll(),
-                  },
-                }),
-                new Element<'button'>({
-                  tag: 'button',
-                  attributes: {
-                    className: 'next',
-                    onclick: () => this.nextListScroll(),
-                  },
-                }),
-              ],
-            }),
-            new Element({
-              tag: 'div',
-              attributes: {
-                className: 'indicator',
-              },
-              childrens: [...this.renderListScrollIndicators()],
+                ...this.renderListScrollItems(),
+              ]
             }),
           ],
         }),

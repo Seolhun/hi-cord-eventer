@@ -1,4 +1,9 @@
-import { Slide, SlideProps } from './components/slide';
+import {
+  Slide,
+  SlideProps,
+  ListScroll,
+  ListScrollProps,
+} from './components';
 
 interface SHEventProps {
   target: HTMLElement | null;
@@ -6,6 +11,7 @@ interface SHEventProps {
 
 interface SHEventTypeMap {
   slide: SlideProps<any>;
+  list: ListScrollProps<any>;
 }
 
 const SHEvent = (type: keyof SHEventTypeMap) => (
@@ -15,6 +21,9 @@ const SHEvent = (type: keyof SHEventTypeMap) => (
   switch (type) {
     case 'slide': {
       return new Slide(target, props);
+    }
+    case 'list': {
+      return new ListScroll(target, props);
     }
     default: {
       return new Slide(target, props);

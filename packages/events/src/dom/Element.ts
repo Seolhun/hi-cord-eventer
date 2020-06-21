@@ -3,6 +3,8 @@ interface ElementProps<K> {
 
   attributes?: Partial<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>;
 
+  style?: Partial<CSSStyleDeclaration>
+
   childrens?: Element<keyof HTMLElementTagNameMap | any>[];
 }
 
@@ -10,20 +12,18 @@ export class Element<K extends keyof HTMLElementTagNameMap> {
   element: HTMLElementTagNameMap[K];
 
   constructor(props: ElementProps<K>) {
-    const { tag, attributes, childrens } = props;
-    this.element = this.render(tag, attributes, childrens);
+    this.element = this.render(props);
   }
 
-  render(
-    tag: K,
-    attributes?: Partial<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>,
-    childrens?: Element<keyof HTMLElementTagNameMap | any>[]
-  ) {
+  render(props: ElementProps<K>) {
+    const { tag, attributes, style, childrens } = props;
     this.element = document.createElement(tag);
+
     if (attributes) {
-      Object.assign(this.element, {
-        ...attributes,
-      });
+      Object.assign(this.element, attributes);
+    }
+    if (style) {
+      Object.assign(this.element.style, style);
     }
     if (Array.isArray(childrens)) {
       childrens.forEach((children) => {
