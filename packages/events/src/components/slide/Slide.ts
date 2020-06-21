@@ -12,7 +12,7 @@ interface SlideItemProps {
 }
 
 interface SlideProps<T extends SlideItemProps> {
-  slides: T[];
+  items: T[];
 
   /**
    * infinitly auto sliding
@@ -31,7 +31,7 @@ interface SlideProps<T extends SlideItemProps> {
 }
 
 class Slide<T extends SlideItemProps> extends EventComponent implements SlideProps<T> {
-  slides: T[];
+  items: T[];
 
   /**
    * infinitly auto sliding
@@ -68,16 +68,16 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
 
   constructor(
     target: HTMLElement | null,
-    { slides, infinity = true, autoSlide = true, delayTime = 5000 }: SlideProps<T>
+    { items, infinity = true, autoSlide = true, delayTime = 5000 }: SlideProps<T>
   ) {
     super({ target });
-    this.slides = slides;
+    this.items = items;
     this.infinity = infinity;
     this.autoSlide = autoSlide;
     this.delayTime = delayTime;
     // DEFAULT_OPTION
     this.currentPage = 0;
-    this.lastPage = slides.length - 1;
+    this.lastPage = items.length - 1;
     this.timeouts = null;
 
     if (this.autoSlide) {
@@ -149,11 +149,11 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   renderSlideItems() {
-    if (!Array.isArray(this.slides)) {
+    if (!Array.isArray(this.items)) {
       throw new Error('The Element children have to be Array type');
     }
 
-    return this.slides.map((slides, index) => {
+    return this.items.map((items, index) => {
       return new Element<'div'>({
         tag: 'div',
         attributes: {
@@ -163,14 +163,14 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
           new Element<'a'>({
             tag: 'a',
             attributes: {
-              href: slides.href,
+              href: items.href,
               className: 'link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
-                  src: slides.src,
+                  src: items.src,
                   className: 'image',
                 },
               }),
@@ -182,7 +182,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   renderSlideIndicators() {
-    return this.slides.map(
+    return this.items.map(
       (_, index) =>
         new Element<'i'>({
           tag: 'i',
@@ -195,14 +195,14 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   render() {
-    const slides = new Element({
+    const items = new Element({
       tag: 'div',
       childrens: [
         new Element<'div'>({
           tag: 'div',
           attributes: {
-            id: '__SH__slide',
-            className: '__SH__slide',
+            id: '__SH__Slide',
+            className: '__SH__Slide',
           },
           childrens: [
             ...this.renderSlideItems(),
@@ -239,7 +239,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
         }),
       ],
     });
-    this.element = slides.element;
+    this.element = items.element;
   }
 }
 
