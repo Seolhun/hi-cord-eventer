@@ -1,6 +1,6 @@
-import { Banner } from '@seolhun/events';
+import { SHEvent } from '@seolhun/events';
 
-const banners = [
+const slides = [
   {
     src: 'https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBanner',
     href:
@@ -25,8 +25,8 @@ const banners = [
   },
 ];
 
-new Banner(document.getElementById('app'), {
-  banners,
+SHEvent('slide')(document.getElementById('slide'), {
+  slides,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,

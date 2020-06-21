@@ -63,7 +63,7 @@
     })();
   });
 
-  class EventViewComponent {
+  class EventComponent {
     constructor(props) {
       this.target = props.target;
       this.element = props.element;
@@ -144,9 +144,9 @@
   var css_248z = "/*===============\n      Variable\n===============*/\n/*===============\n      Style\n===============*/\n.__SH__slide {\n  max-width: 1200px;\n  position: relative;\n  margin: auto; }\n  .__SH__slide .item {\n    width: 100%;\n    height: 100%; }\n    .__SH__slide .item .link .image {\n      width: 100%;\n      height: 100%; }\n    .__SH__slide .item.on {\n      display: block !important; }\n    .__SH__slide .item.off {\n      display: none; }\n  .__SH__slide .navigation {\n    position: absolute;\n    top: 45%;\n    left: 0;\n    right: 0; }\n    .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n      position: absolute;\n      border: 0;\n      padding: 25px;\n      cursor: pointer;\n      z-index: 10; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .navigation .prev, .__SH__slide .navigation .next {\n          display: none;\n          height: 100%; } }\n    .__SH__slide .navigation .prev {\n      left: 0;\n      background-position: 0px 0px; }\n    .__SH__slide .navigation .next {\n      right: 0;\n      background-position: 0px -50px; }\n  .__SH__slide .indicator {\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: 15px 0;\n    position: absolute;\n    text-align: center;\n    z-index: 10; }\n    @media screen and (max-width: 768px) {\n      .__SH__slide .indicator {\n        margin: 10px 0; } }\n    .__SH__slide .indicator .indicator-button {\n      cursor: pointer;\n      display: inline-block;\n      width: 15px;\n      height: 15px;\n      margin: 0px 3px;\n      border-radius: 100%;\n      background: #fff;\n      opacity: 0.4; }\n      @media screen and (max-width: 768px) {\n        .__SH__slide .indicator .indicator-button {\n          width: 10px;\n          height: 10px; } }\n      .__SH__slide .indicator .indicator-button.on {\n        opacity: 1; }\n\n/* Fading animation */\n.fade {\n  -webkit-animation-name: fade;\n          animation-name: fade;\n  -webkit-animation-duration: 1.5s;\n          animation-duration: 1.5s; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: 0.4; }\n  to {\n    opacity: 1; } }\n";
   styleInject(css_248z);
 
-  class Banner extends EventViewComponent {
+  class Slide extends EventComponent {
     constructor(target, {
-      banners,
+      slides,
       infinity = true,
       autoSlide = true,
       delayTime = 5000
@@ -154,35 +154,34 @@
       super({
         target
       });
-      this.banners = banners;
+      this.slides = slides;
       this.infinity = infinity;
       this.autoSlide = autoSlide;
       this.delayTime = delayTime; // DEFAULT_OPTION
 
       this.currentPage = 1;
-      this.lastPage = banners.length;
+      this.lastPage = slides.length;
       this.timeouts = null;
+
+      if (this.autoSlide) {
+        this.autoSliding();
+      }
+
       this.render();
     }
 
     showSlide(currentSlide) {
-      let currentcurrentSlide = currentSlide;
-
-      if (currentcurrentSlide < 1) {
-        currentcurrentSlide = 1;
-      } else if (currentcurrentSlide > this.lastPage) {
-        currentcurrentSlide = this.lastPage;
-      } else {
-        // Manual is changed, Current Settimeout must be stopped.
-        this.cleaAutoSlidingTime();
-
-        if (this.autoSlide) {
-          this.autoSliding();
-        }
-
-        this.currentPage = currentSlide;
+      if (this.isLast()) {
+        this.currentPage = 0;
+        return;
       }
 
+      if (this.isFirst()) {
+        this.currentPage = this.lastPage;
+        return;
+      }
+
+      this.currentPage = currentSlide;
       this.changedItemsEvent();
     }
 
@@ -219,19 +218,11 @@
     }
 
     isFirst() {
-      if (this.currentPage <= 1) {
-        return true;
-      }
-
-      return false;
+      return this.currentPage <= 1;
     }
 
     isLast() {
-      if (this.currentPage >= this.lastPage) {
-        return true;
-      }
-
-      return false;
+      return this.currentPage >= this.lastPage;
     }
 
     autoSliding() {
@@ -252,17 +243,15 @@
     }
 
     cleaAutoSlidingTime() {
-      for (let i = 0; i < this.timeouts; i += 1) {
-        clearTimeout(i);
-      }
+      clearInterval(this.timeouts);
     }
 
-    createBannerItems() {
-      if (!Array.isArray(this.banners)) {
+    createSlideItems() {
+      if (!Array.isArray(this.slides)) {
         throw new Error('The Element children have to be Array type');
       }
 
-      return this.banners.map((banner, index) => {
+      return this.slides.map((slides, index) => {
         return new Element({
           tag: 'div',
           attributes: {
@@ -271,13 +260,13 @@
           childrens: [new Element({
             tag: 'a',
             attributes: {
-              href: banner.href,
+              href: slides.href,
               className: 'link'
             },
             childrens: [new Element({
               tag: 'img',
               attributes: {
-                src: banner.src,
+                src: slides.src,
                 className: 'image'
               }
             })]
@@ -286,12 +275,12 @@
       });
     }
 
-    createBannerIndcators() {
-      if (!Array.isArray(this.banners)) {
+    createSlideIndcators() {
+      if (!Array.isArray(this.slides)) {
         throw new Error('The Element children have to be Array type');
       }
 
-      return this.banners.map((_, index) => new Element({
+      return this.slides.map((_, index) => new Element({
         tag: 'i',
         attributes: {
           className: classnames(['indicator-button', index === 0 ? 'on' : '']),
@@ -301,8 +290,7 @@
     }
 
     render() {
-      this.cleaAutoSlidingTime();
-      const banner = new Element({
+      const slides = new Element({
         tag: 'div',
         childrens: [new Element({
           tag: 'div',
@@ -310,7 +298,7 @@
             id: '__SH__slide',
             className: '__SH__slide'
           },
-          childrens: [...this.createBannerItems(), new Element({
+          childrens: [...this.createSlideItems(), new Element({
             tag: 'div',
             attributes: {
               className: 'navigation'
@@ -333,16 +321,30 @@
             attributes: {
               className: 'indicator'
             },
-            childrens: [...this.createBannerIndcators()]
+            childrens: [...this.createSlideIndcators()]
           })]
         })]
       });
-      this.element = banner.element;
+      this.element = slides.element;
     }
 
   }
 
-  const banners = [
+  const SHEvent = type => (target, props) => {
+    switch (type) {
+      case 'slide':
+        {
+          return new Slide(target, props);
+        }
+
+      default:
+        {
+          return new Slide(target, props);
+        }
+    }
+  };
+
+  const slides = [
       {
           src: 'https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBanner',
           href: 'https://www.lezhin.com/ko/page/shocking_sale180416_all?utm_source=lz&utm_medium=banner&utm_campaign=shocking_sale180416_allutm_content=hero',
@@ -364,8 +366,8 @@
           href: 'https://www.lezhin.com/ko/novel/leviathan',
       },
   ];
-  new Banner(document.getElementById('app'), {
-      banners,
+  SHEvent('slide')(document.getElementById('slide'), {
+      slides,
       infinity: true,
       autoSlide: true,
       delayTime: 3000,

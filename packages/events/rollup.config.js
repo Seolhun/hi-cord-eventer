@@ -5,7 +5,7 @@ import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
 import autoprefixer from 'autoprefixer';
 import postcssFlexboxfixer from 'postcss-flexboxfixer';
-// import { terser } from 'rollup-plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 
 import pkg from '../../package.json';
 
@@ -21,10 +21,10 @@ export default {
     //   format: 'cjs',
     //   file: 'dist/index.js',
     // },
-    {
-      format: 'es',
-      file: 'dist/index.esm.js',
-    },
+    // {
+    //   format: 'es',
+    //   file: 'dist/index.esm.js',
+    // },
     // {
     //   format: 'cjs',
     //   file: 'dist/index.min.js',
@@ -35,6 +35,11 @@ export default {
     //   file: 'dist/index.esm.min.js',
     //   plugins: [terser()],
     // },
+    {
+      format: 'es',
+      file: 'dist/index.esm.js',
+      plugins: [terser()],
+    },
   ],
   external: [...externals],
   plugins: [

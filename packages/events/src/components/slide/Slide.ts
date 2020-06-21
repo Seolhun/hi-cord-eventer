@@ -1,18 +1,18 @@
 import classnames from 'classnames';
 
-import { EventViewComponent } from '../EventViewComponent';
+import { EventComponent } from '../EventComponent';
 import { Element } from '../../dom';
 
-import './Banner.scss';
+import './Slide.scss';
 
-interface BannerItemProps {
+interface SlideItemProps {
   src: string;
 
   href: string;
 }
 
-interface BannerProps<T extends BannerItemProps> {
-  banners: T[];
+interface SlideProps<T extends SlideItemProps> {
+  slides: T[];
 
   /**
    * infinitly auto sliding
@@ -30,8 +30,8 @@ interface BannerProps<T extends BannerItemProps> {
   delayTime?: number;
 }
 
-class Banner<T extends BannerItemProps> extends EventViewComponent implements BannerProps<T> {
-  banners: T[];
+class Slide<T extends SlideItemProps> extends EventComponent implements SlideProps<T> {
+  slides: T[];
 
   /**
    * infinitly auto sliding
@@ -68,34 +68,34 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
 
   constructor(
     target: HTMLElement | null,
-    { banners, infinity = true, autoSlide = true, delayTime = 5000 }: BannerProps<T>
+    { slides, infinity = true, autoSlide = true, delayTime = 5000 }: SlideProps<T>
   ) {
     super({ target });
-    this.banners = banners;
+    this.slides = slides;
     this.infinity = infinity;
     this.autoSlide = autoSlide;
     this.delayTime = delayTime;
     // DEFAULT_OPTION
     this.currentPage = 1;
-    this.lastPage = banners.length;
+    this.lastPage = slides.length;
     this.timeouts = null;
+
+    if (this.autoSlide) {
+      this.autoSliding();
+    }
     this.render();
   }
 
   showSlide(currentSlide: number) {
-    let currentcurrentSlide = currentSlide;
-    if (currentcurrentSlide < 1) {
-      currentcurrentSlide = 1;
-    } else if (currentcurrentSlide > this.lastPage) {
-      currentcurrentSlide = this.lastPage;
-    } else {
-      // Manual is changed, Current Settimeout must be stopped.
-      this.cleaAutoSlidingTime();
-      if (this.autoSlide) {
-        this.autoSliding();
-      }
-      this.currentPage = currentSlide;
+    if (this.isLast()) {
+      this.currentPage = 0;
+      return;
     }
+    if (this.isFirst()) {
+      this.currentPage = this.lastPage;
+      return;
+    }
+    this.currentPage = currentSlide;
     this.changedItemsEvent();
   }
 
@@ -129,17 +129,11 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
   }
 
   isFirst() {
-    if (this.currentPage <= 1) {
-      return true;
-    }
-    return false;
+    return this.currentPage <= 1;
   }
 
   isLast() {
-    if (this.currentPage >= this.lastPage) {
-      return true;
-    }
-    return false;
+    return this.currentPage >= this.lastPage;
   }
 
   autoSliding() {
@@ -159,17 +153,15 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
   }
 
   cleaAutoSlidingTime() {
-    for (let i = 0; i < this.timeouts; i += 1) {
-      clearTimeout(i);
-    }
+    clearInterval(this.timeouts);
   }
 
-  createBannerItems() {
-    if (!Array.isArray(this.banners)) {
+  createSlideItems() {
+    if (!Array.isArray(this.slides)) {
       throw new Error('The Element children have to be Array type');
     }
 
-    return this.banners.map((banner, index) => {
+    return this.slides.map((slides, index) => {
       return new Element<'div'>({
         tag: 'div',
         attributes: {
@@ -179,14 +171,14 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
           new Element<'a'>({
             tag: 'a',
             attributes: {
-              href: banner.href,
+              href: slides.href,
               className: 'link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
-                  src: banner.src,
+                  src: slides.src,
                   className: 'image',
                 },
               }),
@@ -197,11 +189,11 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
     });
   }
 
-  createBannerIndcators() {
-    if (!Array.isArray(this.banners)) {
+  createSlideIndcators() {
+    if (!Array.isArray(this.slides)) {
       throw new Error('The Element children have to be Array type');
     }
-    return this.banners.map((_, index) =>
+    return this.slides.map((_, index) =>
       new Element<'i'>({
         tag: 'i',
         attributes: {
@@ -213,8 +205,7 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
   }
 
   render() {
-    this.cleaAutoSlidingTime();
-    const banner = new Element({
+    const slides = new Element({
       tag: 'div',
       childrens: [
         new Element<'div'>({
@@ -224,7 +215,7 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
             className: '__SH__slide',
           },
           childrens: [
-            ...this.createBannerItems(),
+            ...this.createSlideItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
@@ -252,15 +243,15 @@ class Banner<T extends BannerItemProps> extends EventViewComponent implements Ba
               attributes: {
                 className: 'indicator',
               },
-              childrens: [...this.createBannerIndcators()],
+              childrens: [...this.createSlideIndcators()],
             }),
           ],
         }),
       ],
     });
-    this.element = banner.element;
+    this.element = slides.element;
   }
 }
 
-export { Banner, BannerProps, BannerItemProps };
-export default Banner;
+export { Slide, SlideProps, SlideItemProps };
+export default Slide;

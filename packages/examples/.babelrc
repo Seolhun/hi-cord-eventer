@@ -10,17 +10,14 @@
     ]
   ],
   "plugins": [
-    "@babel/plugin-proposal-optional-chaining",
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-object-rest-spread", { "loose": true, "useBuiltIns": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
-    "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-arrow-functions",
     "@babel/plugin-transform-async-to-generator",
     "@babel/plugin-transform-classes",
     "@babel/plugin-transform-destructuring",
     "@babel/plugin-transform-literals",
-    "@babel/plugin-transform-runtime",
     "@babel/plugin-transform-spread",
     "@babel/plugin-transform-typescript"
   ]

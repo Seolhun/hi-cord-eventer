@@ -7,8 +7,7 @@
 
 - [x] Creating Banner UI easilly inserting data or api.
 - [x] Responsive UI by devices.
-- [ ] Mock API server in Client.
-- [ ] MultiThread using Browswer and GPU
+- [ ] Wrapper iframe
 
 ## Module Spec
 
@@ -24,40 +23,33 @@
 
 ##### - Details types
 
-1. You can use the `Elementitem.js` to define `Component Item`. If you use it, It make you build The Item Types easily.
+1. You can use the `Element` to define `Event Component`.
 
-```javascript
-class Element {
-  constructor({ tag, attributes, children, on }) {
-    this.tag = tag;
-    this.attributes = attributes;
-    this.children = children;
-    this.on = new ElementCallback({ ...on });
-  }
-}
+```js
+import { Slide } from '@seolhun/events';
 
-class ElementCallback {
-  constructor({ eventName, callback, capture = false }) {
-    this.eventName = eventName;
-    this.callback = callback;
-    this.capture = capture;
-  }
-}
-
-// This is just example.
-// You can use ElementItem or Not. But, must match properties with ElementItem.
-const app = document.getElementById("app");
-new BannerComponent({
-  banners,
+new Slide(document.getElementById('slide'), {
+  slides,
   infinity: true,
-  auto: true,
-  time: 3000,
-  target: app,
+  autoSlide: true,
+  delayTime: 3000,
 }).view();
 ```
 
+```js
+import { Slide } from '@seolhun/events';
+
+SHEvent('slide')(document.getElementById('slide'), {
+  slides,
+  infinity: true,
+  autoSlide: true,
+  delayTime: 3000,
+}).view();
+
+```
+
 #### Examples
-- <a href='http://hi-cord-banners.surge.sh' target='_blank' rel='noopener noreferrer'>http://hi-cord-banners.surge.sh</a>
+- <a href='http://hi-cord-eventer.surge.sh' target='_blank' rel='noopener noreferrer'>http://hi-cord-eventer.surge.sh</a>
 
 #### Details Component
 
