@@ -1,14 +1,5 @@
 # Hi-Cord Banner UI Module using VanillaJS
 
-- Author : Seolhun
-- StartedDate : 2018.04.10
-
-## Goal
-
-- [x] Creating Banner UI easilly inserting data or api.
-- [x] Responsive UI by devices.
-- [ ] Wrapper iframe
-
 ## Install
 
 ```bash
@@ -37,7 +28,7 @@ new Slide(document.getElementById('slide'), {
 ```
 
 ```js
-import { Slide } from '@seolhun/events';
+import { SHEvent } from '@seolhun/events';
 
 SHEvent('slide')(document.getElementById('slide'), {
   slides,
