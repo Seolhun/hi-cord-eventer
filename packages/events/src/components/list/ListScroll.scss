@@ -7,7 +7,7 @@
       Style
 ===============*/
 
-.__SH__Slide {
+.__SH__ListScroll {
   max-width: $MAX-WIDTH;
   position: relative;
   margin: auto;
@@ -49,7 +49,7 @@
       cursor: pointer;
       z-index: 10;
 
-      @media screen and (max-width: $BREAK-SM) {
+      @media screen and (max-width: $BREAK-MOBILE) {
         display: none;
         height: 100%;
       }
@@ -72,7 +72,7 @@
     position: absolute;
     text-align: center;
     z-index: 10;
-    @media screen and (max-width: $BREAK-SM) {
+    @media screen and (max-width: $BREAK-MOBILE) {
       margin: 10px 0;
     }
 
@@ -85,7 +85,7 @@
       border-radius: 100%;
       background: #fff;
       opacity: 0.4;
-      @media screen and (max-width: $BREAK-SM) {
+      @media screen and (max-width: $BREAK-MOBILE) {
         width: 10px;
         height: 10px;
       }
