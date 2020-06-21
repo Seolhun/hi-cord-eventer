@@ -1,4 +1,4 @@
-import { Banner } from '@seolhun/event-banner';
+import { Banner } from '@seolhun/events';
 
 const banners = [
   {

@@ -1,5 +1,5 @@
 {
-  "name": "@seolhun/event-banner",
+  "name": "@seolhun/events",
   "license": "MIT",
   "version": "0.0.1",
   "main": "dist/index.js",
@@ -23,6 +23,6 @@
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com/seolhun/hi-cord-events.git",
-    "directory": "packages/event-banner"
+    "directory": "packages/events"
   }
 }
