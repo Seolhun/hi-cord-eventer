@@ -3,7 +3,7 @@ interface ElementProps<K> {
 
   attributes?: Partial<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>;
 
-  style?: Partial<CSSStyleDeclaration>
+  style?: Partial<CSSStyleDeclaration>;
 
   childrens?: Element<keyof HTMLElementTagNameMap | any>[];
 }

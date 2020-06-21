@@ -1,5 +1,3 @@
-import classnames from 'classnames';
-
 import { EventComponent } from '../EventComponent';
 import { Element } from '../../dom';
 
@@ -30,106 +28,13 @@ interface ListScrollProps<T extends ListScrollItemProps> {
   delayTime?: number;
 }
 
-class ListScroll<T extends ListScrollItemProps> extends EventComponent implements ListScrollProps<T> {
+class ListScroll<T extends ListScrollItemProps> extends EventComponent
+  implements ListScrollProps<T> {
   items: T[];
-
-  /**
-   * infinitly auto sliding
-   */
-  infinity?: boolean;
-
-  /**
-   * Auto sliding pages
-   */
-  autoListScroll?: boolean;
-
-  /**
-   * Auto sliding delay time
-   */
-  delayTime?: number;
-
-  /**
-   * @name DEFAULT_OPTION
-   */
-  /**
-   * current slide page
-   */
-  currentPage: number;
-
-  /**
-   * last slide page
-   */
-  lastPage: number;
-
-  /**
-   * current interval timeouts
-   */
-  timeouts: NodeJS.Timeout | any;
-
-  constructor(
-    target: HTMLElement | null,
-    { items, infinity = true, autoListScroll = true, delayTime = 5000 }: ListScrollProps<T>
-  ) {
+  constructor(target: HTMLElement | null, { items }: ListScrollProps<T>) {
     super({ target });
     this.items = items;
-    this.infinity = infinity;
-    this.autoListScroll = autoListScroll;
-    this.delayTime = delayTime;
-    // DEFAULT_OPTION
-    this.currentPage = 0;
-    this.lastPage = items.length - 1;
-    this.timeouts = null;
-
-    if (this.autoListScroll) {
-      this.initAutoListScroll();
-    }
     this.render();
-  }
-
-  initAutoListScroll() {
-    if (!this.infinity && !this.isLast()) {
-      return;
-    }
-
-    this.timeouts = setInterval(() => {
-      this.nextListScroll();
-    }, this.delayTime);
-    return this;
-  }
-
-  clearAutoListScrollTimeouts() {
-    clearInterval(this.timeouts);
-    return this;
-  }
-
-  isLast() {
-    return this.currentPage >= this.lastPage;
-  }
-
-  showListScroll(nextListScroll: number) {
-    if (nextListScroll < 0) {
-      this.currentPage = this.lastPage;
-    } else if (nextListScroll > this.lastPage) {
-      this.currentPage = 0;
-    } else {
-      this.currentPage = nextListScroll;
-    }
-    console.log(this.currentPage);
-  }
-
-  prevListScroll() {
-    this.showListScroll(this.currentPage - 1);
-    this.clearAutoListScrollTimeouts().initAutoListScroll();
-  }
-
-  nextListScroll() {
-    this.showListScroll(this.currentPage + 1);
-    this.clearAutoListScrollTimeouts().initAutoListScroll();
-  }
-
-  onClickIndicator(index: number) {
-    this.showListScroll(index);
-    this.clearAutoListScrollTimeouts().initAutoListScroll();
   }
 
   renderListScrollItems() {
@@ -137,21 +42,21 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
       return new Element<'div'>({
         tag: 'div',
         attributes: {
-          className: 'item',
+          className: '__SH__ListScroll__Item',
         },
         childrens: [
           new Element<'a'>({
             tag: 'a',
             attributes: {
               href: items.href,
-              className: 'item__link',
+              className: '__SH__ListScroll__Item__Link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
                   src: items.src,
-                  className: 'item__image',
+                  className: '__SH__ListScroll__Item__Image',
                 },
               }),
             ],
@@ -159,19 +64,6 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
         ],
       });
     });
-  }
-
-  renderListScrollIndicators() {
-    return this.items.map(
-      (_, index) =>
-        new Element<'i'>({
-          tag: 'i',
-          attributes: {
-            className: classnames(['indicator-button', index === 0 ? 'on' : '']),
-            onclick: () => this.onClickIndicator(index),
-          },
-        })
-    );
   }
 
   render() {
@@ -190,9 +82,7 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent implement
               attributes: {
                 className: '__SH__ListScroll__Container',
               },
-              childrens: [
-                ...this.renderListScrollItems(),
-              ]
+              childrens: [...this.renderListScrollItems()],
             }),
           ],
         }),

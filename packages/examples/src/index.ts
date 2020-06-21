@@ -25,17 +25,13 @@ const items = [
   },
 ];
 
-// SHEvent('slide')(document.getElementById('app'), {
-//   items,
-//   infinity: true,
-//   autoSlide: true,
-//   delayTime: 3000,
-// }).view();
-
-
-SHEvent('list')(document.getElementById('app'), {
+SHEvent('slide')(document.getElementById('slide'), {
   items,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,
+}).view();
+
+SHEvent('list')(document.getElementById('list'), {
+  items,
 }).view();

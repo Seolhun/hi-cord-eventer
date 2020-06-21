@@ -14,60 +14,13 @@
     display: flex;
     overflow: scroll;
 
-    .item {
-      .item__link {
+    .__SH__ListScroll__Item {
+      .__SH__ListScroll__Item__Link {
         display: block;
       }
-      .item__image {
+      .__SH__ListScroll__Item__Image {
         width: calc(100vw - 20px);
       }
     }
-
-    .indicator {
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: 15px 0;
-      position: absolute;
-      text-align: center;
-      z-index: 10;
-      @media screen and (max-width: $BREAK-SM) {
-        margin: 10px 0;
-      }
-
-      .indicator-button {
-        cursor: pointer;
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        margin: 0px 3px;
-        border-radius: 100%;
-        background: #fff;
-        opacity: 0.4;
-        @media screen and (max-width: $BREAK-SM) {
-          width: 10px;
-          height: 10px;
-        }
-
-        &.on {
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
   }
 }

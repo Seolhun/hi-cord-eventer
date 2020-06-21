@@ -1,9 +1,4 @@
-import {
-  Slide,
-  SlideProps,
-  ListScroll,
-  ListScrollProps,
-} from './components';
+import { Slide, SlideProps, ListScroll, ListScrollProps } from './components';
 
 interface SHEventProps {
   target: HTMLElement | null;

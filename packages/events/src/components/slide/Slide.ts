@@ -87,12 +87,13 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   changedItemsEvent() {
-    const slideItems = document.getElementsByClassName('item');
-    const slideDots = document.getElementsByClassName('indicator-button');
+    const slideItems = document.getElementsByClassName('__SH__Slide__Item');
+    const slideDots = document.getElementsByClassName('__SH__Slide__Indicator__Button');
     for (let i = 0; i <= this.lastPage; i += 1) {
       if (this.currentPage === i) {
         slideItems[i].classList.add('on');
         slideDots[i].classList.add('on');
+        slideItems[i].classList.remove('off');
       } else {
         slideItems[i].classList.add('off');
         slideItems[i].classList.remove('on');
@@ -129,7 +130,6 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
     } else {
       this.currentPage = nextSlide;
     }
-    console.log(this.currentPage);
     this.changedItemsEvent();
   }
 
@@ -157,21 +157,25 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
       return new Element<'div'>({
         tag: 'div',
         attributes: {
-          className: classnames(['item', index === 0 ? 'on' : 'off', 'fade']),
+          className: classnames([
+            '__SH__Slide__Item',
+            '__SH__fade',
+            this.currentPage === index ? 'on' : 'off',
+          ]),
         },
         childrens: [
           new Element<'a'>({
             tag: 'a',
             attributes: {
               href: items.href,
-              className: 'link',
+              className: '__SH__Slide__Item__Link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
                   src: items.src,
-                  className: 'image',
+                  className: '__SH__Slide__Item__Image',
                 },
               }),
             ],
@@ -187,7 +191,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
         new Element<'i'>({
           tag: 'i',
           attributes: {
-            className: classnames(['indicator-button', index === 0 ? 'on' : '']),
+            className: classnames(['__SH__Slide__Indicator__Button', index === 0 ? 'on' : '']),
             onclick: () => this.onClickIndicator(index),
           },
         })
@@ -205,35 +209,53 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
             className: '__SH__Slide',
           },
           childrens: [
-            ...this.renderSlideItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
-                className: 'navigation',
+                className: '__SH__Slide__Container',
               },
               childrens: [
-                new Element<'button'>({
-                  tag: 'button',
+                ...this.renderSlideItems(),
+                new Element<'div'>({
+                  tag: 'div',
                   attributes: {
-                    className: 'prev',
-                    onclick: () => this.prevSlide(),
+                    className: '__SH__Slide__Navigation',
                   },
+                  childrens: [
+                    new Element<'span'>({
+                      tag: 'span',
+                      attributes: {
+                        className: 'prev',
+                        innerHTML: `
+                          <svg viewBox="0 0 12 12">
+                            <polyline points="12 12 8 6 12 0" />
+                          </svg>
+                        `,
+                        onclick: () => this.prevSlide(),
+                      },
+                    }),
+                    new Element<'span'>({
+                      tag: 'span',
+                      attributes: {
+                        className: 'next',
+                        innerHTML: `
+                          <svg viewBox="0 0 12 12">
+                            <polyline points="0 0 4 6 0 12" />
+                          </svg>
+                        `,
+                        onclick: () => this.nextSlide(),
+                      },
+                    }),
+                  ],
                 }),
-                new Element<'button'>({
-                  tag: 'button',
+                new Element({
+                  tag: 'div',
                   attributes: {
-                    className: 'next',
-                    onclick: () => this.nextSlide(),
+                    className: '__SH__Slide__Indicator',
                   },
+                  childrens: [...this.renderSlideIndicators()],
                 }),
               ],
-            }),
-            new Element({
-              tag: 'div',
-              attributes: {
-                className: 'indicator',
-              },
-              childrens: [...this.renderSlideIndicators()],
             }),
           ],
         }),
