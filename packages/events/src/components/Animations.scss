@@ -1,0 +1,17 @@
+/*===============
+      Variable
+===============*/
+/* Fading animation */
+.__SH__fade {
+  animation-name: __SH__fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes __SH__fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}

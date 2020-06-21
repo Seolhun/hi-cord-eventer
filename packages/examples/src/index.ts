@@ -1,6 +1,6 @@
 import { SHEvent } from '@seolhun/events';
 
-const slides = [
+const items = [
   {
     src: 'https://cdn.lezhin.com/v2/inventory_items/5876703202246656/media/upperBanner',
     href:
@@ -26,8 +26,12 @@ const slides = [
 ];
 
 SHEvent('slide')(document.getElementById('slide'), {
-  slides,
+  items,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,
+}).view();
+
+SHEvent('list')(document.getElementById('list'), {
+  items,
 }).view();
