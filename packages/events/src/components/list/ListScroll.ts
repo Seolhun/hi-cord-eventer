@@ -67,24 +67,19 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
   }
 
   render() {
-    const items = new Element({
+    const items = new Element<'div'>({
       tag: 'div',
+      attributes: {
+        id: '__SH__ListScroll',
+        className: '__SH__ListScroll',
+      },
       childrens: [
         new Element<'div'>({
           tag: 'div',
           attributes: {
-            id: '__SH__ListScroll',
-            className: '__SH__ListScroll',
+            className: '__SH__ListScroll__Container',
           },
-          childrens: [
-            new Element<'div'>({
-              tag: 'div',
-              attributes: {
-                className: '__SH__ListScroll__Container',
-              },
-              childrens: [...this.renderListScrollItems()],
-            }),
-          ],
+          childrens: [...this.renderListScrollItems()],
         }),
       ],
     });

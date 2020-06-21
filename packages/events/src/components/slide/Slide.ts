@@ -199,63 +199,58 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   render() {
-    const items = new Element({
+    const items = new Element<'div'>({
       tag: 'div',
+      attributes: {
+        id: '__SH__Slide',
+        className: '__SH__Slide',
+      },
       childrens: [
         new Element<'div'>({
           tag: 'div',
           attributes: {
-            id: '__SH__Slide',
-            className: '__SH__Slide',
+            className: '__SH__Slide__Container',
           },
           childrens: [
+            ...this.renderSlideItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
-                className: '__SH__Slide__Container',
+                className: '__SH__Slide__Navigation',
               },
               childrens: [
-                ...this.renderSlideItems(),
-                new Element<'div'>({
-                  tag: 'div',
+                new Element<'span'>({
+                  tag: 'span',
                   attributes: {
-                    className: '__SH__Slide__Navigation',
+                    className: 'prev',
+                    innerHTML: `
+                      <svg viewBox="0 0 12 12">
+                        <polyline points="12 12 8 6 12 0" />
+                      </svg>
+                    `,
+                    onclick: () => this.prevSlide(),
                   },
-                  childrens: [
-                    new Element<'span'>({
-                      tag: 'span',
-                      attributes: {
-                        className: 'prev',
-                        innerHTML: `
-                          <svg viewBox="0 0 12 12">
-                            <polyline points="12 12 8 6 12 0" />
-                          </svg>
-                        `,
-                        onclick: () => this.prevSlide(),
-                      },
-                    }),
-                    new Element<'span'>({
-                      tag: 'span',
-                      attributes: {
-                        className: 'next',
-                        innerHTML: `
-                          <svg viewBox="0 0 12 12">
-                            <polyline points="0 0 4 6 0 12" />
-                          </svg>
-                        `,
-                        onclick: () => this.nextSlide(),
-                      },
-                    }),
-                  ],
                 }),
-                new Element({
-                  tag: 'div',
+                new Element<'span'>({
+                  tag: 'span',
                   attributes: {
-                    className: '__SH__Slide__Indicator',
+                    className: 'next',
+                    innerHTML: `
+                      <svg viewBox="0 0 12 12">
+                        <polyline points="0 0 4 6 0 12" />
+                      </svg>
+                    `,
+                    onclick: () => this.nextSlide(),
                   },
-                  childrens: [...this.renderSlideIndicators()],
                 }),
               ],
+            }),
+            new Element({
+              tag: 'div',
+              attributes: {
+                className: '__SH__Slide__Indicator',
+              },
+              childrens: [...this.renderSlideIndicators()],
             }),
           ],
         }),
