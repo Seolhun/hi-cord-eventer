@@ -19,12 +19,6 @@ script:
   - npm run test
   - npm run build
 
-deploy:
-  provider: script
-  script: cd packages && cd examples && npm run deploy
-  on:
-    branch: master
-
 notifications:
   email:
     - shun10116@gmail.com
