@@ -1,114 +1,105 @@
 /*===============
       Variable
 ===============*/
+@import '../Animations.scss';
+@import '../BreackPoints.scss';
 
-$break-mobile: 768px;
-$max-width: 1200px;
 /*===============
       Style
 ===============*/
 
-.__SH__slide {
-  max-width: $max-width;
+.__SH__Slide {
   position: relative;
   margin: auto;
 
-  &:hover {
-    .navigation {
-      opacity: 1;
-    }
-  }
-
-  .item {
-    width: 100%;
-    height: 100%;
-    .link {
-      .image {
-        width: 100%;
-        height: 100%;
+  .__SH__Slide__Container {
+    .__SH__Slide__Item {
+      width: 100%;
+      height: 100%;
+      .__SH__Slide__Item__Link {
+        .__SH__Slide__Item__Image {
+          width: 100%;
+          height: 100%;
+        }
       }
-    }
-    &.on {
-      display: block !important;
-    }
-    &.off {
-      display: none;
-    }
-  }
-
-  .navigation {
-    position: absolute;
-    top: 45%;
-    left: 0;
-    right: 0;
-    opacity: 0;
-
-    .prev, .next {
-      position: absolute;
-      border: 0;
-      padding: 25px;
-      cursor: pointer;
-      z-index: 10;
-
-      @media screen and (max-width: $break-mobile) {
-        display: none;
-        height: 100%;
-      }
-    }
-    .prev {
-      left: 0;
-      background-position: 0px 0px;
-    }
-    .next {
-      right: 0;
-      background-position: 0px -50px;
-    }
-  }
-
-  .indicator {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 15px 0;
-    position: absolute;
-    text-align: center;
-    z-index: 10;
-    @media screen and (max-width: $break-mobile) {
-      margin: 10px 0;
-    }
-
-    .indicator-button {
-      cursor: pointer;
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      margin: 0px 3px;
-      border-radius: 100%;
-      background: #fff;
-      opacity: 0.4;
-      @media screen and (max-width: $break-mobile) {
-        width: 10px;
-        height: 10px;
-      }
-
       &.on {
+        display: block;
+      }
+      &.off {
+        display: none;
+      }
+    }
+
+    &:hover {
+      .__SH__Slide__Navigation {
         opacity: 1;
       }
     }
-  }
-}
 
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
+    .__SH__Slide__Navigation {
+      position: absolute;
+      top: 45%;
+      left: 0;
+      right: 0;
+      // opacity: 0;
 
-@keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
+      .prev, .next {
+        position: absolute;
+        border: 0;
+        cursor: pointer;
+        z-index: 10;
+
+        @media screen and (max-width: $BREAK-SM) {
+          display: none;
+          height: 100%;
+        }
+      }
+      .prev {
+        left: 0;
+      }
+      .next {
+        right: 0;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: white;
+        stroke-width: 2px;
+      }
+    }
+
+    .__SH__Slide__Indicator {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 15px 0;
+      position: absolute;
+      text-align: center;
+      z-index: 10;
+      @media screen and (max-width: $BREAK-SM) {
+        margin: 10px 0;
+      }
+
+      .__SH__Slide__Indicator__Button {
+        cursor: pointer;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin: 0px 3px;
+        border-radius: 100%;
+        background: #fff;
+        opacity: 0.4;
+        @media screen and (max-width: $BREAK-SM) {
+          width: 10px;
+          height: 10px;
+        }
+
+        &.on {
+          opacity: 1;
+        }
+      }
+    }
   }
 }

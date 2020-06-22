@@ -18,6 +18,13 @@ script:
   - npm run lint
   - npm run test
   - npm run build
+  - npm run deploy
+
+deploy:
+  provider: script
+  script: cd packages && cd examples && npm run deploy
+  on:
+    branch: master
 
 notifications:
   email:

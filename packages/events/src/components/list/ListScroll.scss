@@ -1,0 +1,26 @@
+/*===============
+      Variable
+===============*/
+@import '../BreackPoints.scss';
+
+/*===============
+      Style
+===============*/
+
+.__SH__ListScroll {
+  position: relative;
+
+  .__SH__ListScroll__Container {
+    display: flex;
+    overflow: scroll;
+
+    .__SH__ListScroll__Item {
+      .__SH__ListScroll__Item__Link {
+        display: block;
+      }
+      .__SH__ListScroll__Item__Image {
+        width: calc(100vw - 20px);
+      }
+    }
+  }
+}

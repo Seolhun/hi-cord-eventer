@@ -12,7 +12,7 @@ interface SlideItemProps {
 }
 
 interface SlideProps<T extends SlideItemProps> {
-  slides: T[];
+  items: T[];
 
   /**
    * infinitly auto sliding
@@ -31,7 +31,7 @@ interface SlideProps<T extends SlideItemProps> {
 }
 
 class Slide<T extends SlideItemProps> extends EventComponent implements SlideProps<T> {
-  slides: T[];
+  items: T[];
 
   /**
    * infinitly auto sliding
@@ -68,16 +68,16 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
 
   constructor(
     target: HTMLElement | null,
-    { slides, infinity = true, autoSlide = true, delayTime = 5000 }: SlideProps<T>
+    { items, infinity = true, autoSlide = true, delayTime = 5000 }: SlideProps<T>
   ) {
     super({ target });
-    this.slides = slides;
+    this.items = items;
     this.infinity = infinity;
     this.autoSlide = autoSlide;
     this.delayTime = delayTime;
     // DEFAULT_OPTION
     this.currentPage = 0;
-    this.lastPage = slides.length - 1;
+    this.lastPage = items.length - 1;
     this.timeouts = null;
 
     if (this.autoSlide) {
@@ -87,12 +87,13 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   changedItemsEvent() {
-    const slideItems = document.getElementsByClassName('item');
-    const slideDots = document.getElementsByClassName('indicator-button');
+    const slideItems = document.getElementsByClassName('__SH__Slide__Item');
+    const slideDots = document.getElementsByClassName('__SH__Slide__Indicator__Button');
     for (let i = 0; i <= this.lastPage; i += 1) {
       if (this.currentPage === i) {
         slideItems[i].classList.add('on');
         slideDots[i].classList.add('on');
+        slideItems[i].classList.remove('off');
       } else {
         slideItems[i].classList.add('off');
         slideItems[i].classList.remove('on');
@@ -129,7 +130,6 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
     } else {
       this.currentPage = nextSlide;
     }
-    console.log(this.currentPage);
     this.changedItemsEvent();
   }
 
@@ -149,29 +149,33 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   renderSlideItems() {
-    if (!Array.isArray(this.slides)) {
+    if (!Array.isArray(this.items)) {
       throw new Error('The Element children have to be Array type');
     }
 
-    return this.slides.map((slides, index) => {
+    return this.items.map((items, index) => {
       return new Element<'div'>({
         tag: 'div',
         attributes: {
-          className: classnames(['item', index === 0 ? 'on' : 'off', 'fade']),
+          className: classnames([
+            '__SH__Slide__Item',
+            '__SH__fade',
+            this.currentPage === index ? 'on' : 'off',
+          ]),
         },
         childrens: [
           new Element<'a'>({
             tag: 'a',
             attributes: {
-              href: slides.href,
-              className: 'link',
+              href: items.href,
+              className: '__SH__Slide__Item__Link',
             },
             childrens: [
               new Element<'img'>({
                 tag: 'img',
                 attributes: {
-                  src: slides.src,
-                  className: 'image',
+                  src: items.src,
+                  className: '__SH__Slide__Item__Image',
                 },
               }),
             ],
@@ -182,12 +186,12 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   renderSlideIndicators() {
-    return this.slides.map(
+    return this.items.map(
       (_, index) =>
         new Element<'i'>({
           tag: 'i',
           attributes: {
-            className: classnames(['indicator-button', index === 0 ? 'on' : '']),
+            className: classnames(['__SH__Slide__Indicator__Button', index === 0 ? 'on' : '']),
             onclick: () => this.onClickIndicator(index),
           },
         })
@@ -195,34 +199,47 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
   }
 
   render() {
-    const slides = new Element({
+    const items = new Element<'div'>({
       tag: 'div',
+      attributes: {
+        id: '__SH__Slide',
+        className: '__SH__Slide',
+      },
       childrens: [
         new Element<'div'>({
           tag: 'div',
           attributes: {
-            id: '__SH__slide',
-            className: '__SH__slide',
+            className: '__SH__Slide__Container',
           },
           childrens: [
             ...this.renderSlideItems(),
             new Element<'div'>({
               tag: 'div',
               attributes: {
-                className: 'navigation',
+                className: '__SH__Slide__Navigation',
               },
               childrens: [
-                new Element<'button'>({
-                  tag: 'button',
+                new Element<'span'>({
+                  tag: 'span',
                   attributes: {
                     className: 'prev',
+                    innerHTML: `
+                      <svg viewBox="0 0 12 12">
+                        <polyline points="12 12 8 6 12 0" />
+                      </svg>
+                    `,
                     onclick: () => this.prevSlide(),
                   },
                 }),
-                new Element<'button'>({
-                  tag: 'button',
+                new Element<'span'>({
+                  tag: 'span',
                   attributes: {
                     className: 'next',
+                    innerHTML: `
+                      <svg viewBox="0 0 12 12">
+                        <polyline points="0 0 4 6 0 12" />
+                      </svg>
+                    `,
                     onclick: () => this.nextSlide(),
                   },
                 }),
@@ -231,7 +248,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
             new Element({
               tag: 'div',
               attributes: {
-                className: 'indicator',
+                className: '__SH__Slide__Indicator',
               },
               childrens: [...this.renderSlideIndicators()],
             }),
@@ -239,7 +256,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
         }),
       ],
     });
-    this.element = slides.element;
+    this.element = items.element;
   }
 }
 
