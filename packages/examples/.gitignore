@@ -11,7 +11,7 @@ jspm_packages/
 dist/
 dist/**
 
-public/index.jss
+public/index.js
 
 # Optional npm cache directory
 .npm
