@@ -11,26 +11,12 @@ interface ListScrollItemProps {
 
 interface ListScrollProps<T extends ListScrollItemProps> {
   items: T[];
-
-  /**
-   * infinitly auto sliding
-   */
-  infinity?: boolean;
-
-  /**
-   * Auto sliding pages
-   */
-  autoListScroll?: boolean;
-
-  /**
-   * Auto sliding delay time
-   */
-  delayTime?: number;
 }
 
 class ListScroll<T extends ListScrollItemProps> extends EventComponent
   implements ListScrollProps<T> {
   items: T[];
+
   constructor(target: HTMLElement | null, { items }: ListScrollProps<T>) {
     super({ target });
     this.items = items;
@@ -45,7 +31,7 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
           className: '__SH__ListScroll__Item',
         },
         childrens: [
-          new Element<'a'>({
+          {
             tag: 'a',
             attributes: {
               href: items.href,
@@ -60,7 +46,7 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
                 },
               }),
             ],
-          }),
+          },
         ],
       });
     });
@@ -74,13 +60,13 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
         className: '__SH__ListScroll',
       },
       childrens: [
-        new Element<'div'>({
+        {
           tag: 'div',
           attributes: {
             className: '__SH__ListScroll__Container',
           },
           childrens: [...this.renderListScrollItems()],
-        }),
+        },
       ],
     });
     this.element = items.element;

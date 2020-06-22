@@ -1,12 +1,9 @@
 import { SHEventProps } from '../SHEvent';
-import { SHIFrame } from '../SHIFrame';
 
 interface EventComponentProps {
   target: SHEventProps['target'];
 
   element?: HTMLElement;
-
-  useIframe?: boolean;
 }
 
 abstract class EventComponent implements EventComponentProps {
@@ -14,12 +11,34 @@ abstract class EventComponent implements EventComponentProps {
 
   element?: HTMLElement;
 
-  useIframe?: boolean;
+  private iframeElement?: HTMLIFrameElement | null;
 
   constructor(props: EventComponentProps) {
     this.target = props.target;
     this.element = props.element;
-    this.useIframe = props.useIframe || false;
+    this.iframeElement = null;
+  }
+
+  iframe() {
+    if (!this.target) {
+      return null;
+    }
+    if (!this.element) {
+      return null;
+    }
+    if (!document) {
+      return null;
+    }
+    this.iframeElement = document.createElement('iframe');
+    if (!this.iframeElement.contentWindow) {
+      return null;
+    }
+    const html = this.element.innerHTML;
+    document.body.appendChild(this.iframeElement);
+    this.iframeElement.contentWindow.document.open();
+    this.iframeElement.contentWindow.document.write(html);
+    this.iframeElement.contentWindow.document.close();
+    return this;
   }
 
   view() {
@@ -29,11 +48,8 @@ abstract class EventComponent implements EventComponentProps {
     if (!this.element) {
       return null;
     }
-    if (this.useIframe) {
-      return new SHIFrame({
-        target: this.target,
-        element: this.element,
-      }).view();
+    if (this.iframeElement) {
+      return this.target.appendChild(this.iframeElement);
     }
     return this.target.appendChild(this.element);
   }

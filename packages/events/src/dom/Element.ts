@@ -1,3 +1,6 @@
+type elementChildren = ElementProps<keyof HTMLElementTagNameMap | any>
+  | Element<keyof HTMLElementTagNameMap | any>;
+
 interface ElementProps<K> {
   tag: K;
 
@@ -5,10 +8,10 @@ interface ElementProps<K> {
 
   style?: Partial<CSSStyleDeclaration>;
 
-  childrens?: Element<keyof HTMLElementTagNameMap | any>[];
+  childrens?: elementChildren[];
 }
 
-export class Element<K extends keyof HTMLElementTagNameMap> {
+class Element<K extends keyof HTMLElementTagNameMap> {
   element: HTMLElementTagNameMap[K];
 
   constructor(props: ElementProps<K>) {
@@ -27,11 +30,19 @@ export class Element<K extends keyof HTMLElementTagNameMap> {
     }
     if (Array.isArray(childrens)) {
       childrens.forEach((children) => {
-        this.element.appendChild(children.element);
+        if (children instanceof Element) {
+          this.element.appendChild(children.element);
+        } else {
+          this.element.appendChild(new Element(children).element);
+        }
       });
     }
     return this.element;
   }
 }
 
+export {
+  Element,
+  ElementProps,
+}
 export default Element;

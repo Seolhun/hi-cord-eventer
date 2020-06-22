@@ -164,7 +164,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
           ]),
         },
         childrens: [
-          new Element<'a'>({
+          {
             tag: 'a',
             attributes: {
               href: items.href,
@@ -179,7 +179,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
                 },
               }),
             ],
-          }),
+          },
         ],
       });
     });
@@ -206,20 +206,20 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
         className: '__SH__Slide',
       },
       childrens: [
-        new Element<'div'>({
+        {
           tag: 'div',
           attributes: {
             className: '__SH__Slide__Container',
           },
           childrens: [
             ...this.renderSlideItems(),
-            new Element<'div'>({
+            {
               tag: 'div',
               attributes: {
                 className: '__SH__Slide__Navigation',
               },
               childrens: [
-                new Element<'span'>({
+                {
                   tag: 'span',
                   attributes: {
                     className: 'prev',
@@ -230,8 +230,8 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
                     `,
                     onclick: () => this.prevSlide(),
                   },
-                }),
-                new Element<'span'>({
+                },
+                {
                   tag: 'span',
                   attributes: {
                     className: 'next',
@@ -242,18 +242,18 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
                     `,
                     onclick: () => this.nextSlide(),
                   },
-                }),
+                },
               ],
-            }),
-            new Element({
+            },
+            {
               tag: 'div',
               attributes: {
                 className: '__SH__Slide__Indicator',
               },
               childrens: [...this.renderSlideIndicators()],
-            }),
+            },
           ],
-        }),
+        },
       ],
     });
     this.element = items.element;
