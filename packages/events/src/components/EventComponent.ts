@@ -1,9 +1,12 @@
 import { SHEventProps } from '../SHEvent';
+import { SHIFrame } from '../SHIFrame';
 
 interface EventComponentProps {
   target: SHEventProps['target'];
 
   element?: HTMLElement;
+
+  useIframe?: boolean;
 }
 
 abstract class EventComponent implements EventComponentProps {
@@ -11,9 +14,12 @@ abstract class EventComponent implements EventComponentProps {
 
   element?: HTMLElement;
 
+  useIframe?: boolean;
+
   constructor(props: EventComponentProps) {
     this.target = props.target;
     this.element = props.element;
+    this.useIframe = props.useIframe || false;
   }
 
   view() {
@@ -22,6 +28,12 @@ abstract class EventComponent implements EventComponentProps {
     }
     if (!this.element) {
       return null;
+    }
+    if (this.useIframe) {
+      return new SHIFrame({
+        target: this.target,
+        element: this.element,
+      }).view();
     }
     return this.target.appendChild(this.element);
   }
