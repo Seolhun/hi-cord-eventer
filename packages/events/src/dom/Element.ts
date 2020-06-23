@@ -1,4 +1,5 @@
-type elementChildren = ElementProps<keyof HTMLElementTagNameMap | any>
+type elementChildren =
+  | ElementProps<keyof HTMLElementTagNameMap | any>
   | Element<keyof HTMLElementTagNameMap | any>;
 
 interface ElementProps<K> {
@@ -41,8 +42,5 @@ class Element<K extends keyof HTMLElementTagNameMap> {
   }
 }
 
-export {
-  Element,
-  ElementProps,
-}
+export { Element, ElementProps };
 export default Element;

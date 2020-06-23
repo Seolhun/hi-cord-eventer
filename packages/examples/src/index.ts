@@ -1,4 +1,4 @@
-import { SHEvent } from '@seolhun/events';
+import { SHEvent, Slide } from '@seolhun/events';
 
 const items = [
   {
@@ -31,6 +31,15 @@ SHEvent('slide')(document.getElementById('slide'), {
   autoSlide: true,
   delayTime: 3000,
 }).view();
+
+new Slide(document.getElementById('slide-iframe'), {
+  items,
+  infinity: true,
+  autoSlide: true,
+  delayTime: 3000,
+})
+  .iframe()
+  .view();
 
 SHEvent('list')(document.getElementById('list'), {
   items,

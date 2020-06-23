@@ -35,6 +35,7 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
             tag: 'a',
             attributes: {
               href: items.href,
+              target: '_blank',
               className: '__SH__ListScroll__Item__Link',
             },
             childrens: [

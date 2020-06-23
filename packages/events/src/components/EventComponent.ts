@@ -19,25 +19,28 @@ abstract class EventComponent implements EventComponentProps {
     this.iframeElement = null;
   }
 
-  iframe() {
+  iframe(option?: Partial<HTMLIFrameElement>) {
     if (!this.target) {
-      return null;
+      return this;
     }
     if (!this.element) {
-      return null;
+      return this;
     }
     if (!document) {
-      return null;
+      return this;
     }
     this.iframeElement = document.createElement('iframe');
-    if (!this.iframeElement.contentWindow) {
-      return null;
-    }
-    const html = this.element.innerHTML;
-    document.body.appendChild(this.iframeElement);
-    this.iframeElement.contentWindow.document.open();
-    this.iframeElement.contentWindow.document.write(html);
-    this.iframeElement.contentWindow.document.close();
+    const temporalWrapperElement = document.createElement('div');
+    temporalWrapperElement.appendChild(this.element);
+    const html = temporalWrapperElement.innerHTML;
+    const iframeOption = {
+      src: 'data:text/html;charset=utf-8,' + encodeURI(html),
+      width: '100%',
+      height: '450px',
+      frameBorder: '0',
+      ...option,
+    };
+    Object.assign(this.iframeElement, iframeOption);
     return this;
   }
 

@@ -168,6 +168,7 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
             tag: 'a',
             attributes: {
               href: items.href,
+              target: '_blank',
               className: '__SH__Slide__Item__Link',
             },
             childrens: [
