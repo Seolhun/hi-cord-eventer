@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { EventComponent } from '../EventComponent';
 import { Element } from '../../dom';
 
-import styles from './Slide.scss';
+import './Slide.scss';
 
 interface SlideItemProps {
   src: string;
@@ -88,10 +88,8 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
 
   // Uncaught DOMException: Blocked a frame with origin "http://localhost:8080" from accessing a cross-origin frame.
   changedItemsEvent() {
-    const SHIFrame = document.getElementById('SHIFrame') as HTMLIFrameElement;
-    const targetDocument = SHIFrame && SHIFrame.contentWindow ? SHIFrame.contentWindow.document : document;
-    const slideItems = targetDocument.getElementsByClassName('__SH__Slide__Item');
-    const slideDots = targetDocument.getElementsByClassName('__SH__Slide__Indicator__Button');
+    const slideItems = document.getElementsByClassName('__SH__Slide__Item');
+    const slideDots = document.getElementsByClassName('__SH__Slide__Indicator__Button');
     for (let i = 0; i <= this.lastPage; i += 1) {
       if (this.currentPage === i) {
         slideItems[i].classList.add('on');
@@ -200,11 +198,6 @@ class Slide<T extends SlideItemProps> extends EventComponent implements SlidePro
           },
         })
     );
-  }
-
-  iframe(option?: Partial<HTMLIFrameElement>) {
-    this._iframe(option, styles);
-    return this;
   }
 
   render() {

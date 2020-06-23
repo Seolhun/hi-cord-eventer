@@ -1,7 +1,7 @@
 import { EventComponent } from '../EventComponent';
 import { Element } from '../../dom';
 
-import styles from './ListScroll.scss';
+import './ListScroll.scss';
 
 interface ListScrollItemProps {
   src: string;
@@ -51,11 +51,6 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
         ],
       });
     });
-  }
-
-  iframe(option?: Partial<HTMLIFrameElement>) {
-    this._iframe(option, styles);
-    return this;
   }
 
   render() {

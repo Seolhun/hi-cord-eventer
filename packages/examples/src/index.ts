@@ -1,7 +1,7 @@
 import {
   // SHEvent,
   Slide,
-  // ListScroll,
+  ListScroll,
 } from '@seolhun/events';
 
 const items = [
@@ -36,17 +36,13 @@ const items = [
 //   delayTime: 3000,
 // }).view();
 
-new Slide(document.getElementById('slide-iframe'), {
+new Slide(document.getElementById('slide'), {
   items,
   infinity: true,
   autoSlide: true,
   delayTime: 3000,
-})
-  .iframe()
-  .view();
+}).view();
 
-// new ListScroll(document.getElementById('list-iframe'), {
-//   items,
-// })
-//   .iframe()
-//   .view();
+new ListScroll(document.getElementById('list'), {
+  items,
+}).view();
