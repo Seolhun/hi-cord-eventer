@@ -1,7 +1,7 @@
 import { EventComponent } from '../EventComponent';
 import { Element } from '../../dom';
 
-import './ListScroll.scss';
+import styles from './ListScroll.scss';
 
 interface ListScrollItemProps {
   src: string;
@@ -39,18 +39,23 @@ class ListScroll<T extends ListScrollItemProps> extends EventComponent
               className: '__SH__ListScroll__Item__Link',
             },
             childrens: [
-              new Element<'img'>({
+              {
                 tag: 'img',
                 attributes: {
                   src: items.src,
                   className: '__SH__ListScroll__Item__Image',
                 },
-              }),
+              },
             ],
           },
         ],
       });
     });
+  }
+
+  iframe(option?: Partial<HTMLIFrameElement>) {
+    this._iframe(option, styles);
+    return this;
   }
 
   render() {

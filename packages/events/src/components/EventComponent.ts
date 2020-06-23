@@ -19,7 +19,7 @@ abstract class EventComponent implements EventComponentProps {
     this.iframeElement = null;
   }
 
-  iframe(option?: Partial<HTMLIFrameElement>) {
+  _iframe(option?: Partial<HTMLIFrameElement>, cssText = '') {
     if (!this.target) {
       return this;
     }
@@ -29,12 +29,24 @@ abstract class EventComponent implements EventComponentProps {
     if (!document) {
       return this;
     }
+
     this.iframeElement = document.createElement('iframe');
-    const temporalWrapperElement = document.createElement('div');
-    temporalWrapperElement.appendChild(this.element);
-    const html = temporalWrapperElement.innerHTML;
-    const iframeOption = {
-      src: 'data:text/html;charset=utf-8,' + encodeURI(html),
+    const temporalElement = document.createElement('div');
+    temporalElement.appendChild(this.element);
+    const html = `<!DOCTYPE html>
+      <html>
+        <head>
+          <style type="text/css">${cssText}</style>
+          <meta http-equiv="Access-Control-Allow-Origin" CONTENT="http://localhost:8080">
+        </head>
+        <body>
+          ${temporalElement.innerHTML}
+        </body>
+      </html>
+    `;
+    const iframeOption: Partial<HTMLIFrameElement> = {
+      id: 'SHIFrame',
+      src: `data:text/html;charset=utf-8, ${encodeURI(html)}`,
       width: '100%',
       height: '450px',
       frameBorder: '0',
@@ -46,15 +58,19 @@ abstract class EventComponent implements EventComponentProps {
 
   view() {
     if (!this.target) {
-      return null;
+      console.error('There are no target element DOM');
+      return this;
     }
     if (!this.element) {
-      return null;
+      console.error('There are error create Component element');
+      return this;
     }
     if (this.iframeElement) {
-      return this.target.appendChild(this.iframeElement);
+      this.target.appendChild(this.iframeElement);
+      return this;
     }
-    return this.target.appendChild(this.element);
+    this.target.appendChild(this.element);
+    return this;
   }
 }
 

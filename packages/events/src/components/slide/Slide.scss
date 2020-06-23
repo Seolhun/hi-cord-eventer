@@ -78,27 +78,28 @@
       position: absolute;
       text-align: center;
       z-index: 10;
+
       @media screen and (max-width: $BREAK-SM) {
         margin: 10px 0;
       }
+    }
 
-      .__SH__Slide__Indicator__Button {
-        cursor: pointer;
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        margin: 0px 3px;
-        border-radius: 100%;
-        background: #fff;
-        opacity: 0.4;
-        @media screen and (max-width: $BREAK-SM) {
-          width: 10px;
-          height: 10px;
-        }
+    .__SH__Slide__Indicator__Button {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin: 0px 3px;
+      border-radius: 100%;
+      opacity: 0.4;
+      cursor: pointer;
 
-        &.on {
-          opacity: 1;
-        }
+      @media screen and (max-width: $BREAK-SM) {
+        width: 10px;
+        height: 10px;
+      }
+
+      &.on {
+        opacity: 1;
       }
     }
   }

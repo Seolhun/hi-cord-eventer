@@ -1,4 +1,8 @@
-import { SHEvent, Slide } from '@seolhun/events';
+import {
+  // SHEvent,
+  Slide,
+  // ListScroll,
+} from '@seolhun/events';
 
 const items = [
   {
@@ -25,12 +29,12 @@ const items = [
   },
 ];
 
-SHEvent('slide')(document.getElementById('slide'), {
-  items,
-  infinity: true,
-  autoSlide: true,
-  delayTime: 3000,
-}).view();
+// SHEvent('slide')(document.getElementById('slide'), {
+//   items,
+//   infinity: true,
+//   autoSlide: true,
+//   delayTime: 3000,
+// }).view();
 
 new Slide(document.getElementById('slide-iframe'), {
   items,
@@ -41,6 +45,8 @@ new Slide(document.getElementById('slide-iframe'), {
   .iframe()
   .view();
 
-SHEvent('list')(document.getElementById('list'), {
-  items,
-}).view();
+// new ListScroll(document.getElementById('list-iframe'), {
+//   items,
+// })
+//   .iframe()
+//   .view();

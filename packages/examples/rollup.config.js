@@ -5,7 +5,6 @@ import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
 import autoprefixer from 'autoprefixer';
 import postcssFlexboxfixer from 'postcss-flexboxfixer';
-import html from '@rollup/plugin-html';
 // import { terser } from 'rollup-plugin-terser';
 
 import pkg from '../../package.json';

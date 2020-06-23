@@ -59,7 +59,7 @@ export default {
     }),
     postcss({
       extract: false,
-      modules: false,
+      modules: true,
       plugins: [autoprefixer, postcssFlexboxfixer],
     }),
   ],
