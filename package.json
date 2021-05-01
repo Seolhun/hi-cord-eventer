@@ -16,7 +16,7 @@
   "dependencies": {
     "browserslist": "^4.16.5",
     "classnames": "^2.3.0",
-    "core-js": "^3.9.1"
+    "core-js": "^3.10.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.1",
