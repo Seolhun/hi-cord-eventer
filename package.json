@@ -14,7 +14,7 @@
     "deploy": "lerna publish"
   },
   "dependencies": {
-    "browserslist": "^4.16.6",
+    "browserslist": "^4.16.7",
     "classnames": "^2.3.0",
     "core-js": "^3.10.1"
   },
