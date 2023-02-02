@@ -48,7 +48,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.0.1",
     "jest-config": "^26.0.1",
-    "lerna": "^3.22.1",
+    "lerna": "^6.4.1",
     "node-sass": "^4.14.1",
     "postcss-flexboxfixer": "0.0.5",
     "prettier": "^2.0.5",
